@@ -1,16 +1,43 @@
 package com.cyrilsabbagh.noteapp;
 
+import org.xmlpull.v1.XmlPullParser;
+
+import com.touchmenotapps.widget.radialmenu.menu.v1.RadialMenuItem;
+import com.touchmenotapps.widget.radialmenu.menu.v1.RadialMenuWidget;
+import com.touchmenotapps.widget.radialmenu.semicircularmenu.SemiCircularRadialMenu;
+import com.touchmenotapps.widget.radialmenu.semicircularmenu.SemiCircularRadialMenuItem;
+
+import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
+import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.graphics.drawable.GradientDrawable.Orientation;
 import android.os.Bundle;
+import android.util.AttributeSet;
+import android.util.Log;
+import android.util.Xml;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.Toast;
 import android.os.Build;
 
 public class HotCornersActivity extends Activity {
-
+	SemiCircularRadialMenu pieMenuFile,pieMenuEdit,pieMenuOptions,pieMenuMedia,pieMenuStyle; 
+	SemiCircularRadialMenuItem ItemNew,ItemOpen,ItemSave, ItemExit;
+	SemiCircularRadialMenuItem ItemMultiauthor,ItemShare,ItemDictionary;
+	SemiCircularRadialMenuItem ItemDimension,ItemColor,ItemBold, ItemItalic,ItemUnderlined;
+	SemiCircularRadialMenuItem ItemRecorder,ItemSnapshot,ItemAttach, ItemLink;
+	SemiCircularRadialMenuItem ItemCopy,ItemCut,ItemPaste;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -20,6 +47,135 @@ public class HotCornersActivity extends Activity {
 			getSupportFragmentManager().beginTransaction()
 					.add(R.id.container, new PlaceholderFragment()).commit();
 		}*/
+		
+		pieMenuFile = (SemiCircularRadialMenu)findViewById(R.id.fileMenu); 
+		pieMenuFile.setOpenMenuText("File");
+		pieMenuFile.setCloseMenuText("File");
+		pieMenuFile.setOrientation(SemiCircularRadialMenu.HORIZONTAL_BOTTOM);
+		ItemNew = new SemiCircularRadialMenuItem("New",getResources().getDrawable(R.drawable.newfile),"New file");
+		pieMenuFile.addMenuItem(ItemNew.getMenuID(),ItemNew);
+		ItemOpen = new SemiCircularRadialMenuItem("Open",getResources().getDrawable(R.drawable.openfile),"Open file");
+		pieMenuFile.addMenuItem(ItemOpen.getMenuID(),ItemOpen);
+		ItemSave = new SemiCircularRadialMenuItem("Save",getResources().getDrawable(R.drawable.save),"Save");
+		pieMenuFile.addMenuItem(ItemSave.getMenuID(), ItemSave);
+		ItemExit = new SemiCircularRadialMenuItem("Exit",getResources().getDrawable(R.drawable.exit),"Exit");
+		pieMenuFile.addMenuItem(ItemExit.getMenuID(), ItemExit);
+		
+		pieMenuOptions = (SemiCircularRadialMenu)findViewById(R.id.optionsMenu); 
+		pieMenuOptions.setOpenMenuText("Options");
+		pieMenuOptions.setCloseMenuText("Options");
+		pieMenuOptions.setOrientation(SemiCircularRadialMenu.HORIZONTAL_BOTTOM);
+		ItemMultiauthor = new SemiCircularRadialMenuItem("Multiauthor",getResources().getDrawable(R.drawable.multi),"Multiauthor");
+		pieMenuOptions.addMenuItem(ItemMultiauthor.getMenuID(),ItemMultiauthor);
+		ItemShare = new SemiCircularRadialMenuItem("Share",getResources().getDrawable(R.drawable.share),"Share");
+		pieMenuOptions.addMenuItem(ItemShare.getMenuID(),ItemShare);
+		ItemDictionary = new SemiCircularRadialMenuItem("Dictionary",getResources().getDrawable(R.drawable.dictionary),"Add to dictionary");
+		pieMenuOptions.addMenuItem(ItemDictionary.getMenuID(), ItemDictionary);
+		
+		pieMenuStyle = (SemiCircularRadialMenu)findViewById(R.id.styleMenu); 
+		pieMenuStyle.setOpenMenuText("Style");
+		pieMenuStyle.setCloseMenuText("Style");
+		pieMenuStyle.setOrientation(SemiCircularRadialMenu.HORIZONTAL_BOTTOM);
+		ItemDimension = new SemiCircularRadialMenuItem("Dimension",getResources().getDrawable(R.drawable.dimension),"Dimension");
+		pieMenuStyle.addMenuItem(ItemDimension.getMenuID(),ItemDimension);
+		ItemColor = new SemiCircularRadialMenuItem("Color",getResources().getDrawable(R.drawable.color),"Color");
+		pieMenuStyle.addMenuItem(ItemColor.getMenuID(),ItemColor);
+		ItemBold = new SemiCircularRadialMenuItem("Bold",getResources().getDrawable(R.drawable.bold),"Bold");
+		pieMenuStyle.addMenuItem(ItemBold.getMenuID(), ItemBold);
+		ItemItalic = new SemiCircularRadialMenuItem("Italic",getResources().getDrawable(R.drawable.italic),"Italic");
+		pieMenuStyle.addMenuItem(ItemItalic.getMenuID(), ItemItalic);
+		ItemUnderlined = new SemiCircularRadialMenuItem("Underlined",getResources().getDrawable(R.drawable.underlined),"Underlined");
+		pieMenuStyle.addMenuItem(ItemUnderlined.getMenuID(), ItemUnderlined);
+		
+		pieMenuMedia = (SemiCircularRadialMenu)findViewById(R.id.mediaMenu); 
+		pieMenuMedia.setOpenMenuText("Media");
+		pieMenuMedia.setCloseMenuText("Media");
+		pieMenuMedia.setOrientation(SemiCircularRadialMenu.HORIZONTAL_BOTTOM);
+		ItemRecorder = new SemiCircularRadialMenuItem("Recorder",getResources().getDrawable(R.drawable.recorder),"Recorder");
+		pieMenuMedia.addMenuItem(ItemRecorder.getMenuID(),ItemRecorder);
+		ItemSnapshot = new SemiCircularRadialMenuItem("Snapshot",getResources().getDrawable(R.drawable.snapshot),"Snapshot");
+		pieMenuMedia.addMenuItem(ItemSnapshot.getMenuID(),ItemSnapshot);
+		ItemAttach = new SemiCircularRadialMenuItem("Attach",getResources().getDrawable(R.drawable.attachment),"Attach file");
+		pieMenuMedia.addMenuItem(ItemAttach.getMenuID(), ItemAttach);
+		ItemLink = new SemiCircularRadialMenuItem("Link",getResources().getDrawable(R.drawable.link),"Link");
+		pieMenuMedia.addMenuItem(ItemLink.getMenuID(), ItemLink);
+		
+		pieMenuEdit = (SemiCircularRadialMenu)findViewById(R.id.editMenu); 
+		pieMenuEdit.setOpenMenuText("Edit");
+		pieMenuEdit.setCloseMenuText("Edit");
+		pieMenuEdit.setOrientation(SemiCircularRadialMenu.HORIZONTAL_BOTTOM);
+		ItemCopy = new SemiCircularRadialMenuItem("Copy",getResources().getDrawable(R.drawable.copy),"Copy");
+		pieMenuEdit.addMenuItem(ItemCopy.getMenuID(),ItemCopy);
+		ItemCut = new SemiCircularRadialMenuItem("Cut",getResources().getDrawable(R.drawable.cut),"Cut");
+		pieMenuEdit.addMenuItem(ItemCut.getMenuID(),ItemCut);
+		ItemPaste = new SemiCircularRadialMenuItem("Paste",getResources().getDrawable(R.drawable.paste),"Paste");
+		pieMenuEdit.addMenuItem(ItemPaste.getMenuID(), ItemPaste);
+		
+		/*Button btnFile = (Button)findViewById(R.id.fileMenu);
+		btnFile.setOnTouchListener(new OnTouchListener(){
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				// TODO Auto-generated method stub
+				//EditText editText = (EditText) findViewById(R.id.editText1);
+				//editText.setText("File menu");
+				
+				CircularView cv=(CircularView)findViewById(R.id.circularview);
+				RelativeLayout menu=(RelativeLayout)findViewById(R.id.layout_filemenu);				
+				View view=findViewById(R.id.center);
+				RelativeLayout.LayoutParams layoutParams=(RelativeLayout.LayoutParams)view.getLayoutParams();
+				layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT);
+				view.setLayoutParams(layoutParams);
+				//Log.i("DEBUG", "center: "+view.getLeft() + " " +view.getTop() + " "+view.getRight()+" "+view.getBottom());				
+				//Log.i("DEBUG", "circularview "+cv.getX() + " " +cv.getY());
+				//Log.i("DEBUG", "filemenu "+filemenu.getX() + " " +filemenu.getY());
+				//Log.i("DEBUG", "optionsmenu "+optionsmenu.getX() + " " +optionsmenu.getY());
+				
+				//LayoutParams layoutParams=new LayoutParams(1, 1);
+			    //layoutParams.setMargins(10,10,11,11);
+			    //view.setLayoutParams(layoutParams);
+				//view.invalidate();
+				
+				Log.i("DEBUG", "center: "+view.getLeft() + " " +view.getTop() + " "+view.getWidth()+" "+view.getHeight());
+				Log.i("DEBUG", "cv: "+cv.getLeft() + " " +cv.getTop() + " "+cv.getWidth()+" "+cv.getHeight());
+				Log.i("DEBUG", "layout: "+menu.getLeft() + " " +menu.getTop() + " "+menu.getWidth()+" "+menu.getHeight());
+				RelativeLayout rl = (RelativeLayout) findViewById(R.id.layout_main);
+				Log.i("DEBUG", "main: "+rl.getLeft() + " " +rl.getTop() + " "+rl.getWidth()+" "+rl.getHeight());
+						
+				cv.invalidate();//redraw the view
+				cv.setVisibility(View.VISIBLE);
+				
+				RelativeLayout rl = (RelativeLayout) findViewById(R.id.layout_main);
+		        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+		                LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);	        
+		        RelativeLayout r1 = new RelativeLayout(getApplicationContext());
+	            //Create four buttons 
+		        for(int j=0;j<4;j++) 
+		        {   
+		            // Create Button
+		            Button btn = new Button(getApplicationContext());
+		                // Give button an ID
+		                btn.setId(j+1);
+		                btn.setText("ciao");
+		                // set the layoutParams on the button
+		                btn.setLayoutParams(params);
+		                 
+		                final int index = j;
+		                // Set click listener for button
+		                btn.setOnClickListener(new OnClickListener() {
+		                    public void onClick(View v) {
+		                        Log.i("TAG", "index :" + index);
+		                        Toast.makeText(getApplicationContext(),"Clicked Button Index :" + index, Toast.LENGTH_LONG).show();	                         
+		                    }
+		                }); 
+		               r1.addView(btn);  
+		        }
+		        rl.addView(r1);
+				
+				
+				
+				return false;
+			}
+		});*/
 	}
 
 	@Override
@@ -58,5 +214,34 @@ public class HotCornersActivity extends Activity {
 			return rootView;
 		}
 	}*/
-
+	
+	public void ShowFileMenu(View view){
+		//EditText editText = (EditText) findViewById(R.id.editText1);
+		//editText.setText("File menu");
+	}
+	
+	public void ShowOptionsMenu(View view){
+		//EditText editText = (EditText) findViewById(R.id.editText1);
+		//editText.setText("Options menu");
+		
+	}
+	
+	public void ShowEditMenu(View view){
+		//EditText editText = (EditText) findViewById(R.id.editText1);
+		//editText.setText("Edit menu");
+		
+	}
+	
+	public void ShowMediaMenu(View view){
+		//EditText editText = (EditText) findViewById(R.id.editText1);
+		//editText.setText("Media menu");
+		
+	}
+	
+	public void ShowStyleMenu(View view){
+		//EditText editText = (EditText) findViewById(R.id.editText1);
+		//editText.setText("Style menu");
+		
+	}
+	
 }
