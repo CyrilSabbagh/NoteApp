@@ -1,0 +1,6 @@
+<resources>
+    <declare-styleable name="CircularView">
+        <attr format="integer" name="startDeg"></attr>  
+        <attr format="integer" name="endDeg"></attr>    
+    </declare-styleable>
+</resources>
