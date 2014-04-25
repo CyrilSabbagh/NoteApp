@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package com.semicircularradialmenu;
+package com.radialmenu;
 
 import android.content.Context;
 import android.graphics.drawable.BitmapDrawable;

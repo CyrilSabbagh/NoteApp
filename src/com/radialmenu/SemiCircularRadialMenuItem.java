@@ -1,4 +1,4 @@
-package com.semicircularradialmenu;
+package com.radialmenu;
 
 import android.graphics.Color;
 import android.graphics.Path;

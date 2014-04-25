@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package com.semicircularradialmenu;
+package com.radialmenu;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.semicircularradialmenu.SemiCircularRadialMenu.MyGestureListener;
+import com.radialmenu.SemiCircularRadialMenu.MyGestureListener;
 
 import android.content.Context;
 import android.graphics.*;
@@ -149,6 +149,7 @@ public class RadialMenuWidget extends View {
 	//*****added*******************
 	private GestureDetectorCompat mDetector; 
 	private RadialMenuItem itemSelected=null;	
+	private boolean startedMotion=false;
 	//************************
 		
 	/**
@@ -187,9 +188,7 @@ public class RadialMenuWidget extends View {
 		if (state == MotionEvent.ACTION_DOWN) {
 			// selected = null;
 			// selected2 = null;
-			//*****************added**************
-			itemSelected=null;
-			//************************************
+			
 			inWedge = false;
 			inWedge2 = false;
 			inCircle = false;
@@ -259,7 +258,7 @@ public class RadialMenuWidget extends View {
 				inCircle = helper.pntInCircle(eventX, eventY, xPosition, yPosition,
 						cRadius);
 			}
-
+			
 		} else if (state == MotionEvent.ACTION_UP) {
 			// execute commands...
 			// put in stuff here to "return" the button that was pressed.
@@ -272,27 +271,21 @@ public class RadialMenuWidget extends View {
 				centerCircle.menuActiviated();
 
 			} else if (selected != null) {
-				Log.d("GESTURE", "action up not on center");
-		    	
 				for (int i = 0; i < Wedges.length; i++) {
 					RadialMenuWedge f = Wedges[i];
 					if (f == selected) {
 
 						// Checks if a inner ring is enabled if so closes the
 						// outer ring an
-						//**********modified***************
+						
+						//******modified by Alex***************
 						/*if (enabled != null) {
 							enabled = null;
 							animateOuterIn = true; // sets Wedge2Shown = false;
 							// If outer ring is not enabled, then executes event
-						} else {*/
-						//****************************	
-							//menuEntries.get(i).menuActiviated();
-							//*************added******************************
-							itemSelected=menuEntries.get(i);
-							Log.d("GESTURE", "item selected " + itemSelected.getName());
-					    	   
-							//************************************************
+						} else 
+							menuEntries.get(i).menuActiviated();*/
+							//**************************************	
 							// Figures out how many outer rings
 							if (menuEntries.get(i).getChildren() != null) {
 								determineOuterWedges(menuEntries.get(i));
@@ -310,8 +303,6 @@ public class RadialMenuWidget extends View {
 				for (int i = 0; i < Wedges2.length; i++) {
 					RadialMenuWedge f = Wedges2[i];
 					if (f == selected2) {
-						Log.d("GESTURE", "selected " + menuEntries.get(i).getName());
-				    	
 						animateOuterIn = true; // sets Wedge2Shown = false;
 						enabled = null;
 						selected = null;
@@ -321,17 +312,15 @@ public class RadialMenuWidget extends View {
 			} else {
 				// This is when something outside the circle or any of the rings
 				// is selected
-				dismiss();
+				//*********modified - no dismiss********************************
+				//dismiss();
 				// selected = null;
 				// enabled = null;
 			}
 			// selected = null;
 			selected2 = null;
 			inCircle = false;
-		}else if (state == MotionEvent.ACTION_MOVE) {
-			Log.d("GESTURE", "move ");
-	    	
-		}			
+		}		
 		
 		invalidate();
 		return true;
@@ -1300,40 +1289,31 @@ public class RadialMenuWidget extends View {
 	
 	//**********added gesture detector***********************
 		class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
-	        private static final String DEBUG_TAG = "Gestures"; 
-	        
-	        	        
+	         	        
 	        @Override
 	        public boolean onFling(MotionEvent event1, MotionEvent event2, 
 	                float velocityX, float velocityY) {
 	        	
-	        	
-	        	//if (mMenuCenterButtonRect.contains(event1.getX(),event1.getY())){
-	        		//Log.d(DEBUG_TAG, "onFling: " + event1.toString()+event2.toString());
-	        	
 	        	if (helper.pntInCircle(event1.getX(), event1.getY(), xPosition, yPosition, cRadius)){
-        				//touch on central edge
-	        		Log.d("GESTURE", "onFling: " + event1.toString()+event2.toString());
+        			//touch on central edge
+	        		//Log.d("GESTURE", "onFling: " + event1.toString()+event2.toString());
+	        		//check if touched one of the inner edges
+	        		for (int i = 0; i < Wedges.length; i++) {
+	    				RadialMenuWedge f = Wedges[i];
+	    				double slice = (2 * Math.PI) / wedgeQty;
+	    				double start = (2 * Math.PI) * (0.75) - (slice / 2); 
+	    				inWedge = helper
+	    						.pntInWedge(event2.getX(), event2.getY(), xPosition, yPosition,
+	    								MinSize, MaxSize, (i * slice) + start, slice);
+
+	    				if (inWedge == true) {
+	    					Log.d("GESTURE", "flinged on " + menuEntries.get(i).getName());
+	    					menuEntries.get(i).menuActiviated();
+	    					break;
+	    				}
+	    			}
 	        		
-	        		//for(RadialMenuItem entry : menuEntries){
-	            		
-	        			/*if (entry.getValue().getBounds().contains(event2.getX(), event2.getY())){
-	        				
-	            			Log.d(DEBUG_TAG,"flinged over " + entry.getKey() + event1.toString() + event2.toString() +entry.getValue().getBounds().toString());
-	            			if(entry.getValue().getCallback()!= null) {
-	            				entry.getValue().getCallback().onMenuItemPressed();
-	        				}
-	            			//entry.getValue().setBackgroundColor(entry.getValue().getMenuSelectedColor());
-	        				invalidate();
-	        				break;
-	            		}*/
-	        			if (itemSelected!=null){
-	        				Log.d("GESTURE", "flinged on " + itemSelected.getName());
-	    	   
-	        				itemSelected.menuActiviated();
-	        				invalidate();
-	        				//break;
-	        			}
+	        			
 	            	//}
 	        	}
 	        	return true;

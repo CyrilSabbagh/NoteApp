@@ -8,11 +8,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 import android.content.Intent;
 import android.app.Activity;
-import com.semicircularradialmenu.*;
-//import com.touchmenotapps.widget.radialmenu.menu.v1.RadialMenuWidget;
-//import com.touchmenotapps.widget.radialmenu.menu.v1.RadialMenuItem;
-//import com.touchmenotapps.widget.radialmenu.semicircularmenu.SemiCircularRadialMenu;
-
+import com.radialmenu.*;
 
 
 public class MyNotesActivity extends Activity {
@@ -22,9 +18,9 @@ public class MyNotesActivity extends Activity {
 	
 	//SemiCircularRadialMenu NoteFile;
 	
-	 com.semicircularradialmenu.RadialMenuWidget RD1;
-	 com.semicircularradialmenu.RadialMenuItem rdw;
-	 com.semicircularradialmenu.RadialMenuItem rdw2;
+	 com.radialmenu.RadialMenuWidget RD1;
+	 com.radialmenu.RadialMenuItem rdw;
+	 com.radialmenu.RadialMenuItem rdw2;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

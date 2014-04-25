@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package com.semicircularradialmenu;
+package com.radialmenu;
 
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import com.semicircularradialmenu.RadialMenuColors;
+import com.radialmenu.RadialMenuColors;
 
 import android.content.Context;
 import android.graphics.Canvas;

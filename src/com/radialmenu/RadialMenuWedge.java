@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.semicircularradialmenu;
+package com.radialmenu;
 
 import android.graphics.Path;
 import android.graphics.RectF;

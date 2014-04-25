@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.semicircularradialmenu;
+package com.radialmenu;
 
 /** 
  * @author Arindam Nath (strider2023@gmail.com)
