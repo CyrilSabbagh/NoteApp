@@ -147,7 +147,8 @@ public class RadialMenuWidget extends View {
 	private PopupWindow mWindow;
 
 	//*****added*******************
-		private GestureDetectorCompat mDetector; 
+	private GestureDetectorCompat mDetector; 
+	private RadialMenuItem itemSelected=null;	
 	//************************
 		
 	/**
@@ -186,6 +187,9 @@ public class RadialMenuWidget extends View {
 		if (state == MotionEvent.ACTION_DOWN) {
 			// selected = null;
 			// selected2 = null;
+			//*****************added**************
+			itemSelected=null;
+			//************************************
 			inWedge = false;
 			inWedge2 = false;
 			inCircle = false;
@@ -268,19 +272,27 @@ public class RadialMenuWidget extends View {
 				centerCircle.menuActiviated();
 
 			} else if (selected != null) {
+				Log.d("GESTURE", "action up not on center");
+		    	
 				for (int i = 0; i < Wedges.length; i++) {
 					RadialMenuWedge f = Wedges[i];
 					if (f == selected) {
 
 						// Checks if a inner ring is enabled if so closes the
 						// outer ring an
-						if (enabled != null) {
+						//**********modified***************
+						/*if (enabled != null) {
 							enabled = null;
 							animateOuterIn = true; // sets Wedge2Shown = false;
 							// If outer ring is not enabled, then executes event
-						} else {
-							menuEntries.get(i).menuActiviated();
-
+						} else {*/
+						//****************************	
+							//menuEntries.get(i).menuActiviated();
+							//*************added******************************
+							itemSelected=menuEntries.get(i);
+							Log.d("GESTURE", "item selected " + itemSelected.getName());
+					    	   
+							//************************************************
 							// Figures out how many outer rings
 							if (menuEntries.get(i).getChildren() != null) {
 								determineOuterWedges(menuEntries.get(i));
@@ -290,7 +302,7 @@ public class RadialMenuWidget extends View {
 							} else {
 								Wedge2Shown = false;
 							}
-						}
+						//}
 						selected = null;
 					}
 				}
@@ -298,6 +310,8 @@ public class RadialMenuWidget extends View {
 				for (int i = 0; i < Wedges2.length; i++) {
 					RadialMenuWedge f = Wedges2[i];
 					if (f == selected2) {
+						Log.d("GESTURE", "selected " + menuEntries.get(i).getName());
+				    	
 						animateOuterIn = true; // sets Wedge2Shown = false;
 						enabled = null;
 						selected = null;
@@ -314,7 +328,11 @@ public class RadialMenuWidget extends View {
 			// selected = null;
 			selected2 = null;
 			inCircle = false;
-		}
+		}else if (state == MotionEvent.ACTION_MOVE) {
+			Log.d("GESTURE", "move ");
+	    	
+		}			
+		
 		invalidate();
 		return true;
 	}
@@ -1284,13 +1302,7 @@ public class RadialMenuWidget extends View {
 		class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
 	        private static final String DEBUG_TAG = "Gestures"; 
 	        
-	        @Override
-	        public boolean onDown(MotionEvent event) { 
-	            //Log.d(DEBUG_TAG,"onDown: " + event.toString()); 
-	            return true;
-	        }
-	        
-	        
+	        	        
 	        @Override
 	        public boolean onFling(MotionEvent event1, MotionEvent event2, 
 	                float velocityX, float velocityY) {
@@ -1298,10 +1310,12 @@ public class RadialMenuWidget extends View {
 	        	
 	        	//if (mMenuCenterButtonRect.contains(event1.getX(),event1.getY())){
 	        		//Log.d(DEBUG_TAG, "onFling: " + event1.toString()+event2.toString());
-	        	if (inCircle){
+	        	
+	        	if (helper.pntInCircle(event1.getX(), event1.getY(), xPosition, yPosition, cRadius)){
+        				//touch on central edge
 	        		Log.d("GESTURE", "onFling: " + event1.toString()+event2.toString());
-	        		//touch on central edge
-	        		for(RadialMenuItem entry : menuEntries){
+	        		
+	        		//for(RadialMenuItem entry : menuEntries){
 	            		
 	        			/*if (entry.getValue().getBounds().contains(event2.getX(), event2.getY())){
 	        				
@@ -1313,14 +1327,14 @@ public class RadialMenuWidget extends View {
 	        				invalidate();
 	        				break;
 	            		}*/
-	        			if (helper.pntInCircle(event2.getX(), event2.getY(), xPosition, yPosition, cRadius)){
-	        				Log.d("GESTURE", "flinged on " + entry.getName());
+	        			if (itemSelected!=null){
+	        				Log.d("GESTURE", "flinged on " + itemSelected.getName());
 	    	   
-	        				entry.menuActiviated();
+	        				itemSelected.menuActiviated();
 	        				invalidate();
-	        				break;
+	        				//break;
 	        			}
-	            	}
+	            	//}
 	        	}
 	        	return true;
 	        }

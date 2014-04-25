@@ -3,6 +3,7 @@ package com.cyrilsabbagh.noteapp;
 import org.xmlpull.v1.XmlPullParser;
 
 
+
 //import com.touchmenotapps.widget.radialmenu.menu.v1.RadialMenuItem;
 //import com.touchmenotapps.widget.radialmenu.menu.v1.RadialMenuWidget;
 //import com.touchmenotapps.widget.radialmenu.semicircularmenu.SemiCircularRadialMenu;
@@ -45,14 +46,32 @@ public class HotCornersActivity extends Activity {
 	SemiCircularRadialMenuItem ItemRecorder,ItemSnapshot,ItemAttach, ItemLink;
 	SemiCircularRadialMenuItem ItemCopy,ItemCut,ItemPaste;
 	
-	private GestureDetectorCompat mDetector; 
+	
+	com.semicircularradialmenu.RadialMenuWidget RD1;
+	com.semicircularradialmenu.RadialMenuItem rdw, rdw2, rdw3;
+	 
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_hot_corners);
 
-		mDetector = new GestureDetectorCompat(this, new MyGestureListener());
+		//a supprimer après*****************
+		 RD1 = new com.semicircularradialmenu.RadialMenuWidget(this);
+		 rdw = new com.semicircularradialmenu.RadialMenuItem("Test1","Test1");
+		 rdw2 = new com.semicircularradialmenu.RadialMenuItem("Test2","Test2");
+		 rdw3 = new com.semicircularradialmenu.RadialMenuItem("Test3","Test3");
+			
+		 RD1.addMenuEntry(rdw);
+		 RD1.addMenuEntry(rdw2);
+		 RD1.addMenuEntry(rdw3);
+		 Button testButton = (Button) this.findViewById(R.id.btnTest);
+			testButton.setOnClickListener(new OnClickListener() {
+				public void onClick(View v) {
+					RD1.show(v);
+				}
+			});
+		//**********************************
 		/*if (savedInstanceState == null) {
 			getSupportFragmentManager().beginTransaction()
 					.add(R.id.container, new PlaceholderFragment()).commit();
@@ -446,7 +465,7 @@ public class HotCornersActivity extends Activity {
 		
 	}
 	
-	@Override
+	/*@Override
 	public boolean onTouchEvent(MotionEvent event){ 
 	    this.mDetector.onTouchEvent(event);
 	    return super.onTouchEvent(event);
@@ -469,5 +488,5 @@ public class HotCornersActivity extends Activity {
             return true;
         }
     }
-	
+	*/
 }

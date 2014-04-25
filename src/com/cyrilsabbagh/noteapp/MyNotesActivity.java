@@ -8,6 +8,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 import android.content.Intent;
 import android.app.Activity;
+import com.semicircularradialmenu.*;
 //import com.touchmenotapps.widget.radialmenu.menu.v1.RadialMenuWidget;
 //import com.touchmenotapps.widget.radialmenu.menu.v1.RadialMenuItem;
 //import com.touchmenotapps.widget.radialmenu.semicircularmenu.SemiCircularRadialMenu;
@@ -21,9 +22,9 @@ public class MyNotesActivity extends Activity {
 	
 	//SemiCircularRadialMenu NoteFile;
 	
-	/*RadialMenuWidget RD1;
-	 RadialMenuItem rdw;
-	 RadialMenuItem rdw2;*/
+	 com.semicircularradialmenu.RadialMenuWidget RD1;
+	 com.semicircularradialmenu.RadialMenuItem rdw;
+	 com.semicircularradialmenu.RadialMenuItem rdw2;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +51,7 @@ public class MyNotesActivity extends Activity {
 	 
 	
 	
-	RadialMenuWidget RD1 = new RadialMenuWidget(getApplicationContext());
+	 RadialMenuWidget RD1 = new RadialMenuWidget(getApplicationContext());
 	 RadialMenuItem rdw = new RadialMenuItem("Share","share");
 	 RadialMenuItem rdw2 = new RadialMenuItem("Share","share");
 	 
