@@ -1298,6 +1298,9 @@ public class RadialMenuWidget extends View {
 	        	
 	        	//if (mMenuCenterButtonRect.contains(event1.getX(),event1.getY())){
 	        		//Log.d(DEBUG_TAG, "onFling: " + event1.toString()+event2.toString());
+	        	if (inCircle){
+	        		Log.d("GESTURE", "onFling: " + event1.toString()+event2.toString());
+	        		//touch on central edge
 	        		for(RadialMenuItem entry : menuEntries){
 	            		
 	        			/*if (entry.getValue().getBounds().contains(event2.getX(), event2.getY())){
@@ -1310,11 +1313,15 @@ public class RadialMenuWidget extends View {
 	        				invalidate();
 	        				break;
 	            		}*/
-	        			
-	        			entry.menuActiviated();
-	        			invalidate();
+	        			if (helper.pntInCircle(event2.getX(), event2.getY(), xPosition, yPosition, cRadius)){
+	        				Log.d("GESTURE", "flinged on " + entry.getName());
+	    	   
+	        				entry.menuActiviated();
+	        				invalidate();
+	        				break;
+	        			}
 	            	}
-	        	//}
+	        	}
 	        	return true;
 	        }
 	        
