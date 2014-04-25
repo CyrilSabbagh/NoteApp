@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
+import android.widget.Toast;
 
 public class MainActivity extends Activity {
 
@@ -30,6 +31,18 @@ public class MainActivity extends Activity {
 	public void StartMyNotes(View view){
 		Intent intent = new Intent(this, MyNotesActivity.class);
 		startActivity(intent);
+	}
+	
+	public void Search(View view){
+		Toast.makeText(MainActivity.this, "Search", Toast.LENGTH_SHORT).show();
+		//Intent intent = new Intent(this, SearchActivity.class);
+		//startActivity(intent);
+	}
+	
+	public void LatestNote(View view){
+		Toast.makeText(MainActivity.this, "LatestNote", Toast.LENGTH_SHORT).show();
+		//Intent intent = new Intent(this, LatestNoteActivity.class);
+		//startActivity(intent);
 	}
 
 }
