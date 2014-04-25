@@ -5,6 +5,7 @@ import java.util.List;
 
 public class Course {
 	
+	private int id;
 	private String name; // This is the name of the course
 	private String school; // This is the school where this course was taken
 	private List<Note> notes; // This is the list of notes taken during this course
@@ -45,6 +46,14 @@ public class Course {
 	}
 	public void setYear(String year) {
 		this.year = year;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 	
 	
