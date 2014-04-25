@@ -121,6 +121,7 @@ public class HotCornersActivity extends Activity {
 		ItemPaste = new SemiCircularRadialMenuItem("Paste",getResources().getDrawable(R.drawable.paste),"Paste");
 		pieMenuEdit.addMenuItem(ItemPaste.getMenuID(), ItemPaste);
 		
+
 		ItemNew.setOnSemiCircularRadialMenuPressed(new OnSemiCircularRadialMenuPressed() {			
 			@Override
 			public void onMenuItemPressed() {
@@ -311,6 +312,7 @@ public class HotCornersActivity extends Activity {
 			}
 		});*/
 		
+>>>>>>> ce87911d90b6691dcc61ed0c45531076c8844748
 		
 		/*Button btnFile = (Button)findViewById(R.id.fileMenu);
 		btnFile.setOnTouchListener(new OnTouchListener(){
