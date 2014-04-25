@@ -111,6 +111,25 @@ public class HotCornersActivity extends Activity {
 		ItemPaste = new SemiCircularRadialMenuItem("Paste",getResources().getDrawable(R.drawable.paste),"Paste");
 		pieMenuEdit.addMenuItem(ItemPaste.getMenuID(), ItemPaste);
 		
+	/*	guarda qui: per creare il tuo radial menu
+		 
+		
+		
+		RadialMenuWidget RD1 = new RadialMenuWidget(getApplicationContext());
+		 RadialMenuItem rdw = new RadialMenuItem("Share","share");
+		 RadialMenuItem rdw2 = new RadialMenuItem("Share","share");
+		 
+		 RD1.addMenuEntry(rdw);
+		 RD1.addMenuEntry(rdw2);
+		 
+		// RD1.show(qui metti il button); questo lo metti dove vuoi farlo partire tipo nella
+		 //funzione onClick del button
+		 
+	//	 rdw.setOnMenuItemPressed(listener) per fargli fare una cosa quando lo premi
+   //   e ti crei il listener
+		 
+		 RD1.dismiss(); */////////////////////////////////////////////////////////
+		
 		/*Button btnFile = (Button)findViewById(R.id.fileMenu);
 		btnFile.setOnTouchListener(new OnTouchListener(){
 			@Override
