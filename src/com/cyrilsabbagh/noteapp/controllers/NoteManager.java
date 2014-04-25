@@ -11,8 +11,9 @@ import com.cyrilsabbagh.noteapp.dataModel.*;
 public class NoteManager {
 	
 	// Create new course with empty dictionary and empty notes
-	public Course newCourse(String _name,String _school,String _year){
+	public Course newCourse(int _id,String _name,String _school,String _year){
 		Course course = new Course();
+		course.setId(_id);
 		course.setName(_name);
 		course.setSchool(_school);
 		course.setYear(_year);
@@ -20,8 +21,9 @@ public class NoteManager {
 	}
 	
 	// Create new course with existing notes and dictionary
-	public Course newCourse(String _name,String _school,String _year,ArrayList<Note> notes,Dictionary dic){
+	public Course newCourse(int _id,String _name,String _school,String _year,ArrayList<Note> notes,Dictionary dic){
 		Course course = new Course();
+		course.setId(_id);
 		course.setName(_name);
 		course.setSchool(_school);
 		course.setYear(_year);

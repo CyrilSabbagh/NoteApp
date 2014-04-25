@@ -3,12 +3,15 @@ package com.cyrilsabbagh.noteapp;
 import org.xmlpull.v1.XmlPullParser;
 
 
+
+
 //import com.touchmenotapps.widget.radialmenu.menu.v1.RadialMenuItem;
 //import com.touchmenotapps.widget.radialmenu.menu.v1.RadialMenuWidget;
 //import com.touchmenotapps.widget.radialmenu.semicircularmenu.SemiCircularRadialMenu;
 //import com.touchmenotapps.widget.radialmenu.semicircularmenu.SemiCircularRadialMenuItem;
-import com.semicircularradialmenu.*;
-import com.semicircularradialmenu.SemiCircularRadialMenuItem.OnSemiCircularRadialMenuPressed;
+import com.radialmenu.*;
+import com.radialmenu.RadialMenuItem.RadialMenuItemClickListener;
+import com.radialmenu.SemiCircularRadialMenuItem.OnSemiCircularRadialMenuPressed;
 
 import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
@@ -45,14 +48,67 @@ public class HotCornersActivity extends Activity {
 	SemiCircularRadialMenuItem ItemRecorder,ItemSnapshot,ItemAttach, ItemLink;
 	SemiCircularRadialMenuItem ItemCopy,ItemCut,ItemPaste;
 	
-	private GestureDetectorCompat mDetector; 
+	
+	com.radialmenu.RadialMenuWidget RD1;
+	com.radialmenu.RadialMenuItem rdw, rdw2, rdw3,rdw4;
+	 
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_hot_corners);
 
-		mDetector = new GestureDetectorCompat(this, new MyGestureListener());
+		//POUR CHIARA!!***********a supprimer après*****************
+		 RD1 = new com.radialmenu.RadialMenuWidget(this);
+		 rdw = new com.radialmenu.RadialMenuItem("Test1","Test1");
+		 rdw2 = new com.radialmenu.RadialMenuItem("Test2","Test2");
+		 rdw3 = new com.radialmenu.RadialMenuItem("Test3","Test3");
+		 rdw4 = new com.radialmenu.RadialMenuItem("Test4","Test4");
+			
+		 RD1.addMenuEntry(rdw);
+		 RD1.addMenuEntry(rdw2);
+		 RD1.addMenuEntry(rdw3);
+		 RD1.addMenuEntry(rdw4);
+		 
+		 rdw.setOnMenuItemPressed(new RadialMenuItemClickListener() {	
+			@Override
+			public void execute() {
+				// TODO Auto-generated method stub
+				Toast.makeText(getApplicationContext(),rdw.getName(), Toast.LENGTH_SHORT).show();	
+			}
+		 });
+		 
+		 rdw2.setOnMenuItemPressed(new RadialMenuItemClickListener() {	
+				@Override
+				public void execute() {
+					// TODO Auto-generated method stub
+					Toast.makeText(getApplicationContext(),rdw2.getName(), Toast.LENGTH_SHORT).show();	
+				}
+		 });
+		 rdw3.setOnMenuItemPressed(new RadialMenuItemClickListener() {	
+				@Override
+				public void execute() {
+					// TODO Auto-generated method stub
+					Toast.makeText(getApplicationContext(),rdw3.getName(), Toast.LENGTH_SHORT).show();	
+				}
+		 });
+		 rdw4.setOnMenuItemPressed(new RadialMenuItemClickListener() {	
+				@Override
+				public void execute() {
+					// TODO Auto-generated method stub
+					Toast.makeText(getApplicationContext(),rdw4.getName(), Toast.LENGTH_SHORT).show();	
+				}
+		 });
+		 
+		 Button testButton = (Button) this.findViewById(R.id.btnTest);
+			testButton.setOnClickListener(new OnClickListener() {
+				public void onClick(View v) {
+					RD1.show(v);
+				}
+			});
+		//*************************************************************
+			
+			
 		/*if (savedInstanceState == null) {
 			getSupportFragmentManager().beginTransaction()
 					.add(R.id.container, new PlaceholderFragment()).commit();
@@ -311,8 +367,7 @@ public class HotCornersActivity extends Activity {
 				// 	return false;
 			}
 		});*/
-		
-		
+
 		/*Button btnFile = (Button)findViewById(R.id.fileMenu);
 		btnFile.setOnTouchListener(new OnTouchListener(){
 			@Override
@@ -446,7 +501,7 @@ public class HotCornersActivity extends Activity {
 		
 	}
 	
-	@Override
+	/*@Override
 	public boolean onTouchEvent(MotionEvent event){ 
 	    this.mDetector.onTouchEvent(event);
 	    return super.onTouchEvent(event);
@@ -469,5 +524,5 @@ public class HotCornersActivity extends Activity {
             return true;
         }
     }
-	
+	*/
 }
