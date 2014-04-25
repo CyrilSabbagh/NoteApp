@@ -42,6 +42,9 @@ import android.widget.Toast;
  * This is the core class that handles the widget display and user interaction.
  * TODO At times the arc area bound check fails. Gotta check that.
  * @author Arindam Nath (strider2023@gmail.com)
+ * 
+ * Modified by Alexandru Loghin (April 2014) 
+ * added fling interaction on components  
  */
 public class SemiCircularRadialMenu extends View {
 
@@ -191,6 +194,7 @@ public class SemiCircularRadialMenu extends View {
 				}*/
 				isMenuVisible = false;
 				centerMenuText = openMenuText;
+				
 				//***********************************************
 				isMenuTogglePressed = false;
 				invalidate();
@@ -206,7 +210,29 @@ public class SemiCircularRadialMenu extends View {
 				invalidate();
 			}
 			break;
-	
+		case MotionEvent.ACTION_MOVE:
+			/*if(isMenuVisible) {
+				if(mMenuItems.size() > 0) {
+					for(SemiCircularRadialMenuItem item : mMenuItems.values()) {
+						if(mMenuRect.contains((int) x, (int) y))
+							if(item.getBounds().contains((int) x, (int) y)) {
+								isMenuItemPressed = true;
+								mPressedMenuItemID = item.getMenuID();
+								break;
+							}
+					}
+					mMenuItems.get(mPressedMenuItemID)
+						.setBackgroundColor(mMenuItems.get(mPressedMenuItemID).getMenuSelectedColor());
+					invalidate();
+				}
+			}
+			
+			if(isMenuTogglePressed && isMenuItemPressed) {
+				mMenuItems.get(mPressedMenuItemID)
+				.setBackgroundColor(mMenuItems.get(mPressedMenuItemID).getMenuSelectedColor());
+			invalidate();
+			}
+			break;*/
 		}
 
 		return true;
@@ -545,13 +571,16 @@ public class SemiCircularRadialMenu extends View {
         	if (mMenuCenterButtonRect.contains(event1.getX(),event1.getY())){
         		//Log.d(DEBUG_TAG, "onFling: " + event1.toString()+event2.toString());
         		for(Map.Entry<String, SemiCircularRadialMenuItem> entry : mMenuItems.entrySet()){
-            		if (entry.getValue().getBounds().contains(event2.getX(), event2.getY())){
-            			Log.d(DEBUG_TAG,"flinged over " + entry.getKey());
+            		//**********to review - contains NOT GOOD!!
+        			if (entry.getValue().getBounds().contains(event2.getX(), event2.getY())){
+        				
+            			Log.d(DEBUG_TAG,"flinged over " + entry.getKey() + event1.toString() + event2.toString() +entry.getValue().getBounds().toString());
             			if(entry.getValue().getCallback()!= null) {
             				entry.getValue().getCallback().onMenuItemPressed();
         				}
-            			entry.getValue().setBackgroundColor(entry.getValue().getMenuSelectedColor());
+            			//entry.getValue().setBackgroundColor(entry.getValue().getMenuSelectedColor());
         				invalidate();
+        				break;
             		}
             	}
         	}
