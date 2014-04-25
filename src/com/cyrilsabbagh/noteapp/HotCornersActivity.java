@@ -2,10 +2,13 @@ package com.cyrilsabbagh.noteapp;
 
 import org.xmlpull.v1.XmlPullParser;
 
-import com.touchmenotapps.widget.radialmenu.menu.v1.RadialMenuItem;
-import com.touchmenotapps.widget.radialmenu.menu.v1.RadialMenuWidget;
-import com.touchmenotapps.widget.radialmenu.semicircularmenu.SemiCircularRadialMenu;
-import com.touchmenotapps.widget.radialmenu.semicircularmenu.SemiCircularRadialMenuItem;
+
+//import com.touchmenotapps.widget.radialmenu.menu.v1.RadialMenuItem;
+//import com.touchmenotapps.widget.radialmenu.menu.v1.RadialMenuWidget;
+//import com.touchmenotapps.widget.radialmenu.semicircularmenu.SemiCircularRadialMenu;
+//import com.touchmenotapps.widget.radialmenu.semicircularmenu.SemiCircularRadialMenuItem;
+import com.semicircularradialmenu.*;
+import com.semicircularradialmenu.SemiCircularRadialMenuItem.OnSemiCircularRadialMenuPressed;
 
 import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
@@ -16,6 +19,7 @@ import android.os.Bundle;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.Xml;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,6 +34,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 import android.os.Build;
+import android.support.v4.view.GestureDetectorCompat;
+import android.support.v4.view.MotionEventCompat;
 
 public class HotCornersActivity extends Activity {
 	SemiCircularRadialMenu pieMenuFile,pieMenuEdit,pieMenuOptions,pieMenuMedia,pieMenuStyle; 
@@ -38,11 +44,15 @@ public class HotCornersActivity extends Activity {
 	SemiCircularRadialMenuItem ItemDimension,ItemColor,ItemBold, ItemItalic,ItemUnderlined;
 	SemiCircularRadialMenuItem ItemRecorder,ItemSnapshot,ItemAttach, ItemLink;
 	SemiCircularRadialMenuItem ItemCopy,ItemCut,ItemPaste;
+	
+	private GestureDetectorCompat mDetector; 
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_hot_corners);
 
+		mDetector = new GestureDetectorCompat(this, new MyGestureListener());
 		/*if (savedInstanceState == null) {
 			getSupportFragmentManager().beginTransaction()
 					.add(R.id.container, new PlaceholderFragment()).commit();
@@ -71,7 +81,7 @@ public class HotCornersActivity extends Activity {
 		pieMenuOptions.addMenuItem(ItemShare.getMenuID(),ItemShare);
 		ItemDictionary = new SemiCircularRadialMenuItem("Dictionary",getResources().getDrawable(R.drawable.dictionary),"Add to dictionary");
 		pieMenuOptions.addMenuItem(ItemDictionary.getMenuID(), ItemDictionary);
-		
+
 		pieMenuStyle = (SemiCircularRadialMenu)findViewById(R.id.styleMenu); 
 		pieMenuStyle.setOpenMenuText("Style");
 		pieMenuStyle.setCloseMenuText("Style");
@@ -111,24 +121,198 @@ public class HotCornersActivity extends Activity {
 		ItemPaste = new SemiCircularRadialMenuItem("Paste",getResources().getDrawable(R.drawable.paste),"Paste");
 		pieMenuEdit.addMenuItem(ItemPaste.getMenuID(), ItemPaste);
 		
-	/*	guarda qui: per creare il tuo radial menu
-		 
+
+		ItemNew.setOnSemiCircularRadialMenuPressed(new OnSemiCircularRadialMenuPressed() {			
+			@Override
+			public void onMenuItemPressed() {
+				// TODO Auto-generated method stub
+				Toast.makeText(getApplicationContext(),"New", Toast.LENGTH_SHORT).show();		
+			}
+		});
 		
+		ItemNew.setOnSemiCircularRadialMenuPressed(new OnSemiCircularRadialMenuPressed() {			
+			@Override
+			public void onMenuItemPressed() {
+				// TODO Auto-generated method stub
+				Toast.makeText(getApplicationContext(),"New", Toast.LENGTH_SHORT).show();		
+			}
+		});
 		
-		RadialMenuWidget RD1 = new RadialMenuWidget(getApplicationContext());
-		 RadialMenuItem rdw = new RadialMenuItem("Share","share");
-		 RadialMenuItem rdw2 = new RadialMenuItem("Share","share");
-		 
-		 RD1.addMenuEntry(rdw);
-		 RD1.addMenuEntry(rdw2);
-		 
-		// RD1.show(qui metti il button); questo lo metti dove vuoi farlo partire tipo nella
-		 //funzione onClick del button
-		 
-	//	 rdw.setOnMenuItemPressed(listener) per fargli fare una cosa quando lo premi
-   //   e ti crei il listener
-		 
-		 RD1.dismiss(); */////////////////////////////////////////////////////////
+		ItemOpen.setOnSemiCircularRadialMenuPressed(new OnSemiCircularRadialMenuPressed() {			
+			@Override
+			public void onMenuItemPressed() {
+				// TODO Auto-generated method stub
+				Toast.makeText(getApplicationContext(),"Open", Toast.LENGTH_SHORT).show();		
+			}
+		});
+		
+		ItemSave.setOnSemiCircularRadialMenuPressed(new OnSemiCircularRadialMenuPressed() {			
+			@Override
+			public void onMenuItemPressed() {
+				// TODO Auto-generated method stub
+				Toast.makeText(getApplicationContext(),"Save", Toast.LENGTH_SHORT).show();		
+			}
+		});
+		
+		ItemExit.setOnSemiCircularRadialMenuPressed(new OnSemiCircularRadialMenuPressed() {			
+			@Override
+			public void onMenuItemPressed() {
+				// TODO Auto-generated method stub
+				Toast.makeText(getApplicationContext(),"Exit", Toast.LENGTH_SHORT).show();		
+			}
+		});
+		
+		ItemMultiauthor.setOnSemiCircularRadialMenuPressed(new OnSemiCircularRadialMenuPressed() {			
+			@Override
+			public void onMenuItemPressed() {
+				// TODO Auto-generated method stub
+				Toast.makeText(getApplicationContext(),"Multiauthor", Toast.LENGTH_SHORT).show();		
+			}
+		});
+		
+		ItemShare.setOnSemiCircularRadialMenuPressed(new OnSemiCircularRadialMenuPressed() {			
+			@Override
+			public void onMenuItemPressed() {
+				// TODO Auto-generated method stub
+				Toast.makeText(getApplicationContext(),"Share", Toast.LENGTH_SHORT).show();		
+			}
+		});
+		
+		ItemDictionary.setOnSemiCircularRadialMenuPressed(new OnSemiCircularRadialMenuPressed() {			
+			@Override
+			public void onMenuItemPressed() {
+				// TODO Auto-generated method stub
+				Toast.makeText(getApplicationContext(),"Dictionary", Toast.LENGTH_SHORT).show();		
+			}
+		});
+		
+		ItemDimension.setOnSemiCircularRadialMenuPressed(new OnSemiCircularRadialMenuPressed() {			
+			@Override
+			public void onMenuItemPressed() {
+				// TODO Auto-generated method stub
+				Toast.makeText(getApplicationContext(),"Dimension", Toast.LENGTH_SHORT).show();		
+			}
+		});
+		
+		ItemColor.setOnSemiCircularRadialMenuPressed(new OnSemiCircularRadialMenuPressed() {			
+			@Override
+			public void onMenuItemPressed() {
+				// TODO Auto-generated method stub
+				Toast.makeText(getApplicationContext(),"Color", Toast.LENGTH_SHORT).show();		
+			}
+		});
+		
+		ItemBold.setOnSemiCircularRadialMenuPressed(new OnSemiCircularRadialMenuPressed() {			
+			@Override
+			public void onMenuItemPressed() {
+				// TODO Auto-generated method stub
+				Toast.makeText(getApplicationContext(),"Bold", Toast.LENGTH_SHORT).show();		
+			}
+		});
+		
+		ItemItalic.setOnSemiCircularRadialMenuPressed(new OnSemiCircularRadialMenuPressed() {			
+			@Override
+			public void onMenuItemPressed() {
+				// TODO Auto-generated method stub
+				Toast.makeText(getApplicationContext(),"Italic", Toast.LENGTH_SHORT).show();		
+			}
+		});
+		
+		ItemUnderlined.setOnSemiCircularRadialMenuPressed(new OnSemiCircularRadialMenuPressed() {			
+			@Override
+			public void onMenuItemPressed() {
+				// TODO Auto-generated method stub
+				Toast.makeText(getApplicationContext(),"Underlined", Toast.LENGTH_SHORT).show();		
+			}
+		});
+		
+		ItemRecorder.setOnSemiCircularRadialMenuPressed(new OnSemiCircularRadialMenuPressed() {			
+			@Override
+			public void onMenuItemPressed() {
+				// TODO Auto-generated method stub
+				Toast.makeText(getApplicationContext(),"Recorder", Toast.LENGTH_SHORT).show();		
+			}
+		});
+		
+		ItemSnapshot.setOnSemiCircularRadialMenuPressed(new OnSemiCircularRadialMenuPressed() {			
+			@Override
+			public void onMenuItemPressed() {
+				// TODO Auto-generated method stub
+				Toast.makeText(getApplicationContext(),"Snapshot", Toast.LENGTH_SHORT).show();		
+			}
+		});
+		
+		ItemAttach.setOnSemiCircularRadialMenuPressed(new OnSemiCircularRadialMenuPressed() {			
+			@Override
+			public void onMenuItemPressed() {
+				// TODO Auto-generated method stub
+				Toast.makeText(getApplicationContext(),"Attach", Toast.LENGTH_SHORT).show();		
+			}
+		});
+		
+		ItemLink.setOnSemiCircularRadialMenuPressed(new OnSemiCircularRadialMenuPressed() {			
+			@Override
+			public void onMenuItemPressed() {
+				// TODO Auto-generated method stub
+				Toast.makeText(getApplicationContext(),"Link", Toast.LENGTH_SHORT).show();		
+			}
+		});
+		
+		ItemCopy.setOnSemiCircularRadialMenuPressed(new OnSemiCircularRadialMenuPressed() {			
+			@Override
+			public void onMenuItemPressed() {
+				// TODO Auto-generated method stub
+				Toast.makeText(getApplicationContext(),"Copy", Toast.LENGTH_SHORT).show();		
+			}
+		});
+		
+		ItemCut.setOnSemiCircularRadialMenuPressed(new OnSemiCircularRadialMenuPressed() {			
+			@Override
+			public void onMenuItemPressed() {
+				// TODO Auto-generated method stub
+				Toast.makeText(getApplicationContext(),"Cut", Toast.LENGTH_SHORT).show();		
+			}
+		});
+		
+		ItemPaste.setOnSemiCircularRadialMenuPressed(new OnSemiCircularRadialMenuPressed() {			
+			@Override
+			public void onMenuItemPressed() {
+				// TODO Auto-generated method stub
+				Toast.makeText(getApplicationContext(),"Paste", Toast.LENGTH_SHORT).show();		
+			}
+		});
+		/*pieMenuOptions.setOnTouchListener(new OnTouchListener() {		
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				// TODO Auto-generated method stub
+				int action = MotionEventCompat.getActionMasked(event);
+		        
+			    switch(action) {
+			        case (MotionEvent.ACTION_DOWN) :
+			            Log.i("DEBUG","Action was DOWN");
+			            return true;
+			        case (MotionEvent.ACTION_MOVE) :
+			            Log.i("DEBUG","Action was MOVE");
+			            return true;
+			        case (MotionEvent.ACTION_UP) :
+			            Log.i("DEBUG","Action was UP");
+			            return true;
+			        case (MotionEvent.ACTION_CANCEL) :
+			            Log.i("DEBUG","Action was CANCEL");
+			            return true;
+			        case (MotionEvent.ACTION_OUTSIDE) :
+			            Log.i("DEBUG","Movement occurred outside bounds " +
+			                    "of current screen element");
+			            return true;    
+			        
+			        default : 
+			        	return v.onTouchEvent(event);
+			    }      
+				// 	return false;
+			}
+		});*/
+		
+>>>>>>> ce87911d90b6691dcc61ed0c45531076c8844748
 		
 		/*Button btnFile = (Button)findViewById(R.id.fileMenu);
 		btnFile.setOnTouchListener(new OnTouchListener(){
@@ -262,5 +446,29 @@ public class HotCornersActivity extends Activity {
 		//editText.setText("Style menu");
 		
 	}
+	
+	@Override
+	public boolean onTouchEvent(MotionEvent event){ 
+	    this.mDetector.onTouchEvent(event);
+	    return super.onTouchEvent(event);
+	}
+	
+	class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
+        private static final String DEBUG_TAG = "Gestures"; 
+        
+        @Override
+        public boolean onDown(MotionEvent event) { 
+            Log.d(DEBUG_TAG,"onDown: " + event.toString()); 
+            return true;
+        }
+        
+        
+        @Override
+        public boolean onFling(MotionEvent event1, MotionEvent event2, 
+                float velocityX, float velocityY) {
+            Log.d(DEBUG_TAG, "onFling: " + event1.toString()+event2.toString());
+            return true;
+        }
+    }
 	
 }
