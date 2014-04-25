@@ -300,7 +300,6 @@ public class HotCornersActivity extends Activity {
 				Toast.makeText(getApplicationContext(),"Paste", Toast.LENGTH_SHORT).show();		
 			}
 		});
-		
 		/*pieMenuOptions.setOnTouchListener(new OnTouchListener() {		
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
@@ -331,7 +330,7 @@ public class HotCornersActivity extends Activity {
 				// 	return false;
 			}
 		});*/
-		
+
 		/*Button btnFile = (Button)findViewById(R.id.fileMenu);
 		btnFile.setOnTouchListener(new OnTouchListener(){
 			@Override
