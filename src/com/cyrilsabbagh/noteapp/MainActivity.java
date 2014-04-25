@@ -26,5 +26,10 @@ public class MainActivity extends Activity {
 		Intent intent = new Intent(this, HotCornersActivity.class);
 		startActivity(intent);
 	}
+	
+	public void StartMyNotes(View view){
+		Intent intent = new Intent(this, MyNotesActivity.class);
+		startActivity(intent);
+	}
 
 }
