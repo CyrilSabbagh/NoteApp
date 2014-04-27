@@ -100,12 +100,12 @@ public class HotCornersActivity extends Activity {
 				}
 		 });
 		 
-		 Button testButton = (Button) this.findViewById(R.id.btnTest);
+		 /*Button testButton = (Button) this.findViewById(R.id.btnTest);
 			testButton.setOnClickListener(new OnClickListener() {
 				public void onClick(View v) {
 					RD1.show(v);
 				}
-			});
+			});*/
 		//*************************************************************
 			
 			
@@ -117,7 +117,7 @@ public class HotCornersActivity extends Activity {
 		pieMenuFile = (SemiCircularRadialMenu)findViewById(R.id.fileMenu); 
 		pieMenuFile.setOpenMenuText("File");
 		pieMenuFile.setCloseMenuText("File");
-		pieMenuFile.setOrientation(SemiCircularRadialMenu.HORIZONTAL_BOTTOM);
+		//pieMenuFile.setOrientation(SemiCircularRadialMenu.HORIZONTAL_BOTTOM);
 		ItemNew = new SemiCircularRadialMenuItem("New",getResources().getDrawable(R.drawable.newfile),"New file");
 		pieMenuFile.addMenuItem(ItemNew.getMenuID(),ItemNew);
 		ItemOpen = new SemiCircularRadialMenuItem("Open",getResources().getDrawable(R.drawable.openfile),"Open file");
@@ -126,22 +126,25 @@ public class HotCornersActivity extends Activity {
 		pieMenuFile.addMenuItem(ItemSave.getMenuID(), ItemSave);
 		ItemExit = new SemiCircularRadialMenuItem("Exit",getResources().getDrawable(R.drawable.exit),"Exit");
 		pieMenuFile.addMenuItem(ItemExit.getMenuID(), ItemExit);
+		pieMenuFile.setAngles(180, 90);
+		//pieMenuFile.setLeft(-pieMenuFile.getWidth()/2);
 		
 		pieMenuOptions = (SemiCircularRadialMenu)findViewById(R.id.optionsMenu); 
 		pieMenuOptions.setOpenMenuText("Options");
 		pieMenuOptions.setCloseMenuText("Options");
-		pieMenuOptions.setOrientation(SemiCircularRadialMenu.HORIZONTAL_BOTTOM);
+		//pieMenuOptions.setOrientation(SemiCircularRadialMenu.HORIZONTAL_BOTTOM);
 		ItemMultiauthor = new SemiCircularRadialMenuItem("Multiauthor",getResources().getDrawable(R.drawable.multi),"Multiauthor");
 		pieMenuOptions.addMenuItem(ItemMultiauthor.getMenuID(),ItemMultiauthor);
 		ItemShare = new SemiCircularRadialMenuItem("Share",getResources().getDrawable(R.drawable.share),"Share");
 		pieMenuOptions.addMenuItem(ItemShare.getMenuID(),ItemShare);
 		ItemDictionary = new SemiCircularRadialMenuItem("Dictionary",getResources().getDrawable(R.drawable.dictionary),"Add to dictionary");
 		pieMenuOptions.addMenuItem(ItemDictionary.getMenuID(), ItemDictionary);
-
+		pieMenuOptions.setAngles(180, 180);
+		
 		pieMenuStyle = (SemiCircularRadialMenu)findViewById(R.id.styleMenu); 
 		pieMenuStyle.setOpenMenuText("Style");
 		pieMenuStyle.setCloseMenuText("Style");
-		pieMenuStyle.setOrientation(SemiCircularRadialMenu.HORIZONTAL_BOTTOM);
+		//pieMenuStyle.setOrientation(SemiCircularRadialMenu.HORIZONTAL_BOTTOM);
 		ItemDimension = new SemiCircularRadialMenuItem("Dimension",getResources().getDrawable(R.drawable.dimension),"Dimension");
 		pieMenuStyle.addMenuItem(ItemDimension.getMenuID(),ItemDimension);
 		ItemColor = new SemiCircularRadialMenuItem("Color",getResources().getDrawable(R.drawable.color),"Color");
@@ -152,11 +155,12 @@ public class HotCornersActivity extends Activity {
 		pieMenuStyle.addMenuItem(ItemItalic.getMenuID(), ItemItalic);
 		ItemUnderlined = new SemiCircularRadialMenuItem("Underlined",getResources().getDrawable(R.drawable.underlined),"Underlined");
 		pieMenuStyle.addMenuItem(ItemUnderlined.getMenuID(), ItemUnderlined);
+		pieMenuStyle.setAngles(0, 90);
 		
 		pieMenuMedia = (SemiCircularRadialMenu)findViewById(R.id.mediaMenu); 
 		pieMenuMedia.setOpenMenuText("Media");
 		pieMenuMedia.setCloseMenuText("Media");
-		pieMenuMedia.setOrientation(SemiCircularRadialMenu.HORIZONTAL_BOTTOM);
+		//pieMenuMedia.setOrientation(SemiCircularRadialMenu.HORIZONTAL_BOTTOM);
 		ItemRecorder = new SemiCircularRadialMenuItem("Recorder",getResources().getDrawable(R.drawable.recorder),"Recorder");
 		pieMenuMedia.addMenuItem(ItemRecorder.getMenuID(),ItemRecorder);
 		ItemSnapshot = new SemiCircularRadialMenuItem("Snapshot",getResources().getDrawable(R.drawable.snapshot),"Snapshot");
@@ -165,19 +169,40 @@ public class HotCornersActivity extends Activity {
 		pieMenuMedia.addMenuItem(ItemAttach.getMenuID(), ItemAttach);
 		ItemLink = new SemiCircularRadialMenuItem("Link",getResources().getDrawable(R.drawable.link),"Link");
 		pieMenuMedia.addMenuItem(ItemLink.getMenuID(), ItemLink);
+		pieMenuMedia.setAngles(90, 90);
 		
 		pieMenuEdit = (SemiCircularRadialMenu)findViewById(R.id.editMenu); 
 		pieMenuEdit.setOpenMenuText("Edit");
 		pieMenuEdit.setCloseMenuText("Edit");
-		pieMenuEdit.setOrientation(SemiCircularRadialMenu.HORIZONTAL_BOTTOM);
+		//pieMenuEdit.setOrientation(SemiCircularRadialMenu.HORIZONTAL_BOTTOM);
 		ItemCopy = new SemiCircularRadialMenuItem("Copy",getResources().getDrawable(R.drawable.copy),"Copy");
 		pieMenuEdit.addMenuItem(ItemCopy.getMenuID(),ItemCopy);
 		ItemCut = new SemiCircularRadialMenuItem("Cut",getResources().getDrawable(R.drawable.cut),"Cut");
 		pieMenuEdit.addMenuItem(ItemCut.getMenuID(),ItemCut);
 		ItemPaste = new SemiCircularRadialMenuItem("Paste",getResources().getDrawable(R.drawable.paste),"Paste");
-		pieMenuEdit.addMenuItem(ItemPaste.getMenuID(), ItemPaste);
+		pieMenuEdit.addMenuItem(ItemPaste.getMenuID(), ItemPaste);	
+		pieMenuEdit.setAngles(270, 90);
 		
-
+		ItemAttach.setIconDimen(32);
+		ItemNew.setIconDimen(32);
+		ItemBold.setIconDimen(32);
+		ItemColor.setIconDimen(32);
+		ItemCut.setIconDimen(32);
+		ItemCopy.setIconDimen(32);
+		ItemDictionary.setIconDimen(32);
+		ItemDimension.setIconDimen(32);
+		ItemExit.setIconDimen(32);
+		ItemItalic.setIconDimen(32);
+		ItemLink.setIconDimen(32);
+		ItemMultiauthor.setIconDimen(32);	
+		ItemOpen.setIconDimen(32);
+		ItemPaste.setIconDimen(32);
+		ItemRecorder.setIconDimen(32);
+		ItemSave.setIconDimen(32);
+		ItemShare.setIconDimen(32);
+		ItemSnapshot.setIconDimen(32);
+		ItemUnderlined.setIconDimen(32);
+		
 		ItemNew.setOnSemiCircularRadialMenuPressed(new OnSemiCircularRadialMenuPressed() {			
 			@Override
 			public void onMenuItemPressed() {
