@@ -16,12 +16,12 @@
 
 package com.radialmenu;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-
 import com.radialmenu.RadialMenuColors;
-
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -66,6 +66,9 @@ public class SemiCircularRadialMenu extends View {
 	private Paint mRadialMenuPaint = new Paint(Paint.ANTI_ALIAS_FLAG);	
 	private Point mViewAnchorPoints;	
 	private HashMap<String, SemiCircularRadialMenuItem> mMenuItems = new HashMap<String, SemiCircularRadialMenuItem>();
+	//******added - menuItems sorted chronologically*************************
+	private ArrayList<SemiCircularRadialMenuItem> mItems = new ArrayList<SemiCircularRadialMenuItem>();
+	//***********************************************************************
 	//Variables that can be user defined	
 	private float mShadowRadius = 5 * getResources().getDisplayMetrics().density;	
 	private boolean isShowMenuText = false;	
@@ -79,7 +82,10 @@ public class SemiCircularRadialMenu extends View {
 	private float textSize = 12 * getResources().getDisplayMetrics().density;
 	private int mOpenButtonScaleFactor = 3;
 	//************************
-	private GestureDetectorCompat mDetector; 
+	private GestureDetectorCompat mDetector;
+	private int mDimAngle=180;
+	private String lastItemPressed;
+	private MyGestureListener list=new MyGestureListener();
 	//************************
 	public SemiCircularRadialMenu(Context context) {
 		super(context);
@@ -101,7 +107,7 @@ public class SemiCircularRadialMenu extends View {
 		mRadialMenuPaint.setTextSize(textSize);
 		mRadialMenuPaint.setColor(Color.WHITE);
 		//*****************added***********
-		mDetector = new GestureDetectorCompat(getContext(), new MyGestureListener());
+		mDetector = new GestureDetectorCompat(getContext(), list);
 	}
 
 	@Override
@@ -110,13 +116,15 @@ public class SemiCircularRadialMenu extends View {
 		mRadialMenuPaint.setShadowLayer(mShadowRadius, 0.0f, 0.0f, mShadowColor);  
 		//Draw the menu if the menu is to be displayed.
 		if(isMenuVisible) {
-			canvas.drawArc(mMenuRect, mStartAngle, 180, true, mRadialMenuPaint);
+			canvas.drawArc(mMenuRect, mStartAngle, mDimAngle, true, mRadialMenuPaint);
 			//See if there is any item in the collection
 			if(mMenuItems.size() > 0) {
 				float mStart = mStartAngle;
 				//Get the sweep angles based on the number of menu items
-				float mSweep = 180/mMenuItems.size();
-				for(SemiCircularRadialMenuItem item : mMenuItems.values()) {
+				float mSweep = mDimAngle/mMenuItems.size();
+				//**********modified********************************
+				for(SemiCircularRadialMenuItem item : mItems) {
+					//**********************************************
 					mRadialMenuPaint.setColor(item.getBackgroundColor());
 					item.setMenuPath(mMenuCenterButtonRect, mMenuRect, mStart, mSweep, mRadius, mViewAnchorPoints);
 					canvas.drawPath(item.getMenuPath(), mRadialMenuPaint);
@@ -134,7 +142,8 @@ public class SemiCircularRadialMenu extends View {
 		}
 		//Draw the center menu toggle piece
 		mRadialMenuPaint.setColor(centerRadialColor);
-		canvas.drawArc(mMenuCenterButtonRect, mStartAngle, 180, true, mRadialMenuPaint);
+		
+		canvas.drawArc(mMenuCenterButtonRect, mStartAngle, mDimAngle, true, mRadialMenuPaint);
 		mRadialMenuPaint.setShadowLayer(mShadowRadius, 0.0f, 0.0f, Color.TRANSPARENT);  
 		//Draw the center text
 		drawCenterText(canvas, mRadialMenuPaint);
@@ -201,9 +210,6 @@ public class SemiCircularRadialMenu extends View {
 			}
 
 			if(isMenuItemPressed) {
-				if(mMenuItems.get(mPressedMenuItemID).getCallback() != null) {
-					mMenuItems.get(mPressedMenuItemID).getCallback().onMenuItemPressed();
-				}
 				mMenuItems.get(mPressedMenuItemID)
 					.setBackgroundColor(mMenuItems.get(mPressedMenuItemID).getMenuNormalColor());
 				isMenuItemPressed = false;
@@ -211,28 +217,36 @@ public class SemiCircularRadialMenu extends View {
 			}
 			break;
 		case MotionEvent.ACTION_MOVE:
-			/*if(isMenuVisible) {
-				if(mMenuItems.size() > 0) {
-					for(SemiCircularRadialMenuItem item : mMenuItems.values()) {
-						if(mMenuRect.contains((int) x, (int) y))
-							if(item.getBounds().contains((int) x, (int) y)) {
-								isMenuItemPressed = true;
-								mPressedMenuItemID = item.getMenuID();
-								break;
-							}
-					}
-					mMenuItems.get(mPressedMenuItemID)
-						.setBackgroundColor(mMenuItems.get(mPressedMenuItemID).getMenuSelectedColor());
-					invalidate();
-				}
-			}
+			if(isMenuVisible) {
+				if(mItems.size() > 0) {
+					int chosen=list.SelectItem(event);			
 			
-			if(isMenuTogglePressed && isMenuItemPressed) {
-				mMenuItems.get(mPressedMenuItemID)
-				.setBackgroundColor(mMenuItems.get(mPressedMenuItemID).getMenuSelectedColor());
-			invalidate();
+					for(int i=0;i<mItems.size();i++) {
+						if(i==chosen){
+								isMenuItemPressed = true;
+								mPressedMenuItemID = mItems.get(i).getMenuID();
+								//break;
+						}else{
+								mItems.get(i)
+								.setBackgroundColor(mItems.get(i).getMenuNormalColor());
+						}
+					}
+				}
+			
+			
+				if(isMenuTogglePressed && isMenuItemPressed) {
+					mMenuItems.get(mPressedMenuItemID)
+					.setBackgroundColor(mMenuItems.get(mPressedMenuItemID).getMenuSelectedColor());
+				}else{
+					if (mPressedMenuItemID!=null){
+						
+						mMenuItems.get(mPressedMenuItemID)
+						.setBackgroundColor(mMenuItems.get(mPressedMenuItemID).getMenuNormalColor());
+					}
+				}
+				invalidate();
 			}
-			break;*/
+			break;
 		}
 
 		return true;
@@ -263,7 +277,7 @@ public class SemiCircularRadialMenu extends View {
 		paint.setColor(mToggleMenuTextColor);
 		switch(mOrientation) {
 		case VERTICAL_RIGHT:
-			canvas.drawText(centerMenuText, getWidth() - paint.measureText(centerMenuText), getHeight()/2, paint);
+			canvas.drawText(centerMenuText, getWidth() - paint.measureText(centerMenuText), getHeight()/2, paint);	
 			break;
 		case VERTICAL_LEFT:
 			canvas.drawText(centerMenuText, 2, getHeight()/2, paint);
@@ -272,6 +286,7 @@ public class SemiCircularRadialMenu extends View {
 			canvas.drawText(centerMenuText, (getWidth()/2) - (paint.measureText(centerMenuText)/2), textSize, paint);
 			break;
 		case HORIZONTAL_BOTTOM:
+			//paint.setTextAlign();
 			canvas.drawText(centerMenuText, (getWidth()/2) - (paint.measureText(centerMenuText)/2), getHeight() - (textSize), paint);
 			break;
 		}
@@ -299,6 +314,7 @@ public class SemiCircularRadialMenu extends View {
 				bottom = (getHeight()/2) + (int) mRadius;
 			}
 			mStartAngle = 90;
+			
 			mViewAnchorPoints = new Point(getWidth(), getHeight()/2);
 			break;
 		case VERTICAL_LEFT:
@@ -377,6 +393,9 @@ public class SemiCircularRadialMenu extends View {
 	 */
 	public void addMenuItem(String idTag, SemiCircularRadialMenuItem mMenuItem) {
 		mMenuItems.put(idTag, mMenuItem);
+		//***************************************
+		mItems.add(mMenuItem);
+		//***************************************
 		invalidate();
 	}
 
@@ -385,7 +404,12 @@ public class SemiCircularRadialMenu extends View {
 	 * @param idTag  - Menu item identifier id
 	 */
 	public void removeMenuItemById(String idTag) {
+		//********added******************************
+		SemiCircularRadialMenuItem i=mMenuItems.get(idTag);
+		mItems.remove(i);
+		//*******************************************
 		mMenuItems.remove(idTag);
+				
 		invalidate();
 	}
 
@@ -394,6 +418,9 @@ public class SemiCircularRadialMenu extends View {
 	 */
 	public void removeAllMenuItems() {
 		mMenuItems.clear();
+		//*******************************
+		mItems.clear();
+		//*******************************
 		invalidate();
 	}
 
@@ -553,46 +580,70 @@ public class SemiCircularRadialMenu extends View {
 		invalidate();
 	}
 	
+	//************added by Alex start and end angles*****************
+	//***************************************************************
+	public int getStartAngle(){
+		return mStartAngle;
+	}
+	
+	public int getDimensionAngle(){
+		return mDimAngle;
+	}
+	
+	public void setAngles(int sangle,int dangle){
+		if (sangle>=0 && sangle<360 && dangle>0 && dangle<=360)
+		{
+				mStartAngle=sangle;
+				mDimAngle=dangle;
+		}
+	}
+
+	
 	//**********added gesture detector***********************
 	class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
-        private static final String DEBUG_TAG = "Gestures"; 
+        private static final String DEBUG_TAG = "Gestures";       
         
-        @Override
-        public boolean onDown(MotionEvent event) { 
-            //Log.d(DEBUG_TAG,"onDown: " + event.toString()); 
-            return true;
-        }
-        
-        
-        @Override
+		@Override
         public boolean onFling(MotionEvent event1, MotionEvent event2, 
                 float velocityX, float velocityY) {
             
-        	if (mMenuCenterButtonRect.contains(event1.getX(),event1.getY())){
-        		//Log.d(DEBUG_TAG, "onFling: " + event1.toString()+event2.toString());
-        		for(Map.Entry<String, SemiCircularRadialMenuItem> entry : mMenuItems.entrySet()){
-            		//**********to review - contains NOT GOOD!!
-        			if (entry.getValue().getBounds().contains(event2.getX(), event2.getY())){
-        				
-            			Log.d(DEBUG_TAG,"flinged over " + entry.getKey() + event1.toString() + event2.toString() +entry.getValue().getBounds().toString());
-            			if(entry.getValue().getCallback()!= null) {
-            				entry.getValue().getCallback().onMenuItemPressed();
-        				}
-            			//entry.getValue().setBackgroundColor(entry.getValue().getMenuSelectedColor());
-        				invalidate();
-        				break;
-            		}
-            	}
+        	if (mMenuCenterButtonRect.contains(event1.getX(),event1.getY())){  
+        		int chosen=SelectItem(event2);
+        		if (chosen>=0)
+        			mItems.get(chosen).getCallback().onMenuItemPressed();
         	}
         	return true;
         }
         
         public boolean onScroll(MotionEvent event1, MotionEvent event2, 
                 float distanceX, float distanceY) {
-        	//Log.d(DEBUG_TAG, "onScroll: " + event1.toString()+event2.toString());       	
+        	//Log.d("angle","onScroll:x " + event2.getX() + " "+event2.getY());        	
         	return true;
         }
         
+        private int SelectItem(MotionEvent event2){
+        	float dx=event2.getX()-mMenuCenterButtonRect.centerX();
+    		float dy=mMenuCenterButtonRect.centerY()-event2.getY();
+    		double angle=Math.toDegrees(Math.atan(Math.abs(dy)/Math.abs(dx)));       		
+    		double step=(double)mDimAngle/mItems.size();
+    		int chosen_item=(int) Math.floor(Math.abs(angle)/step);
+    		if (chosen_item<mItems.size()){
+    			if (mDimAngle>90){
+    				//particular case
+    				if (dx>0)
+    					return mItems.size()-1-chosen_item;
+    				else
+    					return chosen_item;      				
+    			}else{      	
+    				Log.d(DEBUG_TAG,"chosed item "+chosen_item + " " + mItems.get(chosen_item).getMenuID());       		        		
+    				return chosen_item;  				
+    				
+    			}
+    		}
+    		return -1;
+        }
     }
+	
+	
 	//*******************************************************
 }
