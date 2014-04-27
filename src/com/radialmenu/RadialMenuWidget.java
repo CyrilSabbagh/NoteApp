@@ -97,21 +97,21 @@ public class RadialMenuWidget extends View {
 												// data is being used for the
 												// outer ring
 
-	private int MinSize = scalePX(35); // Radius of inner ring size
-	private int MaxSize = scalePX(90); // Radius of outer ring size
+	private int MinSize = scalePX(55); // Radius of inner ring size 35
+	private int MaxSize = scalePX(200); // Radius of outer ring size 90
 	private int r2MinSize = MaxSize + scalePX(5); // Radius of inner second ring
 													// size
 	private int r2MaxSize = r2MinSize + scalePX(45); // Radius of outer second
 														// ring size
-	private int MinIconSize = scalePX(15); // Min Size of Image in Wedge
-	private int MaxIconSize = scalePX(35); // Max Size of Image in Wedge
+	private int MinIconSize = scalePX(35); // Min Size of Image in Wedge 15
+	private int MaxIconSize = scalePX(120); // Max Size of Image in Wedge 35
 	// private int BitmapSize = scalePX(40); //Size of Image in Wedge
 	private int cRadius = MinSize - scalePX(7); // Inner Circle Radius
 	private int textSize = scalePX(15); // TextSize
 	private int animateTextSize = textSize;
 
-	private int xPosition = scalePX(120); // Center X location of Radial Menu
-	private int yPosition = scalePX(120); // Center Y location of Radial Menu
+	private int xPosition = scalePX(120); // Center X location of Radial Menu 120
+	private int yPosition = scalePX(120); // Center Y location of Radial Menu 120
 
 	private int xSource = 0; // Source X of clicked location
 	private int ySource = 0; // Center Y of clicked location
@@ -166,8 +166,8 @@ public class RadialMenuWidget extends View {
 		helper = new RadialMenuHelper();
 		mWindow = helper.initPopup(context);
 		// Gets screen specs and defaults to center of screen
-		this.xPosition = (getResources().getDisplayMetrics().widthPixels) / 2;
-		this.yPosition = (getResources().getDisplayMetrics().heightPixels) / 2;
+		this.xPosition = 502; //(getResources().getDisplayMetrics().widthPixels) / 2
+		this.yPosition = 420; //(getResources().getDisplayMetrics().heightPixels) / 2;
 
 		determineWedges();
 		helper.onOpenAnimation(this, xPosition, yPosition, xSource, ySource);
@@ -313,11 +313,11 @@ public class RadialMenuWidget extends View {
 				// This is when something outside the circle or any of the rings
 				// is selected
 				//*********modified - no dismiss********************************
-				//dismiss();
-				// selected = null;
-				// enabled = null;
+				dismiss();
+				selected = null;
+				enabled = null;
 			}
-			// selected = null;
+			selected = null;
 			selected2 = null;
 			inCircle = false;
 		}		

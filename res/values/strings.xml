@@ -26,5 +26,6 @@
     <string name="search_label">Search</string>
     <string name="recent_label">LatestNote</string>
     <string name="title_activity_main">MainActivity</string>
+    <string name="start_label">Start</string>
 
 </resources>

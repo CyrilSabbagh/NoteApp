@@ -38,7 +38,7 @@
               android:layout_height="wrap_content"
               android:text="@string/course_label"
               android:textSize="22sp" />
-    <Button android:id="@+id/button"
+    <Button android:id="@+id/button1"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:background="@drawable/sample_0"
@@ -64,7 +64,7 @@
               android:layout_height="wrap_content"
               android:text="@string/course_label"
               android:textSize="22sp" />
-    <Button android:id="@+id/button"
+    <Button android:id="@+id/button2"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:background="@drawable/sample_0"
@@ -90,7 +90,7 @@
               android:layout_height="wrap_content"
               android:text="@string/course_label"
               android:textSize="22sp" />
-    <Button android:id="@+id/button"
+    <Button android:id="@+id/button3"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:background="@drawable/sample_0"
@@ -116,7 +116,7 @@
               android:layout_height="wrap_content"
               android:text="@string/course_label"
               android:textSize="22sp" />
-    <Button android:id="@+id/button"
+    <Button android:id="@+id/button4"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:background="@drawable/sample_0"
@@ -142,7 +142,7 @@
               android:layout_height="wrap_content"
               android:text="@string/course_label"
               android:textSize="22sp" />
-    <Button android:id="@+id/button"
+    <Button android:id="@+id/button5"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:background="@drawable/sample_0"
