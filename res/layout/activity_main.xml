@@ -22,5 +22,13 @@
         android:layout_alignTop="@+id/textView1"
         android:text="Alex's activity"
         android:onClick="StartHotCorners" />
+    <Button
+        android:id="@+id/btnNotesOverview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignTop="@+id/textView1"
+        android:text="Gilles's activity"
+        android:onClick="StartNotesOverview" />
 
 </RelativeLayout>

@@ -13,7 +13,10 @@
     <string name="newfile">New file</string>
     <string name="openfile">Open file</string>
     <string name="exit">Exit</string>
-    
     <string name="title_activity_hot_corners">HotCornersActivity</string>
+    <string name="MyNotes">My Noes</string>
+    <string name="search_hint">Note, Course...</string>
+    <string name="search_label">Search</string>
+    <string name="title_activity_notes_overview">NotesOverviewActivity</string>
 
 </resources>
