@@ -31,5 +31,8 @@ public class MainActivity extends Activity {
 		Intent intent = new Intent(this, MyNotesActivity.class);
 		startActivity(intent);
 	}
-
+	public void StartCyrilActivity(View view){
+		Intent intent = new Intent(this, CyrilActivity.class);
+		startActivity(intent);
+	}
 }
