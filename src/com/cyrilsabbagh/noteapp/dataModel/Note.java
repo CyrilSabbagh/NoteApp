@@ -1,5 +1,8 @@
 package com.cyrilsabbagh.noteapp.dataModel;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Note {
 	
 	private int id;
@@ -10,6 +13,14 @@ public class Note {
 	private float lat; // This is the geolocation where the note was taken (automatically set from GPS)
 	private float lng;
 	private boolean share;
+	private int course_id;
+	private List<String> images;
+	private List<String> sounds;
+	
+	public Note(){
+		images = new ArrayList<String>();
+		sounds = new ArrayList<String>();
+	}
 	
 	public String getOwner() {
 		return owner;
@@ -58,5 +69,25 @@ public class Note {
 	}
 	public void setShare(boolean share) {
 		this.share = share;
+	}
+	public List<String> getImages() {
+		return images;
+	}
+	public void setImages(List<String> images) {
+		this.images = images;
+	}
+	public List<String> getSounds() {
+		return sounds;
+	}
+	public void setSounds(List<String> sounds) {
+		this.sounds = sounds;
+	}
+
+	public int getCourse_id() {
+		return course_id;
+	}
+
+	public void setCourse_id(int course_id) {
+		this.course_id = course_id;
 	}
 }

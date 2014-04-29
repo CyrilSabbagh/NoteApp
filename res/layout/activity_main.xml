@@ -61,4 +61,11 @@
         android:text="Chiara's activity"
         android:onClick="StartMyNotes" />
     
+    <Button
+        android:id="@+id/btnCyril"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cyril's activity"
+        android:onClick="StartCyrilActivity" />
+    
 </LinearLayout>

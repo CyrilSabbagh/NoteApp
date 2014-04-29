@@ -13,7 +13,7 @@
     <string name="newfile">New file</string>
     <string name="openfile">Open file</string>
     <string name="exit">Exit</string>
-    <string name="title_activity_hot_corners">HotCornersActivity</string>    
+    <string name="title_activity_hot_corners">HotCornersActivity</string>
     <string name="title_activity_my_notes">MyNotesActivity</string>
     <string name="mynotes_label">My Notes</string>
     <string name="mycourses_label">My Courses</string>
@@ -21,6 +21,6 @@
     <string name="title_label">Title</string>
     <string name="course_label">Course</string>
     <string name="button_label">Hello, I am a Button</string>
-    
+    <string name="title_activity_cyril">CyrilActivity</string>
 
 </resources>
