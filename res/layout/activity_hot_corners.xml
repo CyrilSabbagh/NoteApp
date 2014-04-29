@@ -1,6 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:custom="http://schemas.android.com/apk/res/com.cyrilsabbagh.noteapp"
+    xmlns:custom="http://schemas.android.com/apk/res/com.radialmenu"
     android:id="@+id/layout_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -133,16 +133,22 @@
         android:layout_alignParentRight="true"
         android:onClick="ShowStyleMenu"/>
 	--> 
+	
 	 
-	<com.touchmenotapps.widget.radialmenu.semicircularmenu.SemiCircularRadialMenu 
+	<RelativeLayout 
+    	android:layout_width="match_parent"
+    	android:layout_height="match_parent">
+    	
+	<com.radialmenu.SemiCircularRadialMenu 
         android:id="@+id/fileMenu"
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:rotation="135"
+        android:translationX="-90dp"
+        android:rotation="180"
         android:padding="5dp"/>
-	<com.touchmenotapps.widget.radialmenu.semicircularmenu.SemiCircularRadialMenu 
+	<com.radialmenu.SemiCircularRadialMenu
         android:id="@+id/optionsMenu"
         android:layout_width="200dp"
         android:layout_height="200dp"
@@ -150,28 +156,54 @@
         android:layout_centerHorizontal="true"
         android:rotation="180"
         android:padding="5dp"/>
-	<com.touchmenotapps.widget.radialmenu.semicircularmenu.SemiCircularRadialMenu 
+	<com.radialmenu.SemiCircularRadialMenu 
         android:id="@+id/editMenu"
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:rotation="225"
+        android:translationY="-90dp"
+        android:rotation="270"
         android:padding="5dp"/>
-	<com.touchmenotapps.widget.radialmenu.semicircularmenu.SemiCircularRadialMenu 
+	<com.radialmenu.SemiCircularRadialMenu
         android:id="@+id/mediaMenu"
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentBottom="true"
-        android:rotation="45"
+        android:translationY="90dp"
+        android:rotation="90"
         android:padding="5dp"/>
-	<com.touchmenotapps.widget.radialmenu.semicircularmenu.SemiCircularRadialMenu 
+	<com.radialmenu.SemiCircularRadialMenu
         android:id="@+id/styleMenu"
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:rotation="315"
+        android:translationX="90dp"
+        android:rotation="0"
         android:padding="5dp"/>
+	</RelativeLayout>
+	<RelativeLayout 
+        android:id="@+id/layout_note"
+    	android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:layout_marginTop="50dp"
+    	android:layout_marginLeft="10dp"
+    	android:layout_marginRight="10dp"
+    	android:layout_marginBottom="50dp">
+	
+	    <!--<Button
+        android:id="@+id/btnTest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Test"/>
+         <EditText
+	   	 	android:id="@+id/editNote"
+	    	android:layout_width="match_parent"
+	    	android:layout_height="match_parent"
+	    	android:inputType="textMultiLine" >
+	    	<requestFocus />
+		</EditText>  -->
+	</RelativeLayout>
 </RelativeLayout>

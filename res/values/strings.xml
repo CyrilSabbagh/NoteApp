@@ -14,9 +14,23 @@
     <string name="openfile">Open file</string>
     <string name="exit">Exit</string>
     <string name="title_activity_hot_corners">HotCornersActivity</string>
-    <string name="MyNotes">My Noes</string>
+    <string name="title_activity_my_notes">MyNotesActivity</string>
+    <string name="mynotes_label">My Notes</string>
+    <string name="mycourses_label">My Courses</string>
+    <string name="author_label">Author</string>
+    <string name="title_label">Title</string>
+    <string name="course_label">Course</string>
+    <string name="button_label">Hello, I am a Button</string>
+    <string name="allnotes_label">MyNotes</string>
+    <string name="newnote_label">NewNote</string>
+    <string name="search_label">Search</string>
+    <string name="recent_label">LatestNote</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="start_label">Start</string>
+    <string name="MyNotes">My Notes</string>
     <string name="search_hint">Note, Course...</string>
     <string name="search_label">Search</string>
     <string name="title_activity_notes_overview">NotesOverviewActivity</string>
 
 </resources>
+
