@@ -1277,6 +1277,7 @@ public class RadialMenuWidget extends View {
 	public void show(View anchor) {
 		mWindow.setContentView(this);
 		mWindow.showAtLocation(anchor, Gravity.NO_GRAVITY, this.xSource, this.ySource);
+		
 	}
 
 	/**

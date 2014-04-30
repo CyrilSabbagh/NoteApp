@@ -141,11 +141,11 @@
     	
 	<com.radialmenu.SemiCircularRadialMenu 
         android:id="@+id/fileMenu"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
+        android:layout_width="400dp"
+        android:layout_height="400dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:translationX="-140dp"
+        android:translationX="-200dp"
         android:rotation="180"
         android:padding="5dp"/>
 	<com.radialmenu.SemiCircularRadialMenu
@@ -158,29 +158,29 @@
         android:padding="5dp"/>
 	<com.radialmenu.SemiCircularRadialMenu 
         android:id="@+id/editMenu"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
+        android:layout_width="400dp"
+        android:layout_height="400dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:translationY="-140dp"
+        android:translationY="-200dp"
         android:rotation="270"
         android:padding="5dp"/>
 	<com.radialmenu.SemiCircularRadialMenu
         android:id="@+id/mediaMenu"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
+        android:layout_width="400dp"
+        android:layout_height="400dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentBottom="true"
-        android:translationY="140dp"
+        android:translationY="200dp"
         android:rotation="90"
         android:padding="5dp"/>
 	<com.radialmenu.SemiCircularRadialMenu
         android:id="@+id/styleMenu"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
+        android:layout_width="400dp"
+        android:layout_height="400dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:translationX="140dp"
+        android:translationX="200dp"
         android:rotation="0"
         android:padding="5dp"/>
 	</RelativeLayout>

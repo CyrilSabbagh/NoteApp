@@ -2,13 +2,6 @@ package com.cyrilsabbagh.noteapp;
 
 import org.xmlpull.v1.XmlPullParser;
 
-
-
-
-//import com.touchmenotapps.widget.radialmenu.menu.v1.RadialMenuItem;
-//import com.touchmenotapps.widget.radialmenu.menu.v1.RadialMenuWidget;
-//import com.touchmenotapps.widget.radialmenu.semicircularmenu.SemiCircularRadialMenu;
-//import com.touchmenotapps.widget.radialmenu.semicircularmenu.SemiCircularRadialMenuItem;
 import com.radialmenu.*;
 import com.radialmenu.RadialMenuItem.RadialMenuItemClickListener;
 import com.radialmenu.SemiCircularRadialMenuItem.OnSemiCircularRadialMenuPressed;
@@ -46,12 +39,10 @@ public class HotCornersActivity extends Activity {
 	SemiCircularRadialMenuItem ItemMultiauthor,ItemShare,ItemDictionary;
 	SemiCircularRadialMenuItem ItemDimension,ItemColor,ItemBold, ItemItalic,ItemUnderlined;
 	SemiCircularRadialMenuItem ItemRecorder,ItemSnapshot,ItemAttach, ItemLink;
-	SemiCircularRadialMenuItem ItemCopy,ItemCut,ItemPaste;
-	
+	SemiCircularRadialMenuItem ItemCopy,ItemCut,ItemPaste;	
 	
 	com.radialmenu.RadialMenuWidget RD1;
 	com.radialmenu.RadialMenuItem rdw, rdw2, rdw3,rdw4;
-	 
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -183,25 +174,25 @@ public class HotCornersActivity extends Activity {
 		pieMenuEdit.addMenuItem(ItemPaste.getMenuID(), ItemPaste);	
 		pieMenuEdit.setAngles(270, 90);
 		
-		ItemAttach.setIconDimen(32);
-		ItemNew.setIconDimen(32);
-		ItemBold.setIconDimen(32);
-		ItemColor.setIconDimen(32);
-		ItemCut.setIconDimen(32);
-		ItemCopy.setIconDimen(32);
-		ItemDictionary.setIconDimen(32);
-		ItemDimension.setIconDimen(32);
-		ItemExit.setIconDimen(32);
-		ItemItalic.setIconDimen(32);
-		ItemLink.setIconDimen(32);
-		ItemMultiauthor.setIconDimen(32);	
-		ItemOpen.setIconDimen(32);
-		ItemPaste.setIconDimen(32);
-		ItemRecorder.setIconDimen(32);
-		ItemSave.setIconDimen(32);
-		ItemShare.setIconDimen(32);
-		ItemSnapshot.setIconDimen(32);
-		ItemUnderlined.setIconDimen(32);
+		ItemAttach.setIconDimen(60);
+		ItemNew.setIconDimen(60);
+		ItemBold.setIconDimen(60);
+		ItemColor.setIconDimen(60);
+		ItemCut.setIconDimen(60);
+		ItemCopy.setIconDimen(60);
+		ItemDictionary.setIconDimen(60);
+		ItemDimension.setIconDimen(60);
+		ItemExit.setIconDimen(60);
+		ItemItalic.setIconDimen(60);
+		ItemLink.setIconDimen(60);
+		ItemMultiauthor.setIconDimen(60);	
+		ItemOpen.setIconDimen(60);
+		ItemPaste.setIconDimen(60);
+		ItemRecorder.setIconDimen(60);
+		ItemSave.setIconDimen(60);
+		ItemShare.setIconDimen(60);
+		ItemSnapshot.setIconDimen(60);
+		ItemUnderlined.setIconDimen(60);
 		
 		
 		ItemNew.setOnSemiCircularRadialMenuPressed(new OnSemiCircularRadialMenuPressed() {			
@@ -387,7 +378,7 @@ public class HotCornersActivity extends Activity {
 			                    "of current screen element");
 			            return true;    
 			        
-			        default : 
+			        de-fault : 
 			        	return v.onTouchEvent(event);
 			    }      
 				// 	return false;

@@ -20,7 +20,7 @@
     <string name="author_label">Author</string>
     <string name="title_label">Title</string>
     <string name="course_label">Course</string>
-   	<string name="button_label">Hello, I am a Button</string>
+    <string name="button_label">Hello, I am a Button</string>
     <string name="title_activity_cyril">CyrilActivity</string>
     <string name="allnotes_label">MyNotes</string>
     <string name="newnote_label">NewNote</string>
@@ -34,6 +34,7 @@
     <string name="MyNotes">My Notes</string>
     <string name="search_hint">Note, Course...</string>
     <string name="title_activity_notes_overview">NotesOverviewActivity</string>
+    <string name="title_activity_save">SaveActivity</string>
+    <string name="title_activity_save_">Save_Activity</string>
 
 </resources>
-

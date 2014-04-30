@@ -288,32 +288,31 @@ public class SemiCircularRadialMenu extends View {
 		case HORIZONTAL_BOTTOM:
 			Rect rect = new Rect();
 			paint.getTextBounds(centerMenuText, 0, centerMenuText.length(), rect);
-			/*int x = 0;
-			int y = 0;
-			canvas.translate(x, y);
-			canvas.drawText(centerMenuText , 0, 0, paint);
-			canvas.drawRect(rect, paint);
-			canvas.translate(-x, -y);
-			*/
 			
-			//canvas.rotate(-90, x + rect.exactCenterX()/2,y + rect.height());
+			//*****modified**********************************
 			canvas.rotate(-getRotation(), getWidth()/2,getHeight());			
 			paint.setStyle(Paint.Style.FILL);
-			//canvas.drawText(centerMenuText, x, y, paint);
-			
-			/*float xpos=(getWidth()/2) - (paint.measureText(centerMenuText)/2);
-			float ypos=getHeight() - (textSize);*/
-			int offset=25;
-			if (getRotation()==90)
-				offset=25;
-			else if (getRotation()==180)
-				offset=25;
-			else if (getRotation()==270)
-				offset=-25;
-			else if (getRotation()==0)
-				offset=-25;
-			
-			canvas.drawText(centerMenuText, (getWidth()/2+offset) - (paint.measureText(centerMenuText)/2), getHeight() - (textSize), paint);
+			int offsetx=25;
+			int offsety=25;
+			if (getRotation()==90){
+				offsetx=25;
+				offsety=0;
+			}
+			else if (getRotation()==180){
+				offsetx=10;
+				offsety=40;
+			}
+			else if (getRotation()==270){
+				offsetx=-25;
+				offsety=40;
+			}
+			else if (getRotation()==0){
+				offsetx=-25;
+				offsety=0;
+			}
+			paint.setTextSize(20);
+			//*****************************************
+			canvas.drawText(centerMenuText, (getWidth()/2+offsetx) - (paint.measureText(centerMenuText)/2), getHeight() - (textSize)+offsety, paint);
 			break;
 		}
 	}
