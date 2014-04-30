@@ -65,7 +65,7 @@ public class CreateNote extends AsyncTask<String, String, String>{
         params.add(new BasicNameValuePair("lat", Float.toString(newNote.getLat())));
         params.add(new BasicNameValuePair("lng", Float.toString(newNote.getLng())));
         params.add(new BasicNameValuePair("course_id", Integer.toString(newNote.getCourse_id())));
-        params.add(new BasicNameValuePair("user_imei", Boolean.toString(newNote.isShare())));
+        params.add(new BasicNameValuePair("share", Boolean.toString(newNote.isShare())));
         
 
         // getting JSON Object
