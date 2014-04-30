@@ -20,7 +20,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+
 import com.radialmenu.RadialMenuColors;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
@@ -30,6 +32,7 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Paint.Style;
+import android.graphics.drawable.RotateDrawable;
 import android.support.v4.view.GestureDetectorCompat;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -125,6 +128,7 @@ public class SemiCircularRadialMenu extends View {
 				//**********modified********************************
 				for(SemiCircularRadialMenuItem item : mItems) {
 					//**********************************************
+					
 					mRadialMenuPaint.setColor(item.getBackgroundColor());
 					item.setMenuPath(mMenuCenterButtonRect, mMenuRect, mStart, mSweep, mRadius, mViewAnchorPoints);
 					canvas.drawPath(item.getMenuPath(), mRadialMenuPaint);
@@ -134,6 +138,7 @@ public class SemiCircularRadialMenu extends View {
 						canvas.drawTextOnPath(item.getText(), item.getMenuPath(), 5, textSize, mRadialMenuPaint);
 						mRadialMenuPaint.setShadowLayer(mShadowRadius, 0.0f, 0.0f, mShadowColor);
 					}
+					
 					item.getIcon().draw(canvas);
 					mStart += mSweep;
 				}
@@ -310,7 +315,7 @@ public class SemiCircularRadialMenu extends View {
 				offsetx=-25;
 				offsety=0;
 			}
-			paint.setTextSize(20);
+			paint.setTextSize(25);
 			//*****************************************
 			canvas.drawText(centerMenuText, (getWidth()/2+offsetx) - (paint.measureText(centerMenuText)/2), getHeight() - (textSize)+offsety, paint);
 			break;

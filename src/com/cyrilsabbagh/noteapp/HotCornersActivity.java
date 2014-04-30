@@ -8,6 +8,7 @@ import com.radialmenu.SemiCircularRadialMenuItem.OnSemiCircularRadialMenuPressed
 
 import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.drawable.GradientDrawable.Orientation;
@@ -24,6 +25,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -48,56 +50,43 @@ public class HotCornersActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_hot_corners);
-
-		//POUR CHIARA!!***********a supprimer après*****************
-		 RD1 = new com.radialmenu.RadialMenuWidget(this);
-		 rdw = new com.radialmenu.RadialMenuItem("Test1","Test1");
-		 rdw2 = new com.radialmenu.RadialMenuItem("Test2","Test2");
-		 rdw3 = new com.radialmenu.RadialMenuItem("Test3","Test3");
-		 rdw4 = new com.radialmenu.RadialMenuItem("Test4","Test4");
-			
-		 RD1.addMenuEntry(rdw);
-		 RD1.addMenuEntry(rdw2);
-		 RD1.addMenuEntry(rdw3);
-		 RD1.addMenuEntry(rdw4);
-		 
-		 rdw.setOnMenuItemPressed(new RadialMenuItemClickListener() {	
-			@Override
-			public void execute() {
-				// TODO Auto-generated method stub
-				Toast.makeText(getApplicationContext(),rdw.getName(), Toast.LENGTH_SHORT).show();	
+		
+		String idNote="", activity_type;
+		Intent myIntent = getIntent(); 
+		try{
+			activity_type= myIntent.getStringExtra("activity_type");
+			if (activity_type.compareTo("modify")==0){					
+				idNote = myIntent.getStringExtra("id_note");
+				//GetNote(idNote);
 			}
-		 });
-		 
-		 rdw2.setOnMenuItemPressed(new RadialMenuItemClickListener() {	
-				@Override
-				public void execute() {
-					// TODO Auto-generated method stub
-					Toast.makeText(getApplicationContext(),rdw2.getName(), Toast.LENGTH_SHORT).show();	
-				}
-		 });
-		 rdw3.setOnMenuItemPressed(new RadialMenuItemClickListener() {	
-				@Override
-				public void execute() {
-					// TODO Auto-generated method stub
-					Toast.makeText(getApplicationContext(),rdw3.getName(), Toast.LENGTH_SHORT).show();	
-				}
-		 });
-		 rdw4.setOnMenuItemPressed(new RadialMenuItemClickListener() {	
-				@Override
-				public void execute() {
-					// TODO Auto-generated method stub
-					Toast.makeText(getApplicationContext(),rdw4.getName(), Toast.LENGTH_SHORT).show();	
-				}
-		 });
-		 
-		 /*Button testButton = (Button) this.findViewById(R.id.btnTest);
-			testButton.setOnClickListener(new OnClickListener() {
-				public void onClick(View v) {
-					RD1.show(v);
-				}
-			});*/
-		//*************************************************************
+			else if (activity_type.compareTo("view")==0){
+				idNote = myIntent.getStringExtra("id_note");
+				//GetNote(idNote);
+			}
+			else if (activity_type.compareTo("new")==0){
+				idNote = "unknown";
+			}
+			else
+				Toast.makeText(getApplicationContext(),"Unknown activity type", Toast.LENGTH_SHORT).show();	
+			Toast.makeText(getApplicationContext(),activity_type + " " + idNote, Toast.LENGTH_SHORT).show();		
+		}catch(Exception e){}
+		
+		
+		//check when keyboard pops up
+		final View activityRootView = findViewById(R.id.layout_main);  
+        activityRootView.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {  
+            @Override  
+            public void onGlobalLayout() {  
+                int i = activityRootView.getRootView().getHeight();  
+                int j = activityRootView.getHeight();  
+                int heightDiff = activityRootView.getRootView().getHeight() - activityRootView.getHeight();  
+                if (heightDiff > 200) { // if more than 100 pixels, its probably a keyboard...  
+                	Toast.makeText(getApplicationContext(), "keyboard pop up", Toast.LENGTH_SHORT).show();
+                } else{  
+                	Toast.makeText(getApplicationContext(), "keyboard no pop up", Toast.LENGTH_SHORT).show(); 
+                }  
+             }  
+        });  
 			
 			
 		/*if (savedInstanceState == null) {
@@ -488,7 +477,21 @@ public class HotCornersActivity extends Activity {
 			return rootView;
 		}
 	}*/
-	
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+	    super.onConfigurationChanged(newConfig);
+
+	    Toast.makeText(this, "config changed", Toast.LENGTH_SHORT).show();
+	    // Checks whether a hardware keyboard is available
+	    if (newConfig.keyboardHidden == Configuration.KEYBOARDHIDDEN_NO) {
+	    	
+	    	EditText editText = (EditText) findViewById(R.id.editNote);
+			editText.setText("File menu");
+	        Toast.makeText(this, "keyboard visible", Toast.LENGTH_SHORT).show();
+	    } else if (newConfig.keyboardHidden == Configuration.KEYBOARDHIDDEN_YES) {
+	        Toast.makeText(this, "keyboard hidden", Toast.LENGTH_SHORT).show();
+	    }
+	}
 	public void ShowFileMenu(View view){
 		//EditText editText = (EditText) findViewById(R.id.editText1);
 		//editText.setText("File menu");

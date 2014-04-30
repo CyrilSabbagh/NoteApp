@@ -37,7 +37,7 @@
             android:name="com.cyrilsabbagh.noteapp.HotCornersActivity"
             android:label="@string/title_activity_hot_corners"
             android:screenOrientation="landscape"
-            android:windowSoftInputMode="adjustResize" >
+             >
 
             <!-- bottom buttons go up when keyboard present -->
         </activity>

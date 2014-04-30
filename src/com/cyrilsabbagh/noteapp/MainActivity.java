@@ -44,6 +44,8 @@ public class MainActivity extends Activity {
 				// TODO Auto-generated method stub
 				//Toast.makeText(getApplicationContext(),rdw.getName(), Toast.LENGTH_SHORT).show();
 				Intent intent = new Intent(MainActivity.this, HotCornersActivity.class);
+				//intent.putExtra("id_note","note1");
+				intent.putExtra("activity_type","new");
 				startActivity(intent);
 			}
 		 });

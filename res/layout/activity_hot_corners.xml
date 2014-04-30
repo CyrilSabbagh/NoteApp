@@ -193,17 +193,24 @@
     	android:layout_marginRight="10dp"
     	android:layout_marginBottom="50dp">
 	
-	    <!--<Button
+	    <EditText
+	   	 	   android:id="@+id/editNote"
+	    	   android:layout_width="wrap_content"
+	    	   android:layout_height="wrap_content"
+	    	    >
+	    	
+		</EditText> 
+	    <!-- <WebView android:id="@+id/viewNote"
+	    	android:layout_width="match_parent"
+	    	android:layout_height="match_parent">
+	    	
+	    </WebView>
+	    <Button
         android:id="@+id/btnTest"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Test"/>
-         <EditText
-	   	 	android:id="@+id/editNote"
-	    	android:layout_width="match_parent"
-	    	android:layout_height="match_parent"
-	    	android:inputType="textMultiLine" >
-	    	<requestFocus />
-		</EditText>  -->
+               
+          -->
 	</RelativeLayout>
 </RelativeLayout>
