@@ -203,6 +203,7 @@ public class HotCornersActivity extends Activity {
 		ItemSnapshot.setIconDimen(32);
 		ItemUnderlined.setIconDimen(32);
 		
+		
 		ItemNew.setOnSemiCircularRadialMenuPressed(new OnSemiCircularRadialMenuPressed() {			
 			@Override
 			public void onMenuItemPressed() {
