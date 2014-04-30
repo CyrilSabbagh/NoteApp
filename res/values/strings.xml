@@ -20,7 +20,8 @@
     <string name="author_label">Author</string>
     <string name="title_label">Title</string>
     <string name="course_label">Course</string>
-    <string name="button_label">Hello, I am a Button</string>
+   	<string name="button_label">Hello, I am a Button</string>
+    <string name="title_activity_cyril">CyrilActivity</string>
     <string name="allnotes_label">MyNotes</string>
     <string name="newnote_label">NewNote</string>
     <string name="search_label">Search</string>
@@ -30,5 +31,9 @@
     <string name="title_activity_course">CourseActivity</string>
     <string name="title_activity_quiz">QuizActivity</string>
     <string name="quiz_label">QUIZ</string>
+    <string name="MyNotes">My Notes</string>
+    <string name="search_hint">Note, Course...</string>
+    <string name="title_activity_notes_overview">NotesOverviewActivity</string>
 
 </resources>
+

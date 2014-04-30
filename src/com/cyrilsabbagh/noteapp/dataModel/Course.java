@@ -11,6 +11,7 @@ public class Course {
 	private List<Note> notes; // This is the list of notes taken during this course
 	private Dictionary dictionary; // This is the dictionary of all notes in this course
 	private String year; // This is the year this course was taken
+	private String owner;
 	
 	public Course(){
 		notes = new ArrayList<Note>(); // Initialize the ArrayList of notes in the constructor
@@ -54,6 +55,14 @@ public class Course {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public String getOwner() {
+		return owner;
+	}
+
+	public void setOwner(String owner) {
+		this.owner = owner;
 	}
 	
 	

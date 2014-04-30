@@ -98,7 +98,10 @@ public class MainActivity extends Activity {
 		Intent intent = new Intent(this, MyNotesActivity.class);
 		startActivity(intent);
 	}
-	
+
+	public void StartCyrilActivity(View view){
+		Intent intent = new Intent(this, CyrilActivity.class);
+
 	public void Search(View view){
 		Toast.makeText(MainActivity.this, "Search", Toast.LENGTH_SHORT).show();
 		//Intent intent = new Intent(this, SearchActivity.class);
@@ -111,5 +114,6 @@ public class MainActivity extends Activity {
 		//startActivity(intent);
 	}
 	*/	
-
+	
+	
 }
