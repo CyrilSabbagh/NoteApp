@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+    		   android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:orientation="vertical"
+               android:background="@drawable/back" >
+<LinearLayout  android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:orientation="horizontal"
+               android:gravity="center" >
+               
+    <Button android:id="@+id/btnQuiz"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="@drawable/quiz"
+            android:onClick="Quiz"/>
+    
+    <TextView android:layout_weight="1"
+              android:layout_width="match_parent"
+              android:layout_height="60dp"
+              android:text="@string/title_label" 
+              android:textSize="28sp"
+              android:gravity="center"/>
+    
+    <Button android:id="@+id/btnDict"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="@drawable/dict"
+            android:onClick="Dictionary"/>
+    
+</LinearLayout>
+
+<LinearLayout  android:layout_width="match_parent"
+               android:layout_height="200dp"
+               android:orientation="horizontal" >
+    
+ <LinearLayout android:layout_width="190dp" 
+              android:layout_height="fill_parent" 
+              android:orientation="vertical"
+              android:gravity="center" >
+    <TextView android:id="@+id/author1"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="@string/author_label"
+              android:textSize="22sp" />
+    <TextView android:id="@+id/title1"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="@string/title_label"
+              android:textSize="22sp" />
+    <Button android:id="@+id/button1"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="@drawable/sample_0"
+            android:onClick="circmenu" />
+</LinearLayout>
+
+<LinearLayout android:layout_width="190dp" 
+              android:layout_height="fill_parent" 
+              android:orientation="vertical"
+              android:gravity="center" >
+    <TextView android:id="@+id/author2"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="@string/author_label"
+              android:textSize="22sp" />
+    <TextView android:id="@+id/title2"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="@string/title_label" 
+             android:textSize="22sp" />
+    <Button android:id="@+id/button2"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="@drawable/sample_0"
+            android:onClick="circmenu" />
+</LinearLayout>
+
+<LinearLayout android:layout_width="190dp" 
+              android:layout_height="fill_parent" 
+              android:orientation="vertical"
+              android:gravity="center" >
+    <TextView android:id="@+id/author3"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="@string/author_label"
+              android:textSize="22sp" />
+    <TextView android:id="@+id/title3"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="@string/title_label" 
+              android:textSize="22sp" />
+    <Button android:id="@+id/button3"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="@drawable/sample_0"
+            android:onClick="circmenu" />
+</LinearLayout>
+
+<LinearLayout android:layout_width="190dp" 
+              android:layout_height="fill_parent" 
+              android:orientation="vertical"
+              android:gravity="center" >
+    <TextView android:id="@+id/author4"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="@string/author_label"
+              android:textSize="22sp" />
+    <TextView android:id="@+id/title4"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="@string/title_label"
+              android:textSize="22sp" />
+    <Button android:id="@+id/button4"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="@drawable/sample_0"
+            android:onClick="circmenu" />
+</LinearLayout>
+
+<LinearLayout android:layout_width="190dp" 
+              android:layout_height="fill_parent" 
+              android:orientation="vertical"
+              android:gravity="center" >
+    <TextView android:id="@+id/author5"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="@string/author_label" 
+              android:textSize="22sp" />
+    <TextView android:id="@+id/title5"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="@string/title_label" 
+              android:textSize="22sp" />
+    <Button android:id="@+id/button5"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="@drawable/sample_0"
+            android:onClick="circmenu" />
+</LinearLayout>
+</LinearLayout>
+
+<View
+ android:layout_width="match_parent"
+ android:layout_height="2dp"
+ android:background="@android:color/black" />
+
+<LinearLayout  android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:orientation="vertical" >
+    <TextView android:layout_weight="1"
+              android:layout_width="match_parent"
+              android:layout_height="60dp"
+              android:text="@string/mycourses_label" 
+              android:textSize="22sp"
+              android:gravity="center"/>
+</LinearLayout>
+
+<LinearLayout  android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:orientation="horizontal" >
+    
+ <LinearLayout android:layout_width="190dp" 
+              android:layout_height="fill_parent" 
+              android:orientation="vertical"
+              android:gravity="center" >
+    <TextView android:id="@+id/author6"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="@string/author_label"
+              android:textSize="18sp" />
+    <TextView android:id="@+id/title6"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="@string/title_label" 
+              android:textSize="20sp" />
+    <Button android:id="@+id/button6"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@drawable/folder" 
+            android:onClick="opencourse" />
+</LinearLayout>
+
+<LinearLayout android:layout_width="190dp" 
+              android:layout_height="fill_parent" 
+              android:orientation="vertical"
+              android:gravity="center" >
+    <TextView android:id="@+id/author7"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="@string/author_label" 
+              android:textSize="18sp" />
+    <TextView android:id="@+id/title7"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="@string/title_label" 
+              android:textSize="20sp" />
+    <Button android:id="@+id/button7"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@drawable/folder" 
+            android:onClick="opencourse" />
+</LinearLayout>
+
+<LinearLayout android:layout_width="190dp" 
+              android:layout_height="fill_parent" 
+              android:orientation="vertical"
+              android:gravity="center" >
+    <TextView android:id="@+id/author8"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="@string/author_label" 
+              android:textSize="18sp" />
+    <TextView android:id="@+id/title8"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="@string/title_label" 
+              android:textSize="20sp" />
+    <Button android:id="@+id/button8"
+           android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@drawable/folder"
+            android:onClick="opencourse" />
+</LinearLayout>
+
+<LinearLayout android:layout_width="190dp" 
+              android:layout_height="fill_parent" 
+              android:orientation="vertical"
+              android:gravity="center" >
+    <TextView android:id="@+id/author9"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="@string/author_label" 
+              android:textSize="18sp" />
+    <TextView android:id="@+id/title9"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="@string/title_label" 
+              android:textSize="20sp" />
+    <Button android:id="@+id/button9"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@drawable/folder"
+            android:onClick="opencourse" />
+</LinearLayout>
+
+<LinearLayout android:layout_width="190dp" 
+              android:layout_height="fill_parent" 
+              android:orientation="vertical"
+              android:gravity="center" >
+   <TextView android:id="@+id/author10"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="@string/author_label" 
+              android:textSize="18sp" />
+    <TextView android:id="@+id/title10"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="@string/title_label" 
+              android:textSize="20sp" />
+    <Button android:id="@+id/button10"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@drawable/folder"
+            android:onClick="opencourse" />
+</LinearLayout>
+</LinearLayout>
+
+</LinearLayout>

@@ -14,7 +14,7 @@ import com.radialmenu.*;
 import com.radialmenu.RadialMenuItem.RadialMenuItemClickListener;
 
 
-public class MyNotesActivity extends Activity {
+public class CourseActivity extends Activity {
 
 	/*IN ORDER TO PASS DATA TO THE SECOND ACTIVITY
 	public final static String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";*/
@@ -26,7 +26,7 @@ public class MyNotesActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_my_notes);
+		setContentView(R.layout.activity_course);
 		
 		RD2 = new com.radialmenu.RadialMenuWidget(this);
 		 it1 = new com.radialmenu.RadialMenuItem("ViewNote","ViewNote");
@@ -42,17 +42,6 @@ public class MyNotesActivity extends Activity {
 		 RD2.addMenuEntry(it2);
 		 RD2.addMenuEntry(it3);
 		 RD2.addMenuEntry(it4);
-		 
-		 /*To hide(INVISIBLE) or remove(GONE) a button if you don't have 5 notes
-	     - The same for a text
-	     You can set INVISIBLE all the notes-buttons in the xml and then you can show
-	     only the notes-button that you have --> do the same for the courses
-	     
-		 View b = findViewById(R.id.button2);
-		 b.setVisibility(View.GONE); 
-		 View a= findViewById(R.id.course2);
-		 a.setVisibility(View.GONE);
-		 */
 		 
 		 it1.setOnMenuItemPressed(new RadialMenuItemClickListener() {	
 				@Override
@@ -92,25 +81,6 @@ public class MyNotesActivity extends Activity {
 		 
 	}  
 	
-	/*guarda qui: per creare il tuo radial menu
-	 
-	
-	
-	 RadialMenuWidget RD1 = new RadialMenuWidget(getApplicationContext());
-	 RadialMenuItem rdw = new RadialMenuItem("Share","share");
-	 RadialMenuItem rdw2 = new RadialMenuItem("Share","share");
-	 
-	 RD1.addMenuEntry(rdw);
-	 RD1.addMenuEntry(rdw2);
-	 
-	// RD1.show(qui metti il button); questo lo metti dove vuoi farlo partire tipo nella
-	 //funzione onClick del button
-	 
-//	 rdw.setOnMenuItemPressed(listener) per fargli fare una cosa quando lo premi
-//   e ti crei il listener
-	 
-	 RD1.dismiss(); */////////////////////////////////////////////////////////
-	
 	
 	public void circmenu(View sender) {
 	//Toast.makeText(MyNotesActivity.this, "CircMenu", Toast.LENGTH_SHORT).show();
@@ -120,11 +90,21 @@ public class MyNotesActivity extends Activity {
 	}
 	
 	public void opencourse(View sender) {
-		Toast.makeText(MyNotesActivity.this, "openAct2.5", Toast.LENGTH_SHORT).show();
-		
+		Toast.makeText(CourseActivity.this, "openAct2.5", Toast.LENGTH_SHORT).show();
 		Intent intent = new Intent(this, CourseActivity.class);
 		startActivity(intent);
-		
+		}
+	
+	public void Quiz (View sender) {
+		//Toast.makeText(CourseActivity.this, "openQuizActivity", Toast.LENGTH_SHORT).show();
+	    Intent intent = new Intent(this, QuizActivity.class);
+	    startActivity(intent);
+		}
+	
+	public void Dictionary (View sender) {
+		Toast.makeText(CourseActivity.this, "openDictionaryActivity", Toast.LENGTH_SHORT).show();
+	   // Intent intent = new Intent(CourseActivity.this, DictionaryActivity.class);
+	   //startActivity(intent);
 		}
 	
 	@Override

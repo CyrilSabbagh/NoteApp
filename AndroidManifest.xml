@@ -7,6 +7,8 @@
     <uses-sdk
         android:minSdkVersion="9"
         android:targetSdkVersion="18" />
+    <uses-feature android:name="android.hardware.sensor.accelerometer" android:required="true" />
+    
 
     <application
         android:allowBackup="true"
@@ -37,6 +39,14 @@
         <activity
             android:name="com.cyrilsabbagh.noteapp.MyNotesActivity"
             android:label="@string/title_activity_my_notes" >
+        </activity>
+        <activity
+            android:name="com.cyrilsabbagh.noteapp.CourseActivity"
+            android:label="@string/title_activity_course" >
+        </activity>
+        <activity
+            android:name="com.cyrilsabbagh.noteapp.QuizActivity"
+            android:label="@string/title_activity_quiz" >
         </activity>
     </application>
 

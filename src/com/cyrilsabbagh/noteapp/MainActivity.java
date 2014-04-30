@@ -37,7 +37,6 @@ public class MainActivity extends Activity {
 		 RD1.addMenuEntry(rdw2);
 		 RD1.addMenuEntry(rdw3);
 		 RD1.addMenuEntry(rdw4);
-
 		 
 		 rdw.setOnMenuItemPressed(new RadialMenuItemClickListener() {	
 			@Override

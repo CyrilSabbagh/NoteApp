@@ -27,5 +27,8 @@
     <string name="recent_label">LatestNote</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="start_label">Start</string>
+    <string name="title_activity_course">CourseActivity</string>
+    <string name="title_activity_quiz">QuizActivity</string>
+    <string name="quiz_label">QUIZ</string>
 
 </resources>
