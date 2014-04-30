@@ -23,9 +23,7 @@
         <activity
             android:name="com.cyrilsabbagh.noteapp.MainActivity"
             android:label="@string/app_name"
-            android:screenOrientation="landscape" >
-
-            <!-- application only runs in horizontal mode -->
+            android:screenOrientation="landscape" > <!-- application only runs in horizontal mode -->
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -37,13 +35,11 @@
             android:name="com.cyrilsabbagh.noteapp.HotCornersActivity"
             android:label="@string/title_activity_hot_corners"
             android:screenOrientation="landscape"
-             >
-
-            <!-- bottom buttons go up when keyboard present -->
+            android:windowSoftInputMode="adjustResize" > <!-- bottom buttons go up when keyboard present -->
         </activity>
         <!--
            <meta-data android:name="com.google.android.gms.version"
-          android:value="@integer/google_play_services_version" />
+          android:value="@integer/google_play_services_version" />
         -->
         <activity
             android:name="com.cyrilsabbagh.noteapp.MyNotesActivity"
@@ -57,7 +53,11 @@
             android:name="com.cyrilsabbagh.noteapp.QuizActivity"
             android:label="@string/title_activity_quiz" >
         </activity>
-        
+        <activity
+            android:name="com.cyrilsabbagh.noteapp.SaveActivity"
+            android:label="@string/title_activity_save" >
+        </activity>
     </application>
 
 </manifest>
+

@@ -35,6 +35,6 @@
     <string name="search_hint">Note, Course...</string>
     <string name="title_activity_notes_overview">NotesOverviewActivity</string>
     <string name="title_activity_save">SaveActivity</string>
-    <string name="title_activity_save_">Save_Activity</string>
 
 </resources>
+
