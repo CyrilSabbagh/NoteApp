@@ -7,8 +7,10 @@
     <uses-sdk
         android:minSdkVersion="9"
         android:targetSdkVersion="18" />
+    <uses-feature android:name="android.hardware.sensor.accelerometer" android:required="true" />
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    
 
     <application
         android:allowBackup="true"
@@ -37,8 +39,8 @@
           android:value="@integer/google_play_services_version" />
         -->
         <activity
-            android:name="com.cyrilsabbagh.noteapp.CyrilActivity"
-            android:label="@string/title_activity_cyril" >
+            android:name="com.cyrilsabbagh.noteapp.MyNotesActivity"
+            android:label="@string/title_activity_my_notes" >
         </activity>
     </application>
 
