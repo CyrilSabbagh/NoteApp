@@ -166,6 +166,7 @@ public class SemiCircularRadialMenu extends View {
 
 		switch (event.getAction()) {
 		case MotionEvent.ACTION_DOWN:
+			Log.d("DEBUG","x " + x +"y "+y);
 			if(mMenuCenterButtonRect.contains(x, y)) {
 				centerRadialColor = RadialMenuColors.HOLO_LIGHT_BLUE;
 				isMenuTogglePressed = true;
@@ -221,6 +222,7 @@ public class SemiCircularRadialMenu extends View {
 				invalidate();
 			}
 			break;
+		//**************added this case*************************
 		case MotionEvent.ACTION_MOVE:
 			if(isMenuVisible) {
 				if(mItems.size() > 0) {
@@ -301,6 +303,7 @@ public class SemiCircularRadialMenu extends View {
 			int offsety=25;
 			if (getRotation()==90){
 				offsetx=25;
+			
 				offsety=0;
 			}
 			else if (getRotation()==180){
@@ -636,8 +639,7 @@ public class SemiCircularRadialMenu extends View {
 		@Override
         public boolean onFling(MotionEvent event1, MotionEvent event2, 
                 float velocityX, float velocityY) {
-            
-        	if (mMenuCenterButtonRect.contains(event1.getX(),event1.getY())){  
+			if (mMenuCenterButtonRect.contains(event1.getX(),event1.getY())){  
         		int chosen=SelectItem(event2);
         		if (chosen>=0)
         			mItems.get(chosen).getCallback().onMenuItemPressed();

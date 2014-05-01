@@ -52,6 +52,7 @@ public class HotCornersActivity extends Activity {
 	static final int TAKE_PICTURE = 2;
 	
 	private String mSelectedImagePath;
+	private StringBuffer webViewContent=new StringBuffer();
 	
 	SemiCircularRadialMenu pieMenuFile,pieMenuEdit,pieMenuOptions,pieMenuMedia,pieMenuStyle; 
 	SemiCircularRadialMenuItem ItemNew,ItemOpen,ItemSave, ItemExit;
@@ -89,7 +90,7 @@ public class HotCornersActivity extends Activity {
 		
 		
 		//check when keyboard pops up
-		final View activityRootView = findViewById(R.id.layout_main);  
+		/*final View activityRootView = findViewById(R.id.layout_main);  
         activityRootView.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {  
             @Override  
             public void onGlobalLayout() {  
@@ -112,13 +113,13 @@ public class HotCornersActivity extends Activity {
                 }  
              }  
         });  
-		
+		*/
         WebView wv=(WebView)findViewById(R.id.WebViewNote);
         wv.setOnTouchListener(new View.OnTouchListener() {
 
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-            	Toast.makeText(getApplicationContext(), "touched", Toast.LENGTH_SHORT).show(); 
+            	//Toast.makeText(getApplicationContext(), "touched", Toast.LENGTH_SHORT).show(); 
                 return false;
             }           
         });
@@ -129,8 +130,12 @@ public class HotCornersActivity extends Activity {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_NULL && event.getAction() == KeyEvent.ACTION_DOWN) {
+                	
                 	WebView wv=(WebView)findViewById(R.id.WebViewNote);
-                	wv.loadData(v.getText().toString(), "text/html", "utf-8");
+                	webViewContent.append(v.getText().toString()+"<br>");
+                	wv.loadData(webViewContent.toString(), "text/html", "utf-8");
+                	v.setText("");
+                	
                 }
                 return true;
             }
@@ -536,21 +541,6 @@ public class HotCornersActivity extends Activity {
 	}*/
 	
 	
-	@Override
-	public void onConfigurationChanged(Configuration newConfig) {
-	    super.onConfigurationChanged(newConfig);
-
-	    Toast.makeText(this, "config changed", Toast.LENGTH_SHORT).show();
-	    // Checks whether a hardware keyboard is available
-	    if (newConfig.keyboardHidden == Configuration.KEYBOARDHIDDEN_NO) {
-	    	
-	    	EditText editText = (EditText) findViewById(R.id.editNote);
-			editText.setText("File menu");
-	        Toast.makeText(this, "keyboard visible", Toast.LENGTH_SHORT).show();
-	    } else if (newConfig.keyboardHidden == Configuration.KEYBOARDHIDDEN_YES) {
-	        Toast.makeText(this, "keyboard hidden", Toast.LENGTH_SHORT).show();
-	    }
-	}
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 	    // Check which request we're responding to
