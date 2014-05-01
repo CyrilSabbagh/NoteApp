@@ -1,5 +1,7 @@
 package com.cyrilsabbagh.noteapp;
 
+import java.io.File;
+
 import org.xmlpull.v1.XmlPullParser;
 
 import com.radialmenu.*;
@@ -12,7 +14,9 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.drawable.GradientDrawable.Orientation;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.Xml;
@@ -22,20 +26,33 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
+import android.view.KeyEvent;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
+import android.view.inputmethod.EditorInfo;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 import android.os.Build;
+import android.provider.MediaStore;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v4.view.MotionEventCompat;
 
 public class HotCornersActivity extends Activity {
+	
+	static final int SAVE_NOTE = 1;
+	static final int TAKE_PICTURE = 2;
+	
+	private String mSelectedImagePath;
+	
 	SemiCircularRadialMenu pieMenuFile,pieMenuEdit,pieMenuOptions,pieMenuMedia,pieMenuStyle; 
 	SemiCircularRadialMenuItem ItemNew,ItemOpen,ItemSave, ItemExit;
 	SemiCircularRadialMenuItem ItemMultiauthor,ItemShare,ItemDictionary;
@@ -45,7 +62,6 @@ public class HotCornersActivity extends Activity {
 	
 	com.radialmenu.RadialMenuWidget RD1;
 	com.radialmenu.RadialMenuItem rdw, rdw2, rdw3,rdw4;
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -66,9 +82,9 @@ public class HotCornersActivity extends Activity {
 			else if (activity_type.compareTo("new")==0){
 				idNote = "unknown";
 			}
-			else
-				Toast.makeText(getApplicationContext(),"Unknown activity type", Toast.LENGTH_SHORT).show();	
-			Toast.makeText(getApplicationContext(),activity_type + " " + idNote, Toast.LENGTH_SHORT).show();		
+			//else
+				//Toast.makeText(getApplicationContext(),"Unknown activity type", Toast.LENGTH_SHORT).show();	
+			//Toast.makeText(getApplicationContext(),activity_type + " " + idNote, Toast.LENGTH_SHORT).show();		
 		}catch(Exception e){}
 		
 		
@@ -81,13 +97,44 @@ public class HotCornersActivity extends Activity {
                 int j = activityRootView.getHeight();  
                 int heightDiff = activityRootView.getRootView().getHeight() - activityRootView.getHeight();  
                 if (heightDiff > 200) { // if more than 100 pixels, its probably a keyboard...  
-                	Toast.makeText(getApplicationContext(), "keyboard pop up", Toast.LENGTH_SHORT).show();
+                	//Toast.makeText(getApplicationContext(), "keyboard pop up", Toast.LENGTH_SHORT).show();
+                	pieMenuMedia = (SemiCircularRadialMenu)findViewById(R.id.mediaMenu);
+                	pieMenuMedia.setTranslationY(120);
+                	pieMenuMedia.setTranslationX(-150);
+                	pieMenuEdit = (SemiCircularRadialMenu)findViewById(R.id.editMenu);
+                	pieMenuEdit.setTranslationY(-110);
+                	pieMenuEdit.setTranslationX(140);
+                	
+                	                	
                 } else{  
-                	Toast.makeText(getApplicationContext(), "keyboard no pop up", Toast.LENGTH_SHORT).show(); 
+                	//Toast.makeText(getApplicationContext(), "no pop up ", Toast.LENGTH_SHORT).show(); 
+                	
                 }  
              }  
         });  
-			
+		
+        WebView wv=(WebView)findViewById(R.id.WebViewNote);
+        wv.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+            	Toast.makeText(getApplicationContext(), "touched", Toast.LENGTH_SHORT).show(); 
+                return false;
+            }           
+        });
+        
+        //detect when pressed ENTER on the soft keyboard
+        EditText myNote = (EditText) findViewById(R.id.editNote);
+        myNote.setOnEditorActionListener(new OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_NULL && event.getAction() == KeyEvent.ACTION_DOWN) {
+                	WebView wv=(WebView)findViewById(R.id.WebViewNote);
+                	wv.loadData(v.getText().toString(), "text/html", "utf-8");
+                }
+                return true;
+            }
+        });
 			
 		/*if (savedInstanceState == null) {
 			getSupportFragmentManager().beginTransaction()
@@ -212,7 +259,11 @@ public class HotCornersActivity extends Activity {
 			@Override
 			public void onMenuItemPressed() {
 				// TODO Auto-generated method stub
-				Toast.makeText(getApplicationContext(),"Save", Toast.LENGTH_SHORT).show();		
+				//Toast.makeText(getApplicationContext(),"Save", Toast.LENGTH_SHORT).show();	
+				Intent intent = new Intent(HotCornersActivity.this, SaveActivity.class);
+				WebView note=(WebView)findViewById(R.id.WebViewNote);
+				intent.putExtra("note_text",note.toString());
+				startActivityForResult(intent, SAVE_NOTE);
 			}
 		});
 		
@@ -300,7 +351,13 @@ public class HotCornersActivity extends Activity {
 			@Override
 			public void onMenuItemPressed() {
 				// TODO Auto-generated method stub
-				Toast.makeText(getApplicationContext(),"Snapshot", Toast.LENGTH_SHORT).show();		
+				//Toast.makeText(getApplicationContext(),"Snapshot", Toast.LENGTH_SHORT).show();
+				Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+			    File mImageFile = new File(Environment.getExternalStorageDirectory()+File.separator+"DCIM"+File.separator+"Camera",  
+			            "PIC"+System.currentTimeMillis()+".jpg");
+			    mSelectedImagePath = mImageFile.getAbsolutePath();
+			    intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(mImageFile));
+			    startActivityForResult(intent, TAKE_PICTURE);
 			}
 		});
 		
@@ -477,6 +534,8 @@ public class HotCornersActivity extends Activity {
 			return rootView;
 		}
 	}*/
+	
+	
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 	    super.onConfigurationChanged(newConfig);
@@ -492,33 +551,26 @@ public class HotCornersActivity extends Activity {
 	        Toast.makeText(this, "keyboard hidden", Toast.LENGTH_SHORT).show();
 	    }
 	}
-	public void ShowFileMenu(View view){
-		//EditText editText = (EditText) findViewById(R.id.editText1);
-		//editText.setText("File menu");
-	}
-	
-	public void ShowOptionsMenu(View view){
-		//EditText editText = (EditText) findViewById(R.id.editText1);
-		//editText.setText("Options menu");
-		
-	}
-	
-	public void ShowEditMenu(View view){
-		//EditText editText = (EditText) findViewById(R.id.editText1);
-		//editText.setText("Edit menu");
-		
-	}
-	
-	public void ShowMediaMenu(View view){
-		//EditText editText = (EditText) findViewById(R.id.editText1);
-		//editText.setText("Media menu");
-		
-	}
-	
-	public void ShowStyleMenu(View view){
-		//EditText editText = (EditText) findViewById(R.id.editText1);
-		//editText.setText("Style menu");
-		
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	    // Check which request we're responding to
+	    switch(requestCode){
+	    case SAVE_NOTE: 
+	    	// Make sure the request was successful
+	        if (resultCode == RESULT_OK) {
+	            // The user saved the note.
+	        	Toast.makeText(this, "Save successful", Toast.LENGTH_SHORT).show();
+	        }else{
+	        	//cancel of the save
+	        	Toast.makeText(this, "Save aborted", Toast.LENGTH_SHORT).show();
+	        }
+	    break;
+	    case TAKE_PICTURE:
+	    	if (resultCode == RESULT_OK) {
+	    		//save picture mSelectedImagePath on the web server
+	    		Toast.makeText(this, "Photo " +mSelectedImagePath +" saved", Toast.LENGTH_LONG).show();
+	    	}
+	    }
 	}
 	
 	/*@Override

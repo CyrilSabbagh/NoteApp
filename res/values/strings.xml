@@ -35,6 +35,13 @@
     <string name="search_hint">Note, Course...</string>
     <string name="title_activity_notes_overview">NotesOverviewActivity</string>
     <string name="title_activity_save">SaveActivity</string>
+    <string name="note_label">Title</string>
+    <string name="note_hint">Insert note name</string>
+    <string name="course_hint">Unspecified</string>
+    <string name="author_hint">Unknown</string>
+    <string name="OK">OK</string>
+    <string name="Cancel">Cancel</string>
+    <string name="share">Share with others</string>
 
 </resources>
 

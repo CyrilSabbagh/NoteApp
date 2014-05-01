@@ -133,8 +133,36 @@
         android:layout_alignParentRight="true"
         android:onClick="ShowStyleMenu"/>
 	--> 
-	
-	 
+	  <RelativeLayout 
+      android:layout_width="match_parent"
+      android:layout_height="match_parent">
+	    <WebView android:id="@+id/WebViewNote"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:paddingTop="50dp"
+    	android:paddingLeft="10dp"
+    	android:paddingRight="10dp"
+    	android:paddingBottom="50dp"
+    	android:focusable="true"
+    	android:focusableInTouchMode="true"
+    	>
+	    	
+	    </WebView>
+	    <!-- <Button
+        android:id="@+id/btnTest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Test"/>
+               
+          -->
+
+	    <EditText
+	        android:id="@+id/editNote"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_alignLeft="@+id/WebViewNote"
+	        android:layout_below="@+id/WebViewNote" />
+	</RelativeLayout>
 	<RelativeLayout 
     	android:layout_width="match_parent"
     	android:layout_height="match_parent">
@@ -183,34 +211,7 @@
         android:translationX="200dp"
         android:rotation="0"
         android:padding="5dp"/>
+
 	</RelativeLayout>
-	<RelativeLayout 
-        android:id="@+id/layout_note"
-    	android:layout_width="wrap_content"
-    	android:layout_height="wrap_content"
-    	android:layout_marginTop="50dp"
-    	android:layout_marginLeft="10dp"
-    	android:layout_marginRight="10dp"
-    	android:layout_marginBottom="50dp">
 	
-	    <EditText
-	   	 	   android:id="@+id/editNote"
-	    	   android:layout_width="wrap_content"
-	    	   android:layout_height="wrap_content"
-	    	    >
-	    	
-		</EditText> 
-	    <!-- <WebView android:id="@+id/viewNote"
-	    	android:layout_width="match_parent"
-	    	android:layout_height="match_parent">
-	    	
-	    </WebView>
-	    <Button
-        android:id="@+id/btnTest"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Test"/>
-               
-          -->
-	</RelativeLayout>
 </RelativeLayout>
