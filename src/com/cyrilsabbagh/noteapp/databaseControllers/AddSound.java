@@ -42,8 +42,7 @@ public class AddSound extends AsyncTask<String, String, String>{
 
         // getting JSON Object
         // Note that create product url accepts POST method
-        JSONObject json = jsonParser.makeHttpRequest(url_add_sound,
-                "POST", params);
+        JSONObject json = jsonParser.makeHttpRequest(url_add_sound,"GET", params);
 
         // check log cat fro response
         Log.d("Create Response", json.toString());

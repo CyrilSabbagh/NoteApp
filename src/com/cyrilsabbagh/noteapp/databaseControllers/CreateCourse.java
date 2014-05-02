@@ -51,8 +51,7 @@ public class CreateCourse extends AsyncTask<String, String, String>{
 
         // getting JSON Object
         // Note that create product url accepts POST method
-        JSONObject json = jsonParser.makeHttpRequest(url_create_course,
-                "POST", params);
+        JSONObject json = jsonParser.makeHttpRequest(url_create_course,"GET", params);
 
         // check log cat fro response
         Log.d("Create Response", json.toString());
