@@ -36,15 +36,17 @@ public class MyNotesActivity extends Activity {
 	
 	private RadialMenuRenderer mRenderer;
 	private FrameLayout mHolderLayout;
-	public RadialMenuItem menuContactItem, menuMainItem, menuAboutItem;
+	public RadialMenuItem ViewNoteItem, DeleteNoteItem, ModifyNoteItem,ShareNoteItem;
 	private ArrayList<RadialMenuItem> mMenuItems = new ArrayList<RadialMenuItem>(0);
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.layout_holder);
+		setContentView(R.layout.activity_my_notes);
 		
 		RD2 = new com.radialmenu.RadialMenuWidget(this);
+		RD2.setInnerRingRadius(40,120);
+		RD2.setIconSize(50, 60);
 		 it1 = new com.radialmenu.RadialMenuItem("ViewNote","ViewNote");
 		 it1.setDisplayIcon(R.drawable.viewnote);
 		 it2 = new com.radialmenu.RadialMenuItem("DeleteNote","DeleteNote");
@@ -61,20 +63,23 @@ public class MyNotesActivity extends Activity {
 		 
 		 //////////////////////////////////////////////////////////////////////////
 		//Init the frame layout
-			mHolderLayout = (FrameLayout) findViewById(R.id.fragment_container);
+		/*	mHolderLayout = (FrameLayout) findViewById(R.id.fragment_container);
 			// Init the Radial Menu and menu items
 			mRenderer = new RadialMenuRenderer(mHolderLayout, true, 30, 60);		
-			menuContactItem = new RadialMenuItem("contact","contact");
-			menuMainItem = new RadialMenuItem("mainmenu","mainmenu");
-			menuAboutItem = new RadialMenuItem("about","about");
+			ViewNoteItem = new RadialMenuItem("ViewNote","ViewNote");
+			DeleteNoteItem = new RadialMenuItem("DeleteNote","DeleteNote");
+			ModifyNoteItem = new RadialMenuItem("ModifyNote","ModifyNote");
+			ShareNoteItem = new RadialMenuItem("ShareNote","ShareNote");
 			//Add the menu Items
-			mMenuItems.add(menuMainItem);
-			mMenuItems.add(menuAboutItem);
-			mMenuItems.add(menuContactItem);
+			mMenuItems.add(ViewNoteItem);
+			mMenuItems.add(DeleteNoteItem);
+			mMenuItems.add(ModifyNoteItem);
+			mMenuItems.add(ShareNoteItem);
+			ViewNoteItem.
 			mRenderer.setRadialMenuContent(mMenuItems);
 			mHolderLayout.addView(mRenderer.renderView());
 			//Handle the menu item interactions
-			menuContactItem.setOnRadialMenuClickListener(new OnRadailMenuClick() {
+			ViewNoteItem.setOnRadialMenuClickListener(new OnRadailMenuClick() {
 				@Override
 				public void onRadailMenuClickedListener(String id) {
 					//Can edit based on preference. Also can add animations here.
@@ -83,7 +88,7 @@ public class MyNotesActivity extends Activity {
 				}
 			});
 			
-			menuMainItem.setOnRadialMenuClickListener(new OnRadailMenuClick() {
+			DeleteNoteItem.setOnRadialMenuClickListener(new OnRadailMenuClick() {
 				@Override
 				public void onRadailMenuClickedListener(String id) {
 					//Can edit based on preference. Also can add animations here.
@@ -92,7 +97,7 @@ public class MyNotesActivity extends Activity {
 				}
 			});
 			
-			menuAboutItem.setOnRadialMenuClickListener(new OnRadailMenuClick() {
+			ModifyNoteItem.setOnRadialMenuClickListener(new OnRadailMenuClick() {
 				@Override
 				public void onRadailMenuClickedListener(String id) {
 					//Can edit based on preference. Also can add animations here.
@@ -100,6 +105,15 @@ public class MyNotesActivity extends Activity {
 				//	getSupportFragmentManager().beginTransaction().replace(mHolderLayout.getId(), new RadialMenuAboutFragment()).commit();
 				}
 			});
+			
+			ShareNoteItem.setOnRadialMenuClickListener(new OnRadailMenuClick() {
+				@Override
+				public void onRadailMenuClickedListener(String id) {
+					//Can edit based on preference. Also can add animations here.
+				//	getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+				//	getSupportFragmentManager().beginTransaction().replace(mHolderLayout.getId(), new RadialMenuAboutFragment()).commit();
+				}
+			});*/
 		 
 		 //////////////////////////////////////////////////////////////////////////
 		 
@@ -117,7 +131,7 @@ public class MyNotesActivity extends Activity {
 		 View a= findViewById(R.id.course2);
 		 a.setVisibility(View.GONE);
 		 */
-		 /*
+		 
 		 it1.setOnMenuItemPressed(new RadialMenuItemClickListener() {	
 				@Override
 				public void execute() {
@@ -153,7 +167,7 @@ public class MyNotesActivity extends Activity {
 					RD2.dismiss();
 				}
 			 });
-		 */
+		 
 	} 
 	
 	/*guarda qui: per creare il tuo radial menu
