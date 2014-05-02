@@ -48,8 +48,7 @@ public class UpdateNote extends AsyncTask<String, String, String>{
 
         // getting JSON Object
         // Note that create product url accepts POST method
-        JSONObject json = jsonParser.makeHttpRequest(url_update_note,
-                "POST", params);
+        JSONObject json = jsonParser.makeHttpRequest(url_update_note,"GET", params);
 
         // check log cat fro response
         Log.d("Create Response", json.toString());

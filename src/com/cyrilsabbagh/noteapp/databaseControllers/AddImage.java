@@ -42,8 +42,7 @@ private static String url_add_image = "http://cyrilsabbagh.com/NoteApp/add_image
 
         // getting JSON Object
         // Note that create product url accepts POST method
-        JSONObject json = jsonParser.makeHttpRequest(url_add_image,
-                "POST", params);
+        JSONObject json = jsonParser.makeHttpRequest(url_add_image,"GET", params);
 
         // check log cat fro response
         Log.d("Create Response", json.toString());
