@@ -4,6 +4,7 @@ import java.io.File;
 
 import org.xmlpull.v1.XmlPullParser;
 
+import com.cyrilsabbagh.noteapp.controllers.HtmlFormat;
 import com.radialmenu.*;
 import com.radialmenu.RadialMenuItem.RadialMenuItemClickListener;
 import com.radialmenu.SemiCircularRadialMenuItem.OnSemiCircularRadialMenuPressed;
@@ -17,14 +18,17 @@ import android.graphics.drawable.GradientDrawable.Orientation;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.text.Html;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.Xml;
+import android.view.Display;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
+import android.view.Surface;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.View.OnClickListener;
@@ -51,6 +55,8 @@ public class HotCornersActivity extends Activity {
 	static final int SAVE_NOTE = 1;
 	static final int TAKE_PICTURE = 2;
 	
+	private boolean bold=false, italic=false, underlined=false;
+	
 	private String mSelectedImagePath;
 	private StringBuffer webViewContent=new StringBuffer();
 	
@@ -68,6 +74,27 @@ public class HotCornersActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_hot_corners);
 		
+		//get current screen orientation
+		Display display = ((WindowManager) getSystemService(WINDOW_SERVICE)).getDefaultDisplay();
+	        int orientation = display.getRotation(); 
+		switch(orientation){
+		case Surface.ROTATION_0:	//portrait
+			getWindow().setSoftInputMode(
+	     		       WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+			break;
+		case Surface.ROTATION_90:	//landscape
+			getWindow().setSoftInputMode(
+	     		       WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
+			break;
+		case Surface.ROTATION_180:	//portrait
+			getWindow().setSoftInputMode(
+	     		       WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+			break;	
+		case Surface.ROTATION_270:	//landscape
+			getWindow().setSoftInputMode(
+	     		       WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
+			break;
+		}
 		String idNote="", activity_type;
 		Intent myIntent = getIntent(); 
 		try{
@@ -114,7 +141,7 @@ public class HotCornersActivity extends Activity {
              }  
         });  
 		*/
-        WebView wv=(WebView)findViewById(R.id.WebViewNote);
+        TextView wv=(TextView)findViewById(R.id.WebViewNote);
         wv.setOnTouchListener(new View.OnTouchListener() {
 
             @Override
@@ -131,9 +158,10 @@ public class HotCornersActivity extends Activity {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_NULL && event.getAction() == KeyEvent.ACTION_DOWN) {
                 	
-                	WebView wv=(WebView)findViewById(R.id.WebViewNote);
-                	webViewContent.append(v.getText().toString()+"<br>");
-                	wv.loadData(webViewContent.toString(), "text/html", "utf-8");
+                	TextView wv=(TextView)findViewById(R.id.WebViewNote);
+                	webViewContent.append(formatText(v.getText().toString())+"<br>");
+                	wv.setText(Html.fromHtml(webViewContent.toString()));
+                	//wv.loadData(webViewContent.toString(), "text/html", "utf-8");
                 	v.setText("");
                 	
                 }
@@ -266,8 +294,8 @@ public class HotCornersActivity extends Activity {
 				// TODO Auto-generated method stub
 				//Toast.makeText(getApplicationContext(),"Save", Toast.LENGTH_SHORT).show();	
 				Intent intent = new Intent(HotCornersActivity.this, SaveActivity.class);
-				WebView note=(WebView)findViewById(R.id.WebViewNote);
-				intent.putExtra("note_text",note.toString());
+				TextView note=(TextView)findViewById(R.id.WebViewNote);
+				intent.putExtra("note_text",webViewContent.toString());
 				startActivityForResult(intent, SAVE_NOTE);
 			}
 		});
@@ -324,7 +352,8 @@ public class HotCornersActivity extends Activity {
 			@Override
 			public void onMenuItemPressed() {
 				// TODO Auto-generated method stub
-				Toast.makeText(getApplicationContext(),"Bold", Toast.LENGTH_SHORT).show();		
+				Toast.makeText(getApplicationContext(),"Bold", Toast.LENGTH_SHORT).show();	
+				bold=true;
 			}
 		});
 		
@@ -332,7 +361,8 @@ public class HotCornersActivity extends Activity {
 			@Override
 			public void onMenuItemPressed() {
 				// TODO Auto-generated method stub
-				Toast.makeText(getApplicationContext(),"Italic", Toast.LENGTH_SHORT).show();		
+				Toast.makeText(getApplicationContext(),"Italic", Toast.LENGTH_SHORT).show();	
+				italic=true;
 			}
 		});
 		
@@ -340,7 +370,8 @@ public class HotCornersActivity extends Activity {
 			@Override
 			public void onMenuItemPressed() {
 				// TODO Auto-generated method stub
-				Toast.makeText(getApplicationContext(),"Underlined", Toast.LENGTH_SHORT).show();		
+				Toast.makeText(getApplicationContext(),"Underlined", Toast.LENGTH_SHORT).show();
+				underlined=true;
 			}
 		});
 		
@@ -563,28 +594,47 @@ public class HotCornersActivity extends Activity {
 	    }
 	}
 	
-	/*@Override
-	public boolean onTouchEvent(MotionEvent event){ 
-	    this.mDetector.onTouchEvent(event);
-	    return super.onTouchEvent(event);
+	private String formatText(String textToFormat){
+		StringBuffer htmlText=new StringBuffer(textToFormat);
+		if (underlined){
+			htmlText=new StringBuffer(HtmlFormat.Underline(htmlText.toString()));
+			underlined=false;
+		}
+		if (bold){
+			htmlText=new StringBuffer(HtmlFormat.Bold(htmlText.toString()));
+			bold=false;
+		}
+		if (italic){
+			htmlText=new StringBuffer(HtmlFormat.Italic(htmlText.toString()));
+			italic=false;
+		}
+		return htmlText.toString();
 	}
 	
-	class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
-        private static final String DEBUG_TAG = "Gestures"; 
-        
-        @Override
-        public boolean onDown(MotionEvent event) { 
-            Log.d(DEBUG_TAG,"onDown: " + event.toString()); 
-            return true;
-        }
-        
-        
-        @Override
-        public boolean onFling(MotionEvent event1, MotionEvent event2, 
-                float velocityX, float velocityY) {
-            Log.d(DEBUG_TAG, "onFling: " + event1.toString()+event2.toString());
-            return true;
+	/*public boolean onOrientationChanges() {
+		  if(orientation == landscape)
+		    if(settings.get("lock_orientation"))
+		      return false;   // Retain portrait mode
+		    else
+		      return true; // change to landscape mode
+
+		  return true; 
+		}
+	
+	*/
+	
+	@Override
+    public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+		Toast.makeText(this, "Orientation: "+newConfig.orientation, Toast.LENGTH_LONG).show();
+        // Checks the orientation of the screen for landscape and portrait and set portrait mode always
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+        	getWindow().setSoftInputMode(
+     		       WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
+        	getWindow().setSoftInputMode(
+      		       WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        	
         }
     }
-	*/
 }
