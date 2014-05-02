@@ -45,8 +45,7 @@ private static String url_add_dictionary = "http://cyrilsabbagh.com/NoteApp/add_
 
         // getting JSON Object
         // Note that create product url accepts POST method
-        JSONObject json = jsonParser.makeHttpRequest(url_add_dictionary,
-                "POST", params);
+        JSONObject json = jsonParser.makeHttpRequest(url_add_dictionary,"GET", params);
 
         // check log cat fro response
         Log.d("Create Response", json.toString());

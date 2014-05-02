@@ -15,9 +15,9 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity {
 
-	com.radialmenu.RadialMenuWidget RD1;
-	com.radialmenu.RadialMenuItem rdw, rdw2, rdw3,rdw4;
-	
+	private com.radialmenu.RadialMenuWidget RD1;
+	private com.radialmenu.RadialMenuItem rdw, rdw2, rdw3,rdw4;
+	private boolean appLaunched=false;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -44,6 +44,8 @@ public class MainActivity extends Activity {
 				// TODO Auto-generated method stub
 				//Toast.makeText(getApplicationContext(),rdw.getName(), Toast.LENGTH_SHORT).show();
 				Intent intent = new Intent(MainActivity.this, HotCornersActivity.class);
+				//intent.putExtra("id_note","note1");
+				intent.putExtra("activity_type","new");
 				startActivity(intent);
 			}
 		 });
@@ -71,17 +73,27 @@ public class MainActivity extends Activity {
 					startActivity(intent);
 				}
 		 });
-		
-		 
-		 Button testButton = (Button) this.findViewById(R.id.btnTest);
-			testButton.setOnClickListener(new OnClickListener() {
-				public void onClick(View v) {
-					RD1.show(v);
-				}
-			}); 
+			 
+		 //Button testButton = (Button) this.findViewById(R.id.btnTest);
+		 //testButton.performClick();
 	}
 	
+	public void DisplayMenu(View v){
+		if (!appLaunched){
+			appLaunched=true;
+			v.setVisibility(View.GONE);
+			RD1.show(v);
+		}
+	}
 
+	/*public void onResume(){
+		findViewById(R.id.mainlayout).post(new Runnable() {
+
+			public void run() {
+			pieMenu.show(findViewById(R.id.mainlayout));
+			}
+			});
+	}*/
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.

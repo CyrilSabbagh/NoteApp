@@ -20,7 +20,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+
 import com.radialmenu.RadialMenuColors;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
@@ -30,6 +32,7 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Paint.Style;
+import android.graphics.drawable.RotateDrawable;
 import android.support.v4.view.GestureDetectorCompat;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -125,6 +128,7 @@ public class SemiCircularRadialMenu extends View {
 				//**********modified********************************
 				for(SemiCircularRadialMenuItem item : mItems) {
 					//**********************************************
+					
 					mRadialMenuPaint.setColor(item.getBackgroundColor());
 					item.setMenuPath(mMenuCenterButtonRect, mMenuRect, mStart, mSweep, mRadius, mViewAnchorPoints);
 					canvas.drawPath(item.getMenuPath(), mRadialMenuPaint);
@@ -134,6 +138,7 @@ public class SemiCircularRadialMenu extends View {
 						canvas.drawTextOnPath(item.getText(), item.getMenuPath(), 5, textSize, mRadialMenuPaint);
 						mRadialMenuPaint.setShadowLayer(mShadowRadius, 0.0f, 0.0f, mShadowColor);
 					}
+					
 					item.getIcon().draw(canvas);
 					mStart += mSweep;
 				}
@@ -161,6 +166,7 @@ public class SemiCircularRadialMenu extends View {
 
 		switch (event.getAction()) {
 		case MotionEvent.ACTION_DOWN:
+			Log.d("DEBUG","x " + x +"y "+y);
 			if(mMenuCenterButtonRect.contains(x, y)) {
 				centerRadialColor = RadialMenuColors.HOLO_LIGHT_BLUE;
 				isMenuTogglePressed = true;
@@ -216,6 +222,7 @@ public class SemiCircularRadialMenu extends View {
 				invalidate();
 			}
 			break;
+		//**************added this case*************************
 		case MotionEvent.ACTION_MOVE:
 			if(isMenuVisible) {
 				if(mItems.size() > 0) {
@@ -288,32 +295,32 @@ public class SemiCircularRadialMenu extends View {
 		case HORIZONTAL_BOTTOM:
 			Rect rect = new Rect();
 			paint.getTextBounds(centerMenuText, 0, centerMenuText.length(), rect);
-			/*int x = 0;
-			int y = 0;
-			canvas.translate(x, y);
-			canvas.drawText(centerMenuText , 0, 0, paint);
-			canvas.drawRect(rect, paint);
-			canvas.translate(-x, -y);
-			*/
 			
-			//canvas.rotate(-90, x + rect.exactCenterX()/2,y + rect.height());
+			//*****modified**********************************
 			canvas.rotate(-getRotation(), getWidth()/2,getHeight());			
 			paint.setStyle(Paint.Style.FILL);
-			//canvas.drawText(centerMenuText, x, y, paint);
+			int offsetx=25;
+			int offsety=25;
+			if (getRotation()==90){
+				offsetx=25;
 			
-			/*float xpos=(getWidth()/2) - (paint.measureText(centerMenuText)/2);
-			float ypos=getHeight() - (textSize);*/
-			int offset=25;
-			if (getRotation()==90)
-				offset=25;
-			else if (getRotation()==180)
-				offset=25;
-			else if (getRotation()==270)
-				offset=-25;
-			else if (getRotation()==0)
-				offset=-25;
-			
-			canvas.drawText(centerMenuText, (getWidth()/2+offset) - (paint.measureText(centerMenuText)/2), getHeight() - (textSize), paint);
+				offsety=0;
+			}
+			else if (getRotation()==180){
+				offsetx=10;
+				offsety=40;
+			}
+			else if (getRotation()==270){
+				offsetx=-25;
+				offsety=40;
+			}
+			else if (getRotation()==0){
+				offsetx=-25;
+				offsety=0;
+			}
+			paint.setTextSize(25);
+			//*****************************************
+			canvas.drawText(centerMenuText, (getWidth()/2+offsetx) - (paint.measureText(centerMenuText)/2), getHeight() - (textSize)+offsety, paint);
 			break;
 		}
 	}
@@ -632,8 +639,7 @@ public class SemiCircularRadialMenu extends View {
 		@Override
         public boolean onFling(MotionEvent event1, MotionEvent event2, 
                 float velocityX, float velocityY) {
-            
-        	if (mMenuCenterButtonRect.contains(event1.getX(),event1.getY())){  
+			if (mMenuCenterButtonRect.contains(event1.getX(),event1.getY())){  
         		int chosen=SelectItem(event2);
         		if (chosen>=0)
         			mItems.get(chosen).getCallback().onMenuItemPressed();

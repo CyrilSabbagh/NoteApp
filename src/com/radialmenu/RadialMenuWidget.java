@@ -150,6 +150,7 @@ public class RadialMenuWidget extends View {
 	private GestureDetectorCompat mDetector; 
 	private RadialMenuItem itemSelected=null;	
 	private boolean startedMotion=false;
+	private boolean eventHandled=false;
 	//************************
 		
 	/**
@@ -313,7 +314,7 @@ public class RadialMenuWidget extends View {
 				// This is when something outside the circle or any of the rings
 				// is selected
 				//*********modified - no dismiss********************************
-				dismiss();
+				//dismiss();
 				selected = null;
 				enabled = null;
 			}
@@ -1277,6 +1278,7 @@ public class RadialMenuWidget extends View {
 	public void show(View anchor) {
 		mWindow.setContentView(this);
 		mWindow.showAtLocation(anchor, Gravity.NO_GRAVITY, this.xSource, this.ySource);
+		
 	}
 
 	/**
@@ -1312,9 +1314,6 @@ public class RadialMenuWidget extends View {
 	    					break;
 	    				}
 	    			}
-	        		
-	        			
-	            	//}
 	        	}
 	        	return true;
 	        }
@@ -1322,6 +1321,30 @@ public class RadialMenuWidget extends View {
 	        public boolean onScroll(MotionEvent event1, MotionEvent event2, 
 	                float distanceX, float distanceY) {
 	        	//Log.d(DEBUG_TAG, "onScroll: " + event1.toString()+event2.toString());       	
+	        	if (!eventHandled){ //avoid useless events
+	        	if (helper.pntInCircle(event1.getX(), event1.getY(), xPosition, yPosition, cRadius)){
+        			//touch on central edge
+	        		//Log.d("GESTURE", "onFling: " + event1.toString()+event2.toString());
+	        		//check if touched one of the inner edges
+	        		for (int i = 0; i < Wedges.length; i++) {
+	    				RadialMenuWedge f = Wedges[i];
+	    				double slice = (2 * Math.PI) / wedgeQty;
+	    				double start = (2 * Math.PI) * (0.75) - (slice / 2); 
+	    				inWedge = helper
+	    						.pntInWedge(event2.getX(), event2.getY(), xPosition, yPosition,
+	    								MinSize, MaxSize, (i * slice) + start, slice);
+
+	    				if (inWedge == true) {
+	    					Log.d("GESTURE", "flinged on " + menuEntries.get(i).getName());
+	    					if (!eventHandled){
+	    						eventHandled=true;
+	    						menuEntries.get(i).menuActiviated();
+	    						break;
+	    					}
+	    				}
+	    			}
+	        	}
+	        	}
 	        	return true;
 	        }
 	        

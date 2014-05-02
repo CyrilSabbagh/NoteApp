@@ -1,113 +1,173 @@
 package com.cyrilsabbagh.noteapp;
 
+import java.io.File;
+
 import org.xmlpull.v1.XmlPullParser;
 
-
-
-
-//import com.touchmenotapps.widget.radialmenu.menu.v1.RadialMenuItem;
-//import com.touchmenotapps.widget.radialmenu.menu.v1.RadialMenuWidget;
-//import com.touchmenotapps.widget.radialmenu.semicircularmenu.SemiCircularRadialMenu;
-//import com.touchmenotapps.widget.radialmenu.semicircularmenu.SemiCircularRadialMenuItem;
+import com.cyrilsabbagh.noteapp.controllers.HtmlFormat;
 import com.radialmenu.*;
 import com.radialmenu.RadialMenuItem.RadialMenuItemClickListener;
 import com.radialmenu.SemiCircularRadialMenuItem.OnSemiCircularRadialMenuPressed;
 
 import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.drawable.GradientDrawable.Orientation;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.text.Html;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.Xml;
+import android.view.Display;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
+import android.view.Surface;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
+import android.view.KeyEvent;
+import android.view.ViewTreeObserver.OnGlobalLayoutListener;
+import android.view.inputmethod.EditorInfo;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 import android.os.Build;
+import android.provider.MediaStore;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v4.view.MotionEventCompat;
 
 public class HotCornersActivity extends Activity {
+	
+	static final int SAVE_NOTE = 1;
+	static final int TAKE_PICTURE = 2;
+	
+	private boolean bold=false, italic=false, underlined=false;
+	
+	private String mSelectedImagePath;
+	private StringBuffer webViewContent=new StringBuffer();
+	
 	SemiCircularRadialMenu pieMenuFile,pieMenuEdit,pieMenuOptions,pieMenuMedia,pieMenuStyle; 
 	SemiCircularRadialMenuItem ItemNew,ItemOpen,ItemSave, ItemExit;
 	SemiCircularRadialMenuItem ItemMultiauthor,ItemShare,ItemDictionary;
 	SemiCircularRadialMenuItem ItemDimension,ItemColor,ItemBold, ItemItalic,ItemUnderlined;
 	SemiCircularRadialMenuItem ItemRecorder,ItemSnapshot,ItemAttach, ItemLink;
-	SemiCircularRadialMenuItem ItemCopy,ItemCut,ItemPaste;
-	
+	SemiCircularRadialMenuItem ItemCopy,ItemCut,ItemPaste;	
 	
 	com.radialmenu.RadialMenuWidget RD1;
 	com.radialmenu.RadialMenuItem rdw, rdw2, rdw3,rdw4;
-	 
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_hot_corners);
-
-		//POUR CHIARA!!***********a supprimer après*****************
-		 RD1 = new com.radialmenu.RadialMenuWidget(this);
-		 rdw = new com.radialmenu.RadialMenuItem("Test1","Test1");
-		 rdw2 = new com.radialmenu.RadialMenuItem("Test2","Test2");
-		 rdw3 = new com.radialmenu.RadialMenuItem("Test3","Test3");
-		 rdw4 = new com.radialmenu.RadialMenuItem("Test4","Test4");
-			
-		 RD1.addMenuEntry(rdw);
-		 RD1.addMenuEntry(rdw2);
-		 RD1.addMenuEntry(rdw3);
-		 RD1.addMenuEntry(rdw4);
-		 
-		 rdw.setOnMenuItemPressed(new RadialMenuItemClickListener() {	
-			@Override
-			public void execute() {
-				// TODO Auto-generated method stub
-				Toast.makeText(getApplicationContext(),rdw.getName(), Toast.LENGTH_SHORT).show();	
+		
+		//get current screen orientation
+		Display display = ((WindowManager) getSystemService(WINDOW_SERVICE)).getDefaultDisplay();
+	        int orientation = display.getRotation(); 
+		switch(orientation){
+		case Surface.ROTATION_0:	//portrait
+			getWindow().setSoftInputMode(
+	     		       WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+			break;
+		case Surface.ROTATION_90:	//landscape
+			getWindow().setSoftInputMode(
+	     		       WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
+			break;
+		case Surface.ROTATION_180:	//portrait
+			getWindow().setSoftInputMode(
+	     		       WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+			break;	
+		case Surface.ROTATION_270:	//landscape
+			getWindow().setSoftInputMode(
+	     		       WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
+			break;
+		}
+		String idNote="", activity_type;
+		Intent myIntent = getIntent(); 
+		try{
+			activity_type= myIntent.getStringExtra("activity_type");
+			if (activity_type.compareTo("modify")==0){					
+				idNote = myIntent.getStringExtra("id_note");
+				//GetNote(idNote);
 			}
-		 });
-		 
-		 rdw2.setOnMenuItemPressed(new RadialMenuItemClickListener() {	
-				@Override
-				public void execute() {
-					// TODO Auto-generated method stub
-					Toast.makeText(getApplicationContext(),rdw2.getName(), Toast.LENGTH_SHORT).show();	
-				}
-		 });
-		 rdw3.setOnMenuItemPressed(new RadialMenuItemClickListener() {	
-				@Override
-				public void execute() {
-					// TODO Auto-generated method stub
-					Toast.makeText(getApplicationContext(),rdw3.getName(), Toast.LENGTH_SHORT).show();	
-				}
-		 });
-		 rdw4.setOnMenuItemPressed(new RadialMenuItemClickListener() {	
-				@Override
-				public void execute() {
-					// TODO Auto-generated method stub
-					Toast.makeText(getApplicationContext(),rdw4.getName(), Toast.LENGTH_SHORT).show();	
-				}
-		 });
-		 
-		 /*Button testButton = (Button) this.findViewById(R.id.btnTest);
-			testButton.setOnClickListener(new OnClickListener() {
-				public void onClick(View v) {
-					RD1.show(v);
-				}
-			});*/
-		//*************************************************************
-			
+			else if (activity_type.compareTo("view")==0){
+				idNote = myIntent.getStringExtra("id_note");
+				//GetNote(idNote);
+			}
+			else if (activity_type.compareTo("new")==0){
+				idNote = "unknown";
+			}
+			//else
+				//Toast.makeText(getApplicationContext(),"Unknown activity type", Toast.LENGTH_SHORT).show();	
+			//Toast.makeText(getApplicationContext(),activity_type + " " + idNote, Toast.LENGTH_SHORT).show();		
+		}catch(Exception e){}
+		
+		
+		//check when keyboard pops up
+		/*final View activityRootView = findViewById(R.id.layout_main);  
+        activityRootView.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {  
+            @Override  
+            public void onGlobalLayout() {  
+                int i = activityRootView.getRootView().getHeight();  
+                int j = activityRootView.getHeight();  
+                int heightDiff = activityRootView.getRootView().getHeight() - activityRootView.getHeight();  
+                if (heightDiff > 200) { // if more than 100 pixels, its probably a keyboard...  
+                	//Toast.makeText(getApplicationContext(), "keyboard pop up", Toast.LENGTH_SHORT).show();
+                	pieMenuMedia = (SemiCircularRadialMenu)findViewById(R.id.mediaMenu);
+                	pieMenuMedia.setTranslationY(120);
+                	pieMenuMedia.setTranslationX(-150);
+                	pieMenuEdit = (SemiCircularRadialMenu)findViewById(R.id.editMenu);
+                	pieMenuEdit.setTranslationY(-110);
+                	pieMenuEdit.setTranslationX(140);
+                	
+                	                	
+                } else{  
+                	//Toast.makeText(getApplicationContext(), "no pop up ", Toast.LENGTH_SHORT).show(); 
+                	
+                }  
+             }  
+        });  
+		*/
+        TextView wv=(TextView)findViewById(R.id.WebViewNote);
+        wv.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+            	//Toast.makeText(getApplicationContext(), "touched", Toast.LENGTH_SHORT).show(); 
+                return false;
+            }           
+        });
+        
+        //detect when pressed ENTER on the soft keyboard
+        EditText myNote = (EditText) findViewById(R.id.editNote);
+        myNote.setOnEditorActionListener(new OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_NULL && event.getAction() == KeyEvent.ACTION_DOWN) {
+                	
+                	TextView wv=(TextView)findViewById(R.id.WebViewNote);
+                	webViewContent.append(formatText(v.getText().toString())+"<br>");
+                	wv.setText(Html.fromHtml(webViewContent.toString()));
+                	//wv.loadData(webViewContent.toString(), "text/html", "utf-8");
+                	v.setText("");
+                	
+                }
+                return true;
+            }
+        });
 			
 		/*if (savedInstanceState == null) {
 			getSupportFragmentManager().beginTransaction()
@@ -183,25 +243,25 @@ public class HotCornersActivity extends Activity {
 		pieMenuEdit.addMenuItem(ItemPaste.getMenuID(), ItemPaste);	
 		pieMenuEdit.setAngles(270, 90);
 		
-		ItemAttach.setIconDimen(32);
-		ItemNew.setIconDimen(32);
-		ItemBold.setIconDimen(32);
-		ItemColor.setIconDimen(32);
-		ItemCut.setIconDimen(32);
-		ItemCopy.setIconDimen(32);
-		ItemDictionary.setIconDimen(32);
-		ItemDimension.setIconDimen(32);
-		ItemExit.setIconDimen(32);
-		ItemItalic.setIconDimen(32);
-		ItemLink.setIconDimen(32);
-		ItemMultiauthor.setIconDimen(32);	
-		ItemOpen.setIconDimen(32);
-		ItemPaste.setIconDimen(32);
-		ItemRecorder.setIconDimen(32);
-		ItemSave.setIconDimen(32);
-		ItemShare.setIconDimen(32);
-		ItemSnapshot.setIconDimen(32);
-		ItemUnderlined.setIconDimen(32);
+		ItemAttach.setIconDimen(60);
+		ItemNew.setIconDimen(60);
+		ItemBold.setIconDimen(60);
+		ItemColor.setIconDimen(60);
+		ItemCut.setIconDimen(60);
+		ItemCopy.setIconDimen(60);
+		ItemDictionary.setIconDimen(60);
+		ItemDimension.setIconDimen(60);
+		ItemExit.setIconDimen(60);
+		ItemItalic.setIconDimen(60);
+		ItemLink.setIconDimen(60);
+		ItemMultiauthor.setIconDimen(60);	
+		ItemOpen.setIconDimen(60);
+		ItemPaste.setIconDimen(60);
+		ItemRecorder.setIconDimen(60);
+		ItemSave.setIconDimen(60);
+		ItemShare.setIconDimen(60);
+		ItemSnapshot.setIconDimen(60);
+		ItemUnderlined.setIconDimen(60);
 		
 		
 		ItemNew.setOnSemiCircularRadialMenuPressed(new OnSemiCircularRadialMenuPressed() {			
@@ -232,7 +292,11 @@ public class HotCornersActivity extends Activity {
 			@Override
 			public void onMenuItemPressed() {
 				// TODO Auto-generated method stub
-				Toast.makeText(getApplicationContext(),"Save", Toast.LENGTH_SHORT).show();		
+				//Toast.makeText(getApplicationContext(),"Save", Toast.LENGTH_SHORT).show();	
+				Intent intent = new Intent(HotCornersActivity.this, SaveActivity.class);
+				TextView note=(TextView)findViewById(R.id.WebViewNote);
+				intent.putExtra("note_text",webViewContent.toString());
+				startActivityForResult(intent, SAVE_NOTE);
 			}
 		});
 		
@@ -288,7 +352,8 @@ public class HotCornersActivity extends Activity {
 			@Override
 			public void onMenuItemPressed() {
 				// TODO Auto-generated method stub
-				Toast.makeText(getApplicationContext(),"Bold", Toast.LENGTH_SHORT).show();		
+				Toast.makeText(getApplicationContext(),"Bold", Toast.LENGTH_SHORT).show();	
+				bold=true;
 			}
 		});
 		
@@ -296,7 +361,8 @@ public class HotCornersActivity extends Activity {
 			@Override
 			public void onMenuItemPressed() {
 				// TODO Auto-generated method stub
-				Toast.makeText(getApplicationContext(),"Italic", Toast.LENGTH_SHORT).show();		
+				Toast.makeText(getApplicationContext(),"Italic", Toast.LENGTH_SHORT).show();	
+				italic=true;
 			}
 		});
 		
@@ -304,7 +370,8 @@ public class HotCornersActivity extends Activity {
 			@Override
 			public void onMenuItemPressed() {
 				// TODO Auto-generated method stub
-				Toast.makeText(getApplicationContext(),"Underlined", Toast.LENGTH_SHORT).show();		
+				Toast.makeText(getApplicationContext(),"Underlined", Toast.LENGTH_SHORT).show();
+				underlined=true;
 			}
 		});
 		
@@ -320,7 +387,13 @@ public class HotCornersActivity extends Activity {
 			@Override
 			public void onMenuItemPressed() {
 				// TODO Auto-generated method stub
-				Toast.makeText(getApplicationContext(),"Snapshot", Toast.LENGTH_SHORT).show();		
+				//Toast.makeText(getApplicationContext(),"Snapshot", Toast.LENGTH_SHORT).show();
+				Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+			    File mImageFile = new File(Environment.getExternalStorageDirectory()+File.separator+"DCIM"+File.separator+"Camera",  
+			            "PIC"+System.currentTimeMillis()+".jpg");
+			    mSelectedImagePath = mImageFile.getAbsolutePath();
+			    intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(mImageFile));
+			    startActivityForResult(intent, TAKE_PICTURE);
 			}
 		});
 		
@@ -387,7 +460,7 @@ public class HotCornersActivity extends Activity {
 			                    "of current screen element");
 			            return true;    
 			        
-			        default : 
+			        de-fault : 
 			        	return v.onTouchEvent(event);
 			    }      
 				// 	return false;
@@ -498,57 +571,70 @@ public class HotCornersActivity extends Activity {
 		}
 	}*/
 	
-	public void ShowFileMenu(View view){
-		//EditText editText = (EditText) findViewById(R.id.editText1);
-		//editText.setText("File menu");
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	    // Check which request we're responding to
+	    switch(requestCode){
+	    case SAVE_NOTE: 
+	    	// Make sure the request was successful
+	        if (resultCode == RESULT_OK) {
+	            // The user saved the note.
+	        	Toast.makeText(this, "Save successful", Toast.LENGTH_SHORT).show();
+	        }else{
+	        	//cancel of the save
+	        	Toast.makeText(this, "Save aborted", Toast.LENGTH_SHORT).show();
+	        }
+	    break;
+	    case TAKE_PICTURE:
+	    	if (resultCode == RESULT_OK) {
+	    		//save picture mSelectedImagePath on the web server
+	    		Toast.makeText(this, "Photo " +mSelectedImagePath +" saved", Toast.LENGTH_LONG).show();
+	    	}
+	    }
 	}
 	
-	public void ShowOptionsMenu(View view){
-		//EditText editText = (EditText) findViewById(R.id.editText1);
-		//editText.setText("Options menu");
-		
+	private String formatText(String textToFormat){
+		StringBuffer htmlText=new StringBuffer(textToFormat);
+		if (underlined){
+			htmlText=new StringBuffer(HtmlFormat.Underline(htmlText.toString()));
+			underlined=false;
+		}
+		if (bold){
+			htmlText=new StringBuffer(HtmlFormat.Bold(htmlText.toString()));
+			bold=false;
+		}
+		if (italic){
+			htmlText=new StringBuffer(HtmlFormat.Italic(htmlText.toString()));
+			italic=false;
+		}
+		return htmlText.toString();
 	}
 	
-	public void ShowEditMenu(View view){
-		//EditText editText = (EditText) findViewById(R.id.editText1);
-		//editText.setText("Edit menu");
-		
-	}
+	/*public boolean onOrientationChanges() {
+		  if(orientation == landscape)
+		    if(settings.get("lock_orientation"))
+		      return false;   // Retain portrait mode
+		    else
+		      return true; // change to landscape mode
+
+		  return true; 
+		}
 	
-	public void ShowMediaMenu(View view){
-		//EditText editText = (EditText) findViewById(R.id.editText1);
-		//editText.setText("Media menu");
-		
-	}
+	*/
 	
-	public void ShowStyleMenu(View view){
-		//EditText editText = (EditText) findViewById(R.id.editText1);
-		//editText.setText("Style menu");
-		
-	}
-	
-	/*@Override
-	public boolean onTouchEvent(MotionEvent event){ 
-	    this.mDetector.onTouchEvent(event);
-	    return super.onTouchEvent(event);
-	}
-	
-	class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
-        private static final String DEBUG_TAG = "Gestures"; 
-        
-        @Override
-        public boolean onDown(MotionEvent event) { 
-            Log.d(DEBUG_TAG,"onDown: " + event.toString()); 
-            return true;
-        }
-        
-        
-        @Override
-        public boolean onFling(MotionEvent event1, MotionEvent event2, 
-                float velocityX, float velocityY) {
-            Log.d(DEBUG_TAG, "onFling: " + event1.toString()+event2.toString());
-            return true;
+	@Override
+    public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+		Toast.makeText(this, "Orientation: "+newConfig.orientation, Toast.LENGTH_LONG).show();
+        // Checks the orientation of the screen for landscape and portrait and set portrait mode always
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+        	getWindow().setSoftInputMode(
+     		       WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
+        	getWindow().setSoftInputMode(
+      		       WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        	
         }
     }
-	*/
 }
