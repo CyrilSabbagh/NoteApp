@@ -69,10 +69,11 @@ public class SaveActivity extends Activity {
 			};
 			//IMEI present only on 3G tablets
 			//final TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
-			Calendar c = Calendar.getInstance(); 
+			Calendar c = Calendar.getInstance();
+		
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+			final String currentDate = sdf.format(c.getTime());
 			
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
-			final String currentDate = sdf.format(new Date(c.get(Calendar.SECOND)));
 			if (!getCurrentLocation()){
 				lat=-1;
 				lng=-1;
@@ -80,6 +81,7 @@ public class SaveActivity extends Activity {
 			final String deviceId = Settings.System.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
 			Log.i("DATABASE","IMEI: " + deviceId);
 			Log.i("DATABASE","Location: latitude " + lat+ " longitude "+lng);
+			Log.i("DATABASE","Date " + currentDate);
 			
 			final CheckBox ck=(CheckBox)findViewById(R.id.checkShare);
 			ArrayList<Course> myCourses=new ArrayList<Course>();
@@ -89,7 +91,7 @@ public class SaveActivity extends Activity {
 				public void onTaskComplete(List<Course> result) {
 					// TODO Auto-generated method stub
 					//populate list view
-					Log.i("DATABASE","Created new course: " +edtCourse.getText().toString());
+					Log.i("DATABASE","Create new course: " +edtCourse.getText().toString());
 					Course myCourse = null;
 					for (Course c: result){
 						if (c.getName().compareTo(edtCourse.getText().toString())==0){
@@ -110,9 +112,10 @@ public class SaveActivity extends Activity {
 				}			
 			};
 				
-			new GetUserCourses(getApplicationContext(),myListenerCourses,deviceId);
+			//new GetUserCourses(getApplicationContext(),myListenerCourses,deviceId);
 			
-			
+			new CreateNote(getApplicationContext(), myListener,"354436053502520", edtName.getText().toString(), 
+					myNote, currentDate, (float)lat, (float)lng,1, ck.isChecked());
 		}
 	}
 	
