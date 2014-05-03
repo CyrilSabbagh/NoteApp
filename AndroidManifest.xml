@@ -14,8 +14,8 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -34,9 +34,9 @@
         </activity>
         <activity
             android:name="com.cyrilsabbagh.noteapp.HotCornersActivity"
+            android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_hot_corners"
             android:screenOrientation="unspecified"
-            android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustResize" > <!-- bottom buttons go up when keyboard present -->
         </activity>
         <!--
@@ -59,7 +59,14 @@
             android:name="com.cyrilsabbagh.noteapp.SaveActivity"
             android:label="@string/title_activity_save" >
         </activity>
+        <activity
+            android:name="com.cyrilsabbagh.noteapp.DictionaryActivity"
+            android:label="@string/title_activity_dictionary" >
+        </activity>
+        <activity
+            android:name="com.cyrilsabbagh.noteapp.SearchActivity"
+            android:label="@string/title_activity_search" >
+        </activity>
     </application>
 
 </manifest>
-

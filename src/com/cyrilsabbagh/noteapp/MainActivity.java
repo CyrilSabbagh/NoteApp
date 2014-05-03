@@ -54,7 +54,9 @@ public class MainActivity extends Activity {
 				@Override
 				public void execute() {
 					// TODO Auto-generated method stub
-					Toast.makeText(getApplicationContext(),rdw2.getName(), Toast.LENGTH_SHORT).show();	
+					Toast.makeText(getApplicationContext(),rdw2.getName(), Toast.LENGTH_SHORT).show();
+					Intent intent = new Intent(MainActivity.this, SearchActivity.class);
+					startActivity(intent);
 				}
 		 });
 		 rdw3.setOnMenuItemPressed(new RadialMenuItemClickListener() {	

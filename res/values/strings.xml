@@ -42,6 +42,7 @@
     <string name="OK">OK</string>
     <string name="Cancel">Cancel</string>
     <string name="share">Share with others</string>
+    <string name="title_activity_dictionary">DictionaryActivity</string>
+    <string name="title_activity_search">SearchActivity</string>
 
 </resources>
-
