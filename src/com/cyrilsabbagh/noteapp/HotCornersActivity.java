@@ -1,8 +1,14 @@
 package com.cyrilsabbagh.noteapp;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.lang.reflect.Method;
+import java.net.SocketException;
 
+import org.apache.commons.net.ftp.FTP;
+import org.apache.commons.net.ftp.FTPClient;
 import org.xmlpull.v1.XmlPullParser;
 
 import com.cyrilsabbagh.noteapp.controllers.HtmlFormat;
@@ -19,6 +25,7 @@ import android.graphics.drawable.GradientDrawable.Orientation;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.StrictMode;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.style.BackgroundColorSpan;
@@ -61,6 +68,7 @@ public class HotCornersActivity extends Activity {
 	private boolean bold=false, italic=false, underlined=false;
 	
 	private String mSelectedImagePath;
+	private String imageName;
 	private StringBuffer webViewContent=new StringBuffer();
 	
 	SemiCircularRadialMenu pieMenuFile,pieMenuEdit,pieMenuOptions,pieMenuMedia,pieMenuStyle; 
@@ -412,8 +420,9 @@ public class HotCornersActivity extends Activity {
 				// TODO Auto-generated method stub
 				//Toast.makeText(getApplicationContext(),"Snapshot", Toast.LENGTH_SHORT).show();
 				Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+				imageName = "PIC"+System.currentTimeMillis();
 			    File mImageFile = new File(Environment.getExternalStorageDirectory()+File.separator+"DCIM"+File.separator+"Camera",  
-			            "PIC"+System.currentTimeMillis()+".jpg");
+			            imageName+".jpg");
 			    mSelectedImagePath = mImageFile.getAbsolutePath();
 			    intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(mImageFile));
 			    startActivityForResult(intent, TAKE_PICTURE);
@@ -613,9 +622,48 @@ public class HotCornersActivity extends Activity {
 	    	if (resultCode == RESULT_OK) {
 	    		//save picture mSelectedImagePath on the web server
 	    		Toast.makeText(this, "Photo " +mSelectedImagePath +" saved", Toast.LENGTH_LONG).show();
+	    		Log.d("FTP CLIENT",mSelectedImagePath);
+	    		//String path=Environment.getExternalStorageDirectory()+"/"+ name + ".jpg";
+	    		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+	    		StrictMode.setThreadPolicy(policy);
+            	FTPClient client = new FTPClient();
+		        try {
+		      //  SharedPreferences myPref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+		        	
+			           
+		            client.connect("ftp.cyrilsabbagh.com");
+		            Log.i("done","done");
+		            client.enterLocalPassiveMode();
+		            client.setFileType(FTP.BINARY_FILE_TYPE);
+		            boolean login = client.login("noteapp@cyrilsabbagh.com", "noteapp");
+		            
+		            Log.i("test",login+"");
+		            Log.i("done","done");
+		          
+				    
+				    BufferedInputStream buffIn = null;
+			        buffIn = new BufferedInputStream(new FileInputStream(mSelectedImagePath));
+			        
+			     // InputStream progressInput = new InputStream(buffIn);
+			 
+			        boolean result = client.storeFile("images/"+imageName+".jpg", buffIn);
+			       
+			        Log.i("result",result+"");
+			        buffIn.close();
+			        client.logout();
+			        client.disconnect();
+		        	}catch (SocketException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+		        
+		        }
+	    		break;
 	    	}
 	    }
-	}
 	
 	private String formatText(String textToFormat){
 		StringBuffer htmlText=new StringBuffer(textToFormat);
