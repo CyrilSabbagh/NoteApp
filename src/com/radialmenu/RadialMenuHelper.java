@@ -51,7 +51,7 @@ public class RadialMenuHelper {
 	 */
 	protected PopupWindow initPopup(Context context) {
 		PopupWindow window = new PopupWindow(context);
-		window.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
+		window.setWidth(2000); //IL PROBLEMA ERA QUIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
 		window.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
 		window.setTouchable(true);
 		window.setFocusable(true);
