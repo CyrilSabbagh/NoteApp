@@ -54,16 +54,22 @@ public class MainActivity extends Activity {
 				@Override
 				public void execute() {
 					// TODO Auto-generated method stub
+
 					Toast.makeText(getApplicationContext(),rdw2.getName(), Toast.LENGTH_SHORT).show();
 					Intent intent = new Intent(MainActivity.this, SearchActivity.class);
 					startActivity(intent);
+
+					Toast.makeText(getApplicationContext(),rdw2.getName(), Toast.LENGTH_SHORT).show();	
+					RD1.eventHandled=false;
+
 				}
 		 });
 		 rdw3.setOnMenuItemPressed(new RadialMenuItemClickListener() {	
 				@Override
 				public void execute() {
 					// TODO Auto-generated method stub
-					Toast.makeText(getApplicationContext(),rdw3.getName(), Toast.LENGTH_SHORT).show();	
+					Toast.makeText(getApplicationContext(),rdw3.getName(), Toast.LENGTH_SHORT).show();
+					RD1.eventHandled=false;
 				}
 		 });
 		 rdw4.setOnMenuItemPressed(new RadialMenuItemClickListener() {	
@@ -86,6 +92,11 @@ public class MainActivity extends Activity {
 			v.setVisibility(View.GONE);
 			RD1.show(v);
 		}
+	}
+	
+	public void TestCourse(View v){
+		Intent intent = new Intent(MainActivity.this, CyrilActivity.class);
+		startActivity(intent);
 	}
 
 	/*public void onResume(){
@@ -128,6 +139,10 @@ public class MainActivity extends Activity {
 		//startActivity(intent);
 	}
 	*/	
-	
+	public void onResume(){
+		super.onResume();
+		if (RD1!=null)
+			RD1.eventHandled=false;
+	}
 	
 }

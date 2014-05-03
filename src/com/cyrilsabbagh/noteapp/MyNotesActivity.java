@@ -3,10 +3,10 @@ package com.cyrilsabbagh.noteapp;
 import java.util.ArrayList;
 
 import android.os.Bundle;
-
 import android.support.v4.app.FragmentManager;
 import android.view.*;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,6 +14,7 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 import android.content.Intent;
 import android.app.Activity;
+
 import com.radialmenu.*;
 import com.radialmenu.RadialMenuItem.RadialMenuItemClickListener;
 //import com.touchmenotapps.radialdemo.RadialMenuAboutFragment;
@@ -138,6 +139,7 @@ public class MyNotesActivity extends Activity {
 					// TODO Auto-generated method stub
 					Toast.makeText(getApplicationContext(),it1.getName(), Toast.LENGTH_SHORT).show();
 					RD2.dismiss();
+					RD2.eventHandled=false;
 				}
 			 });
 		 
@@ -147,6 +149,7 @@ public class MyNotesActivity extends Activity {
 					// TODO Auto-generated method stub
 					Toast.makeText(getApplicationContext(),it2.getName(), Toast.LENGTH_SHORT).show();
 					RD2.dismiss();
+					RD2.eventHandled=false;
 				}
 			 });
 		 
@@ -156,6 +159,7 @@ public class MyNotesActivity extends Activity {
 					// TODO Auto-generated method stub
 					Toast.makeText(getApplicationContext(),it3.getName(), Toast.LENGTH_SHORT).show();
 					RD2.dismiss();
+					RD2.eventHandled=false;
 				}
 			 });
 		 
@@ -165,9 +169,73 @@ public class MyNotesActivity extends Activity {
 					// TODO Auto-generated method stub
 					Toast.makeText(getApplicationContext(),it4.getName(), Toast.LENGTH_SHORT).show();
 					RD2.dismiss();
+					RD2.eventHandled=false;
 				}
 			 });
-		 
+		 /*((Button)findViewById(R.id.button1)).setOnTouchListener( new OnTouchListener() {
+			
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				// TODO Auto-generated method stub
+				switch ( event.getAction() ) {
+			     case MotionEvent.ACTION_DOWN: 
+			    	 circmenu(v);
+			    	 break;
+			     case MotionEvent.ACTION_UP:
+			    	 RD2.dismiss();
+			    	 break;
+			     }
+			     return true;
+			}
+		});ij\	\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\hb
+		 ((Button)findViewById(R.id.button2)).setOnTouchListener( new OnTouchListener() {
+				
+				@Override
+				public boolean onTouch(View v, MotionEvent event) {
+					// TODO Auto-generated method stub
+					switch ( event.getAction() ) {
+				     case MotionEvent.ACTION_DOWN: 
+				    	 circmenu(v);
+				    	 break;
+				     case MotionEvent.ACTION_UP:
+				    	 RD2.dismiss();
+				    	 break;
+				     }
+				     return true;
+				}
+			});
+		 ((Button)findViewById(R.id.button3)).setOnTouchListener( new OnTouchListener() {
+				
+				@Override
+				public boolean onTouch(View v, MotionEvent event) {
+					// TODO Auto-generated method stub
+					switch ( event.getAction() ) {
+				     case MotionEvent.ACTION_DOWN: 
+				    	 circmenu(v);
+				    	 break;
+				     case MotionEvent.ACTION_UP:
+				    	 RD2.dismiss();
+				    	 break;
+				     }
+				     return true;
+				}
+			});
+		 ((Button)findViewById(R.id.button4)).setOnTouchListener( new OnTouchListener() {
+				
+				@Override
+				public boolean onTouch(View v, MotionEvent event) {
+					// TODO Auto-generated method stub
+					switch ( event.getAction() ) {
+				     case MotionEvent.ACTION_DOWN: 
+				    	 circmenu(v);
+				    	 break;
+				     case MotionEvent.ACTION_UP:
+				    	 RD2.dismiss();
+				    	 break;
+				     }
+				     return true;
+				}
+			});*/
 	} 
 	
 	/*guarda qui: per creare il tuo radial menu

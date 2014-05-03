@@ -29,6 +29,7 @@ import android.support.v4.view.GestureDetectorCompat;
 import android.util.Log;
 import android.view.*;
 import android.widget.PopupWindow;
+import android.widget.Toast;
 
 /**
  * This is the core class that handles the widget display and user interaction.
@@ -150,7 +151,7 @@ public class RadialMenuWidget extends View {
 	private GestureDetectorCompat mDetector; 
 	private RadialMenuItem itemSelected=null;	
 	private boolean startedMotion=false;
-	private boolean eventHandled=false;
+	public boolean eventHandled=false;
 	//************************
 		
 	/**
@@ -174,6 +175,7 @@ public class RadialMenuWidget extends View {
 		helper.onOpenAnimation(this, xPosition, yPosition, xSource, ySource);
 		//*****************added***********
 		mDetector = new GestureDetectorCompat(getContext(), new MyGestureListener());
+		eventHandled=false;
 	}
 
 	@Override
@@ -258,19 +260,25 @@ public class RadialMenuWidget extends View {
 			if(centerCircle != null) {
 				inCircle = helper.pntInCircle(eventX, eventY, xPosition, yPosition,
 						cRadius);
+				if (inCircle)
+					centerCircle.menuActiviated();
 			}
 			
 		} else if (state == MotionEvent.ACTION_UP) {
+			
 			// execute commands...
 			// put in stuff here to "return" the button that was pressed.
 			if (inCircle == true) {
 				if (Wedge2Shown == true) {
 					enabled = null;
 					animateOuterIn = true; // sets Wedge2Shown = false;
+					
 				}
 				selected = null;
-				centerCircle.menuActiviated();
-
+				//centerCircle.menuActiviated();
+				//****************************
+				dismiss();
+				//**************************
 			} else if (selected != null) {
 				for (int i = 0; i < Wedges.length; i++) {
 					RadialMenuWedge f = Wedges[i];
@@ -1295,7 +1303,8 @@ public class RadialMenuWidget extends View {
 	        @Override
 	        public boolean onFling(MotionEvent event1, MotionEvent event2, 
 	                float velocityX, float velocityY) {
-	        	
+	        	if (!eventHandled){ //avoid useless events
+		        	
 	        	if (helper.pntInCircle(event1.getX(), event1.getY(), xPosition, yPosition, cRadius)){
         			//touch on central edge
 	        		//Log.d("GESTURE", "onFling: " + event1.toString()+event2.toString());
@@ -1310,10 +1319,14 @@ public class RadialMenuWidget extends View {
 
 	    				if (inWedge == true) {
 	    					Log.d("GESTURE", "flinged on " + menuEntries.get(i).getName());
-	    					menuEntries.get(i).menuActiviated();
+	    					if (!eventHandled){
+	    						eventHandled=true;
+	    						menuEntries.get(i).menuActiviated();
+	    					}
 	    					break;
 	    				}
 	    			}
+	        	}
 	        	}
 	        	return true;
 	        }
