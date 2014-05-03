@@ -12,6 +12,8 @@ import com.radialmenu.SemiCircularRadialMenuItem.OnSemiCircularRadialMenuPressed
 
 import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -19,8 +21,11 @@ import android.graphics.drawable.GradientDrawable.Orientation;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.text.Editable;
 import android.text.Html;
+import android.text.InputType;
 import android.text.Spannable;
+import android.text.TextWatcher;
 import android.text.style.BackgroundColorSpan;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -33,6 +38,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.Surface;
 import android.view.View;
+import android.view.View.OnFocusChangeListener;
 import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
@@ -40,6 +46,7 @@ import android.view.ViewGroup;
 import android.view.KeyEvent;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -61,7 +68,7 @@ public class HotCornersActivity extends Activity {
 	private boolean bold=false, italic=false, underlined=false;
 	
 	private String mSelectedImagePath;
-	private StringBuffer webViewContent=new StringBuffer();
+	private StringBuffer webViewContent=new StringBuffer("");
 	
 	SemiCircularRadialMenu pieMenuFile,pieMenuEdit,pieMenuOptions,pieMenuMedia,pieMenuStyle; 
 	SemiCircularRadialMenuItem ItemNew,ItemOpen,ItemSave, ItemExit;
@@ -118,7 +125,6 @@ public class HotCornersActivity extends Activity {
 			//Toast.makeText(getApplicationContext(),activity_type + " " + idNote, Toast.LENGTH_SHORT).show();		
 		}catch(Exception e){}
 		
-		
 		//check when keyboard pops up
 		/*final View activityRootView = findViewById(R.id.layout_main);  
         activityRootView.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {  
@@ -144,49 +150,106 @@ public class HotCornersActivity extends Activity {
              }  
         });  
 		*/
-        /*String  textString = "StackOverFlow Rocks!!!"; 
-        Spannable spanText=Spannable.Factory.getInstance().newSpannable(textString);
-        spanText.setSpan(new BackgroundColorSpan(0xFFFFFF00), 14, 19, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        wv.setText(spanText);
-       */
-        
         //detect when pressed ENTER on the soft keyboard inside the editing note
-        final EditText myNote = (EditText) findViewById(R.id.editNote);
+        
+		final EditText myNote = (EditText) findViewById(R.id.editNote);
         myNote.setOnEditorActionListener(new OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_NULL && event.getAction() == KeyEvent.ACTION_DOWN) {
-                	
+                if (actionId == EditorInfo.IME_NULL && event.getAction() == KeyEvent.ACTION_DOWN) {                	
                 	EditText edtContent=(EditText)findViewById(R.id.allContent);
                 	webViewContent.append(formatText(v.getText().toString())+"<br>");
                 	//wv.setText(Html.fromHtml(webViewContent.toString()));
                 	//edtContent.loadData(webViewContent.toString(), "text/html", "utf-8");
                 	edtContent.setText(Html.fromHtml(webViewContent.toString()));              	
-                	v.setText("");
-                	
-                	//Toast.makeText(getApplicationContext(),webViewContent.toString(), Toast.LENGTH_LONG).show();		
+                	v.setText("");                	
+                	Toast.makeText(getApplicationContext(),webViewContent.toString(), Toast.LENGTH_LONG).show();		
                 }
                 return true;
             }
         });
         
-      //detect when pressed ENTER on the soft keyboard inside the content note
         final EditText edtContent = (EditText) findViewById(R.id.allContent);
+        edtContent.setOnFocusChangeListener(new OnFocusChangeListener() {
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
+				// TODO Auto-generated method stub
+				//when it has focus, the content edit view is not editable
+				//code source from: http://thedevelopersinfo.com/2009/11/15/making-not-editable-edittext-in-android/
+				if (hasFocus){					
+					edtContent.setFilters(new InputFilter[]{ new InputFilter(){
+						@Override
+						public CharSequence filter(CharSequence source, int start,int end, Spanned dest, int dstart, int dend) {
+								return source.length() < 1 ? dest.subSequence(dstart, dend): "";
+						}
+					}});
+				}else{
+					edtContent.setFilters(new InputFilter[]{ new InputFilter(){
+						@Override
+						public CharSequence filter(CharSequence source, int start,int end, Spanned dest, int dstart, int dend) {
+								return null;
+						}
+					}});
+				}
+			}
+		});
+        //detect when text changed inside the content
+        
+        edtContent.addTextChangedListener(new TextWatcher() {
+			
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+				// TODO Auto-generated method stub
+				//webViewContent.insert(start, s);
+				//Log.d("TextEditor","Edit:"+s.toString());
+				//Log.d("TextEditor","Changed:"+start+" "+count+" "+s.toString().substring(start,start+count));
+				//Log.d("TextEditor","Web:"+webViewContent.toString());				
+				/*String changedText=s.toString().substring(start,start+count);
+				if (changedText.indexOf('\n')==-1)
+					webViewContent.replace(start, start+before, changedText);
+				*/
+				//Log.d("TextEditor","Web after:"+webViewContent.toString());
+				
+			}
+			
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void afterTextChanged(Editable s) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+      
+        
+      //detect when pressed ENTER on the soft keyboard inside the content note
+       /* 
         edtContent.setOnEditorActionListener(new OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_NULL && event.getAction() == KeyEvent.ACTION_DOWN) {
+                	//Toast.makeText(getApplicationContext(),"webview "+webViewContent.toString(), Toast.LENGTH_SHORT).show();		
+                	//Toast.makeText(getApplicationContext(),"edt "+edtContent.getText().toString(), Toast.LENGTH_SHORT).show();		
+                	int cursorPosition=edtContent.getSelectionStart();
+                	String search=edtContent.getText().toString().substring(cursorPosition);
+                	Log.d("TextEditor","cursorpos:"+cursorPosition);
+                	Log.d("TextEditor","search:"+search);
+                	Log.d("TextEditor","indexof:"+webViewContent.indexOf(search) +" length "+search.length());
+    				
+                	webViewContent.replace(webViewContent.indexOf(search), webViewContent.indexOf(search), "<br>");
+                	edtContent.setText(Html.fromHtml(webViewContent.toString()));              	
                 	
-                	webViewContent.append(formatText(v.getText().toString())+"<br>");
-                	//wv.setText(Html.fromHtml(webViewContent.toString()));
-                	//edtContent.loadData(webViewContent.toString(), "text/html", "utf-8");
-                	v.setText(Html.fromHtml(webViewContent.toString()));              	
+                	Log.d("TextEditor","webview after:"+webViewContent.toString());
                 	
-                	//Toast.makeText(getApplicationContext(),webViewContent.toString(), Toast.LENGTH_LONG).show();		
-                }
+               }
                 return true;
             }
-        });
+        });*/
 			
 		/*if (savedInstanceState == null) {
 			getSupportFragmentManager().beginTransaction()
