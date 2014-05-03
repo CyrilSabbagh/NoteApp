@@ -68,7 +68,7 @@ public class SearchDB extends AsyncTask<String, String, SearchResult>{
         JSONObject json = jParser.makeHttpRequest(search_db_url, "GET", params);
         result=new SearchResult();
        
-        
+        if(json!=null){
         try {
             // Checking for SUCCESS TAG
             int success = json.getInt("success");
@@ -121,7 +121,7 @@ public class SearchDB extends AsyncTask<String, String, SearchResult>{
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        
+        }
 		return result;
 	}
 	

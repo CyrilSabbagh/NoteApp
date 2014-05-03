@@ -57,6 +57,7 @@ public class CreateCourse extends AsyncTask<String, String, String>{
         Log.d("Create Response", json.toString());
 
         // check for success tag
+        if(json!=null){
         try {
             int success = json.getInt("success");
 
@@ -69,7 +70,7 @@ public class CreateCourse extends AsyncTask<String, String, String>{
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
+        }
         return result;
     }
 

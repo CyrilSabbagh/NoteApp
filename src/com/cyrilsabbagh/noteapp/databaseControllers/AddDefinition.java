@@ -51,6 +51,7 @@ private static String url_add_dictionary = "http://cyrilsabbagh.com/NoteApp/add_
         Log.d("Create Response", json.toString());
 
         // check for success tag
+        if(json!=null){
         try {
             int success = json.getInt("success");
 
@@ -63,7 +64,7 @@ private static String url_add_dictionary = "http://cyrilsabbagh.com/NoteApp/add_
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
+        }
         return result;
     }
 

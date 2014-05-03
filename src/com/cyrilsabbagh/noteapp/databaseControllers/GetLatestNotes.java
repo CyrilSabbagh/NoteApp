@@ -19,18 +19,18 @@ import com.cyrilsabbagh.noteapp.dataModel.Note;
 public class GetLatestNotes extends AsyncTask<String, String, List<Note>>{
 	
 	private static String url_course_notes = "http://cyrilsabbagh.com/NoteApp/get_course_notes.php";
-	private String course_id;
+	private String user_imei;
 	private List<Note> result;
 	JSONArray notes = null;
 	private boolean requestError;
 	private Context context;
     private AsyncTaskCompleteListener<List<Note>> listener;
 
-    public GetLatestNotes(Context ctx, AsyncTaskCompleteListener<List<Note>> listener,String _courseId)
+    public GetLatestNotes(Context ctx, AsyncTaskCompleteListener<List<Note>> listener,String _userid)
     {
         this.context = ctx;
         this.listener = listener;
-        this.course_id = _courseId;
+        this.user_imei = _userid;
         
     }
     
@@ -40,13 +40,13 @@ public class GetLatestNotes extends AsyncTask<String, String, List<Note>>{
 		// Building Parameters
 		JSONParser jParser = new JSONParser();
         List<NameValuePair> params = new ArrayList<NameValuePair>();
-        params.add(new BasicNameValuePair("course_id", course_id));
+        params.add(new BasicNameValuePair("user_imei", user_imei));
         // getting JSON string from URL
         JSONObject json = jParser.makeHttpRequest(url_course_notes, "GET", params);
         result=new ArrayList<Note>();
         // Check your log cat for JSON reponse
         //Log.d("user Courses: ", json.toString());
-        
+        if(json!=null){
         try {
             // Checking for SUCCESS TAG
             int success = json.getInt("success");
@@ -82,7 +82,7 @@ public class GetLatestNotes extends AsyncTask<String, String, List<Note>>{
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        
+        }
 		return result;
 	}
 	

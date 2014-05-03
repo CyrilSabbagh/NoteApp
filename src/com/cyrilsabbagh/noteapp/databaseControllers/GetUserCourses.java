@@ -71,7 +71,7 @@ public class GetUserCourses extends AsyncTask<String, String, List<Course>>{
         result=new ArrayList<Course>();
         // Check your log cat for JSON reponse
         //Log.d("user Courses: ", json.toString());
-        
+        if(json!=null){
         try {
             // Checking for SUCCESS TAG
             int success = json.getInt("success");
@@ -111,7 +111,7 @@ public class GetUserCourses extends AsyncTask<String, String, List<Course>>{
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        
+        }
 		return result;
 	}
 	

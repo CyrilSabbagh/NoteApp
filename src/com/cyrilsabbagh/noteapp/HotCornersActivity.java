@@ -1,8 +1,13 @@
 package com.cyrilsabbagh.noteapp;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.lang.reflect.Method;
-
+import java.net.SocketException;
+//import org.apache.commons.net.ftp.FTP;
+//import org.apache.commons.net.ftp.FTPClient;
 import org.xmlpull.v1.XmlPullParser;
 
 import com.cyrilsabbagh.noteapp.controllers.HtmlFormat;
@@ -21,7 +26,11 @@ import android.graphics.drawable.GradientDrawable.Orientation;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+
 import android.text.Editable;
+
+import android.os.StrictMode;
+
 import android.text.Html;
 import android.text.InputType;
 import android.text.Spannable;
@@ -68,7 +77,12 @@ public class HotCornersActivity extends Activity {
 	private boolean bold=false, italic=false, underlined=false;
 	
 	private String mSelectedImagePath;
+
 	private StringBuffer webViewContent=new StringBuffer("");
+
+	private String imageName;
+	
+
 	
 	SemiCircularRadialMenu pieMenuFile,pieMenuEdit,pieMenuOptions,pieMenuMedia,pieMenuStyle; 
 	SemiCircularRadialMenuItem ItemNew,ItemOpen,ItemSave, ItemExit;
@@ -475,8 +489,9 @@ public class HotCornersActivity extends Activity {
 				// TODO Auto-generated method stub
 				//Toast.makeText(getApplicationContext(),"Snapshot", Toast.LENGTH_SHORT).show();
 				Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+				imageName = "PIC"+System.currentTimeMillis();
 			    File mImageFile = new File(Environment.getExternalStorageDirectory()+File.separator+"DCIM"+File.separator+"Camera",  
-			            "PIC"+System.currentTimeMillis()+".jpg");
+			            imageName+".jpg");
 			    mSelectedImagePath = mImageFile.getAbsolutePath();
 			    intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(mImageFile));
 			    startActivityForResult(intent, TAKE_PICTURE);
@@ -658,28 +673,6 @@ public class HotCornersActivity extends Activity {
 	}*/
 	
 	
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-	    // Check which request we're responding to
-	    switch(requestCode){
-	    case SAVE_NOTE: 
-	    	// Make sure the request was successful
-	        if (resultCode == RESULT_OK) {
-	            // The user saved the note.
-	        	Toast.makeText(this, "Save successful", Toast.LENGTH_SHORT).show();
-	        }else{
-	        	//cancel of the save
-	        	Toast.makeText(this, "Save aborted", Toast.LENGTH_SHORT).show();
-	        }
-	    break;
-	    case TAKE_PICTURE:
-	    	if (resultCode == RESULT_OK) {
-	    		//save picture mSelectedImagePath on the web server
-	    		Toast.makeText(this, "Photo " +mSelectedImagePath +" saved", Toast.LENGTH_LONG).show();
-	    	}
-	    }
-	}
-	
 	private String formatText(String textToFormat){
 		StringBuffer htmlText=new StringBuffer(textToFormat);
 		if (underlined){
@@ -703,15 +696,29 @@ public class HotCornersActivity extends Activity {
 		startSelection=edtContent.getSelectionStart();
 		endSelection=edtContent.getSelectionEnd();
 		if (startSelection>0 && endSelection>0 && startSelection<endSelection){
-			String selectedText = edtContent.getText().toString().substring(startSelection, endSelection);
+			/*String selectedText = edtContent.getText().toString().substring(startSelection, endSelection);
 			String replacement=formatText(selectedText);
-			//Toast.makeText(getApplicationContext(),"Selected text: "+selectedText+" replaced by " + replacement, Toast.LENGTH_SHORT).show();		
+			Toast.makeText(getApplicationContext(),"Selected text: "+selectedText+" replaced by " + replacement, Toast.LENGTH_SHORT).show();		
 			//do the same for the content
 			StringBuffer newText=new StringBuffer();
-			//Toast.makeText(getApplicationContext(),webViewContent.toString() + ":"+webViewContent.toString().replace(selectedText, replacement), Toast.LENGTH_SHORT).show();				
+			Toast.makeText(getApplicationContext(),webViewContent.toString() + ":"+webViewContent.toString().replace(selectedText, replacement), Toast.LENGTH_SHORT).show();							
 			newText.append(webViewContent.toString().replace(selectedText, replacement));
 			edtContent.setText(Html.fromHtml(newText.toString()));
-			webViewContent=newText;
+			webViewContent=newText;*/
+			
+			String selectedText = edtContent.getText().toString().substring(startSelection, endSelection);
+			String replacement=formatText(selectedText);
+			//removeTagsFromWebView --??
+			webViewContent.replace(webViewContent.indexOf(selectedText), webViewContent.indexOf(selectedText), replacement);
+        	edtContent.setText(Html.fromHtml(webViewContent.toString())); 
+			
+			//Log.d("TextEditor","cursorpos:"+cursorPosition);
+        	//Log.d("TextEditor","search:"+search);
+        	//Log.d("TextEditor","indexof:"+webViewContent.indexOf(search) +" length "+search.length());
+			
+        	             	
+        	
+        	Log.d("TextEditor","webview after:"+webViewContent.toString());
 			
 		}
 	}
