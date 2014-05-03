@@ -673,6 +673,67 @@ public class HotCornersActivity extends Activity {
 	}*/
 	
 	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	    // Check which request we're responding to
+	    switch(requestCode){
+	    case SAVE_NOTE: 
+	    	// Make sure the request was successful
+	        if (resultCode == RESULT_OK) {
+	            // The user saved the note.
+	        	Toast.makeText(this, "Save successful", Toast.LENGTH_SHORT).show();
+	        }else{
+	        	//cancel of the save
+	        	Toast.makeText(this, "Save aborted", Toast.LENGTH_SHORT).show();
+	        }
+	    break;
+	    case TAKE_PICTURE:
+	    	if (resultCode == RESULT_OK) {
+	    		//save picture mSelectedImagePath on the web server
+	    		Toast.makeText(this, "Photo " +mSelectedImagePath +" saved", Toast.LENGTH_LONG).show();
+	    		Log.d("FTP CLIENT",mSelectedImagePath);
+	    		//String path=Environment.getExternalStorageDirectory()+"/"+ name + ".jpg";
+	    		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+	    		StrictMode.setThreadPolicy(policy);
+            	//FTPClient client = new FTPClient();
+		        try {
+		      //  SharedPreferences myPref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+		        	
+			           
+		            client.connect("ftp.cyrilsabbagh.com");
+		            Log.i("done","done");
+		            client.enterLocalPassiveMode();
+		            client.setFileType(FTP.BINARY_FILE_TYPE);
+		            boolean login = client.login("noteapp@cyrilsabbagh.com", "noteapp");
+		            
+		            Log.i("test",login+"");
+		            Log.i("done","done");
+		          
+				    
+				    BufferedInputStream buffIn = null;
+			        buffIn = new BufferedInputStream(new FileInputStream(mSelectedImagePath));
+			        
+			     // InputStream progressInput = new InputStream(buffIn);
+			 
+			        boolean result = client.storeFile("images/"+imageName+".jpg", buffIn);
+			       
+			        Log.i("result",result+"");
+			        buffIn.close();
+			        //client.logout();
+			        client.disconnect();
+		        	}catch (SocketException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+		        
+		        }
+	    		break;
+	    	}
+	    }
+	
 	private String formatText(String textToFormat){
 		StringBuffer htmlText=new StringBuffer(textToFormat);
 		if (underlined){
@@ -696,29 +757,15 @@ public class HotCornersActivity extends Activity {
 		startSelection=edtContent.getSelectionStart();
 		endSelection=edtContent.getSelectionEnd();
 		if (startSelection>0 && endSelection>0 && startSelection<endSelection){
-			/*String selectedText = edtContent.getText().toString().substring(startSelection, endSelection);
+			String selectedText = edtContent.getText().toString().substring(startSelection, endSelection);
 			String replacement=formatText(selectedText);
 			Toast.makeText(getApplicationContext(),"Selected text: "+selectedText+" replaced by " + replacement, Toast.LENGTH_SHORT).show();		
 			//do the same for the content
 			StringBuffer newText=new StringBuffer();
-			Toast.makeText(getApplicationContext(),webViewContent.toString() + ":"+webViewContent.toString().replace(selectedText, replacement), Toast.LENGTH_SHORT).show();							
+			Toast.makeText(getApplicationContext(),webViewContent.toString() + ":"+webViewContent.toString().replace(selectedText, replacement), Toast.LENGTH_SHORT).show();				
 			newText.append(webViewContent.toString().replace(selectedText, replacement));
 			edtContent.setText(Html.fromHtml(newText.toString()));
-			webViewContent=newText;*/
-			
-			String selectedText = edtContent.getText().toString().substring(startSelection, endSelection);
-			String replacement=formatText(selectedText);
-			//removeTagsFromWebView --??
-			webViewContent.replace(webViewContent.indexOf(selectedText), webViewContent.indexOf(selectedText), replacement);
-        	edtContent.setText(Html.fromHtml(webViewContent.toString())); 
-			
-			//Log.d("TextEditor","cursorpos:"+cursorPosition);
-        	//Log.d("TextEditor","search:"+search);
-        	//Log.d("TextEditor","indexof:"+webViewContent.indexOf(search) +" length "+search.length());
-			
-        	             	
-        	
-        	Log.d("TextEditor","webview after:"+webViewContent.toString());
+			webViewContent=newText;
 			
 		}
 	}
