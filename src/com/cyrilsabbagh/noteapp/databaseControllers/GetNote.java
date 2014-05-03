@@ -59,7 +59,7 @@ public class GetNote extends AsyncTask<String, String, Note>{
 		        Note result = new Note();
 		        // Check your log cat for JSON reponse
 		        //Log.d("user Courses: ", json.toString());
-		        
+		        if(json!=null){
 		        try {
 		            // Checking for SUCCESS TAG
 		            int success = json.getInt("success");
@@ -104,7 +104,7 @@ public class GetNote extends AsyncTask<String, String, Note>{
 		        } catch (JSONException e) {
 		            e.printStackTrace();
 		        }
-		        
+		        }
 				return result;
 			}
 			

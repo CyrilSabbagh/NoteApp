@@ -48,6 +48,7 @@ private static String url_add_image = "http://cyrilsabbagh.com/NoteApp/add_image
         Log.d("Create Response", json.toString());
 
         // check for success tag
+        if(json!=null){
         try {
             int success = json.getInt("success");
 
@@ -60,7 +61,7 @@ private static String url_add_image = "http://cyrilsabbagh.com/NoteApp/add_image
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
+        }
         return result;
     }
 
