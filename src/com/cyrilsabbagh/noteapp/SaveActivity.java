@@ -108,14 +108,14 @@ public class SaveActivity extends Activity {
 					Toast.makeText(getApplicationContext(), "Task courses completed", Toast.LENGTH_SHORT).show();
 					Log.i("DATABASE","Selected courses from the database: " + result.toString());
 					new CreateNote(getApplicationContext(), myListener,deviceId, edtName.getText().toString(), 
-							myNote, currentDate, (float)lat, (float)lng, myCourse.getId(), ck.isChecked());
+							myNote, currentDate, (float)lat, (float)lng, myCourse.getId(), ck.isChecked()).execute();
 				}			
 			};
 				
-			//new GetUserCourses(getApplicationContext(),myListenerCourses,deviceId);
+			//new GetUserCourses(getApplicationContext(),myListenerCourses,deviceId).execute();
 			
 			new CreateNote(getApplicationContext(), myListener,"354436053502520", edtName.getText().toString(), 
-					myNote, currentDate, (float)lat, (float)lng,1, ck.isChecked());
+					myNote, currentDate, (float)lat, (float)lng,1, ck.isChecked()).execute();
 		}
 	}
 	

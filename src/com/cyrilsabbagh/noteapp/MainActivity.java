@@ -85,6 +85,11 @@ public class MainActivity extends Activity {
 			RD1.show(v);
 		}
 	}
+	
+	public void TestCourse(View v){
+		Intent intent = new Intent(MainActivity.this, CyrilActivity.class);
+		startActivity(intent);
+	}
 
 	/*public void onResume(){
 		findViewById(R.id.mainlayout).post(new Runnable() {

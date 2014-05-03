@@ -65,21 +65,20 @@ public class CreateNote extends AsyncTask<String, String, String>{
         params.add(new BasicNameValuePair("lat", Float.toString(newNote.getLat())));
         params.add(new BasicNameValuePair("lng", Float.toString(newNote.getLng())));
         params.add(new BasicNameValuePair("course_id", Integer.toString(newNote.getCourse_id())));
-        params.add(new BasicNameValuePair("share", Boolean.toString(newNote.isShare())));
+        if(newNote.isShare())
+        	params.add(new BasicNameValuePair("share", "1"));
+        else params.add(new BasicNameValuePair("share", "0"));
         
 
         // getting JSON Object
-        // Note that create product url accepts POST method
+       // Note that create product url accepts POST method
         JSONObject json = jsonParser.makeHttpRequest(url_create_note,
                 "GET", params);
 
-        // check log cat fro response
-        //Log.d("Create Response", json.toString());
-
         // check for success tag
         try {
-            int success = json.getInt("success");
-
+        	int success = json.getInt("success");
+            
             if (success == 1) {
                 result = "success";
             } else {
