@@ -44,5 +44,8 @@
     <string name="share">Share with others</string>
     <string name="title_activity_dictionary">DictionaryActivity</string>
     <string name="title_activity_search">SearchActivity</string>
+    <string name="task_label">Type your answer...</string>
+    <string name="title_activity_quiz_result">QuizResultActivity</string>
+    <string name="result_label">Result</string>
 
 </resources>

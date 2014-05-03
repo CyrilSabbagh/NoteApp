@@ -6,36 +6,21 @@
                android:background="@drawable/back" >
 <LinearLayout  android:layout_width="match_parent"
                android:layout_height="wrap_content"
-               android:orientation="horizontal"
-               android:gravity="center" >
-               
-    <Button android:id="@+id/btnQuiz"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:background="@drawable/quiz"
-            android:onClick="Quiz"/>
-    
+               android:orientation="vertical" >
     <TextView android:layout_weight="1"
               android:layout_width="match_parent"
               android:layout_height="60dp"
-              android:text="@string/title_label" 
+              android:text="@string/mynotes_label" 
               android:textSize="28sp"
               android:gravity="center"/>
-    
-    <Button android:id="@+id/btnDict"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:background="@drawable/dict"
-            android:onClick="Dictionary"/>
-    
 </LinearLayout>
 
 <LinearLayout  android:layout_width="match_parent"
                android:layout_height="200dp"
                android:orientation="horizontal" >
     
- <LinearLayout android:layout_width="190dp" 
-              android:layout_height="fill_parent" 
+ <LinearLayout android:layout_width="240dp"
+              android:layout_height="match_parent"
               android:orientation="vertical"
               android:gravity="center" >
     <TextView android:id="@+id/author1"
@@ -48,6 +33,11 @@
               android:layout_height="wrap_content"
               android:text="@string/title_label"
               android:textSize="22sp" />
+    <TextView android:id="@+id/course1"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="@string/course_label"
+              android:textSize="22sp" />
     <Button android:id="@+id/button1"
             android:layout_width="100dp"
             android:layout_height="100dp"
@@ -55,8 +45,8 @@
             android:onClick="circmenu" />
 </LinearLayout>
 
-<LinearLayout android:layout_width="190dp" 
-              android:layout_height="fill_parent" 
+<LinearLayout android:layout_width="240dp"
+              android:layout_height="match_parent"
               android:orientation="vertical"
               android:gravity="center" >
     <TextView android:id="@+id/author2"
@@ -69,15 +59,20 @@
               android:layout_height="wrap_content"
               android:text="@string/title_label" 
              android:textSize="22sp" />
+    <TextView android:id="@+id/course2"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="@string/course_label"
+              android:textSize="22sp" />
     <Button android:id="@+id/button2"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:background="@drawable/sample_0"
-            android:onClick="circmenu" />
+            android:onClick="circmenu"/>
 </LinearLayout>
 
-<LinearLayout android:layout_width="190dp" 
-              android:layout_height="fill_parent" 
+<LinearLayout android:layout_width="240dp"
+              android:layout_height="match_parent"
               android:orientation="vertical"
               android:gravity="center" >
     <TextView android:id="@+id/author3"
@@ -90,6 +85,11 @@
               android:layout_height="wrap_content"
               android:text="@string/title_label" 
               android:textSize="22sp" />
+    <TextView android:id="@+id/course3"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="@string/course_label"
+              android:textSize="22sp" />
     <Button android:id="@+id/button3"
             android:layout_width="100dp"
             android:layout_height="100dp"
@@ -97,8 +97,8 @@
             android:onClick="circmenu" />
 </LinearLayout>
 
-<LinearLayout android:layout_width="190dp" 
-              android:layout_height="fill_parent" 
+<LinearLayout android:layout_width="240dp"
+              android:layout_height="match_parent"
               android:orientation="vertical"
               android:gravity="center" >
     <TextView android:id="@+id/author4"
@@ -111,13 +111,18 @@
               android:layout_height="wrap_content"
               android:text="@string/title_label"
               android:textSize="22sp" />
+    <TextView android:id="@+id/course4"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="@string/course_label"
+              android:textSize="22sp" />
     <Button android:id="@+id/button4"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:background="@drawable/sample_0"
             android:onClick="circmenu" />
 </LinearLayout>
-
+<!--
 <LinearLayout android:layout_width="190dp" 
               android:layout_height="fill_parent" 
               android:orientation="vertical"
@@ -132,12 +137,17 @@
               android:layout_height="wrap_content"
               android:text="@string/title_label" 
               android:textSize="22sp" />
+    <TextView android:id="@+id/course5"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="@string/course_label"
+              android:textSize="22sp" />
     <Button android:id="@+id/button5"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:background="@drawable/sample_0"
             android:onClick="circmenu" />
-</LinearLayout>
+</LinearLayout> -->
 </LinearLayout>
 
 <View

@@ -22,6 +22,9 @@ public class QuizActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_quiz);
 		
+		//carica qui un vettore con le definizioni per quel corso
+		
+		
 		 // ShakeDetector initialization
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mAccelerometer = mSensorManager
@@ -40,6 +43,10 @@ public class QuizActivity extends Activity {
             	void handleShakeEvent(int count) {
             		// TODO Auto-generated method stub
             		Toast.makeText(QuizActivity.this, "SHAKE", Toast.LENGTH_SHORT).show();
+            		//metti qui quello che deve fare quando shakeri
+            		
+            		
+            		
             	}           
             }
             );

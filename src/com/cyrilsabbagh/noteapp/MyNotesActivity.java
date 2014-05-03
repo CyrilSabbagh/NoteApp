@@ -1,9 +1,12 @@
 package com.cyrilsabbagh.noteapp;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.*;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
@@ -15,6 +18,10 @@ import android.widget.Toast;
 import android.content.Intent;
 import android.app.Activity;
 
+import com.cyrilsabbagh.noteapp.dataModel.Course;
+import com.cyrilsabbagh.noteapp.databaseControllers.AsyncTaskCompleteListener;
+import com.cyrilsabbagh.noteapp.databaseControllers.CreateNote;
+import com.cyrilsabbagh.noteapp.databaseControllers.GetUserCourses;
 import com.radialmenu.*;
 import com.radialmenu.RadialMenuItem.RadialMenuItemClickListener;
 //import com.touchmenotapps.radialdemo.RadialMenuAboutFragment;
@@ -44,6 +51,25 @@ public class MyNotesActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_my_notes);
+		
+		final String deviceId = Settings.System.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+		
+		AsyncTaskCompleteListener<List<Course>> myListenerCourses= new AsyncTaskCompleteListener<List<Course>>(){
+			
+			@Override
+			public void onTaskComplete(List<Course> result) {
+				// TODO Auto-generated method stub
+				//populate list view
+				//Log.i("DATABASE","Create new course: " +edtCourse.getText().toString());
+			
+			// qui puoi usare la lista di corsi: result.
+				for(int i=1;i<=5;i++){
+				}
+			
+			}			
+		};
+		
+		new GetUserCourses(getApplicationContext(),myListenerCourses,deviceId).execute();
 		
 		RD2 = new com.radialmenu.RadialMenuWidget(this);
 		RD2.setInnerRingRadius(40,120);
@@ -279,5 +305,8 @@ public class MyNotesActivity extends Activity {
 		getMenuInflater().inflate(R.menu.my_notes, menu);
 		return true;
 	}
+	
 
 } 
+
+
