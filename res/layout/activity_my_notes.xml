@@ -68,7 +68,7 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:background="@drawable/sample_0"
-            android:onClick="circmenu" />
+            android:onClick="circmenu"/>
 </LinearLayout>
 
 <LinearLayout android:layout_width="240dp"

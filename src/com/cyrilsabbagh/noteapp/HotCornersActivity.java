@@ -1,6 +1,7 @@
 package com.cyrilsabbagh.noteapp;
 
 import java.io.File;
+import java.lang.reflect.Method;
 
 import org.xmlpull.v1.XmlPullParser;
 
@@ -19,6 +20,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.text.Html;
+import android.text.Spannable;
+import android.text.style.BackgroundColorSpan;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.Xml;
@@ -141,29 +144,45 @@ public class HotCornersActivity extends Activity {
              }  
         });  
 		*/
-        TextView wv=(TextView)findViewById(R.id.WebViewNote);
-        wv.setOnTouchListener(new View.OnTouchListener() {
-
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-            	//Toast.makeText(getApplicationContext(), "touched", Toast.LENGTH_SHORT).show(); 
-                return false;
-            }           
-        });
+        /*String  textString = "StackOverFlow Rocks!!!"; 
+        Spannable spanText=Spannable.Factory.getInstance().newSpannable(textString);
+        spanText.setSpan(new BackgroundColorSpan(0xFFFFFF00), 14, 19, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        wv.setText(spanText);
+       */
         
-        //detect when pressed ENTER on the soft keyboard
-        EditText myNote = (EditText) findViewById(R.id.editNote);
+        //detect when pressed ENTER on the soft keyboard inside the editing note
+        final EditText myNote = (EditText) findViewById(R.id.editNote);
         myNote.setOnEditorActionListener(new OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_NULL && event.getAction() == KeyEvent.ACTION_DOWN) {
                 	
-                	TextView wv=(TextView)findViewById(R.id.WebViewNote);
+                	EditText edtContent=(EditText)findViewById(R.id.allContent);
                 	webViewContent.append(formatText(v.getText().toString())+"<br>");
-                	wv.setText(Html.fromHtml(webViewContent.toString()));
-                	//wv.loadData(webViewContent.toString(), "text/html", "utf-8");
+                	//wv.setText(Html.fromHtml(webViewContent.toString()));
+                	//edtContent.loadData(webViewContent.toString(), "text/html", "utf-8");
+                	edtContent.setText(Html.fromHtml(webViewContent.toString()));              	
                 	v.setText("");
                 	
+                	//Toast.makeText(getApplicationContext(),webViewContent.toString(), Toast.LENGTH_LONG).show();		
+                }
+                return true;
+            }
+        });
+        
+      //detect when pressed ENTER on the soft keyboard inside the content note
+        final EditText edtContent = (EditText) findViewById(R.id.allContent);
+        edtContent.setOnEditorActionListener(new OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_NULL && event.getAction() == KeyEvent.ACTION_DOWN) {
+                	
+                	webViewContent.append(formatText(v.getText().toString())+"<br>");
+                	//wv.setText(Html.fromHtml(webViewContent.toString()));
+                	//edtContent.loadData(webViewContent.toString(), "text/html", "utf-8");
+                	v.setText(Html.fromHtml(webViewContent.toString()));              	
+                	
+                	//Toast.makeText(getApplicationContext(),webViewContent.toString(), Toast.LENGTH_LONG).show();		
                 }
                 return true;
             }
@@ -294,7 +313,6 @@ public class HotCornersActivity extends Activity {
 				// TODO Auto-generated method stub
 				//Toast.makeText(getApplicationContext(),"Save", Toast.LENGTH_SHORT).show();	
 				Intent intent = new Intent(HotCornersActivity.this, SaveActivity.class);
-				TextView note=(TextView)findViewById(R.id.WebViewNote);
 				intent.putExtra("note_text",webViewContent.toString());
 				startActivityForResult(intent, SAVE_NOTE);
 			}
@@ -304,7 +322,9 @@ public class HotCornersActivity extends Activity {
 			@Override
 			public void onMenuItemPressed() {
 				// TODO Auto-generated method stub
-				Toast.makeText(getApplicationContext(),"Exit", Toast.LENGTH_SHORT).show();		
+				//Toast.makeText(getApplicationContext(),"Exit", Toast.LENGTH_SHORT).show();		
+				setResult(RESULT_OK);
+				finish();
 			}
 		});
 		
@@ -354,6 +374,7 @@ public class HotCornersActivity extends Activity {
 				// TODO Auto-generated method stub
 				Toast.makeText(getApplicationContext(),"Bold", Toast.LENGTH_SHORT).show();	
 				bold=true;
+				ApplyFormatingToSelection();
 			}
 		});
 		
@@ -363,6 +384,7 @@ public class HotCornersActivity extends Activity {
 				// TODO Auto-generated method stub
 				Toast.makeText(getApplicationContext(),"Italic", Toast.LENGTH_SHORT).show();	
 				italic=true;
+				ApplyFormatingToSelection();
 			}
 		});
 		
@@ -372,6 +394,7 @@ public class HotCornersActivity extends Activity {
 				// TODO Auto-generated method stub
 				Toast.makeText(getApplicationContext(),"Underlined", Toast.LENGTH_SHORT).show();
 				underlined=true;
+				ApplyFormatingToSelection();
 			}
 		});
 		
@@ -611,6 +634,25 @@ public class HotCornersActivity extends Activity {
 		return htmlText.toString();
 	}
 	
+	private void ApplyFormatingToSelection(){
+		EditText edtContent=(EditText)findViewById(R.id.allContent);
+		int startSelection=-1, endSelection=-1;
+		startSelection=edtContent.getSelectionStart();
+		endSelection=edtContent.getSelectionEnd();
+		if (startSelection>0 && endSelection>0 && startSelection<endSelection){
+			String selectedText = edtContent.getText().toString().substring(startSelection, endSelection);
+			String replacement=formatText(selectedText);
+			//Toast.makeText(getApplicationContext(),"Selected text: "+selectedText+" replaced by " + replacement, Toast.LENGTH_SHORT).show();		
+			//do the same for the content
+			StringBuffer newText=new StringBuffer();
+			//Toast.makeText(getApplicationContext(),webViewContent.toString() + ":"+webViewContent.toString().replace(selectedText, replacement), Toast.LENGTH_SHORT).show();				
+			newText.append(webViewContent.toString().replace(selectedText, replacement));
+			edtContent.setText(Html.fromHtml(newText.toString()));
+			webViewContent=newText;
+			
+		}
+	}
+	
 	/*public boolean onOrientationChanges() {
 		  if(orientation == landscape)
 		    if(settings.get("lock_orientation"))
@@ -637,4 +679,5 @@ public class HotCornersActivity extends Activity {
         	
         }
     }
+	
 }
