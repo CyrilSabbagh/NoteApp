@@ -6,8 +6,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.net.SocketException;
-//import org.apache.commons.net.ftp.FTP;
-//import org.apache.commons.net.ftp.FTPClient;
+
+import org.apache.commons.net.ftp.FTP;
+import org.apache.commons.net.ftp.FTPClient;
 import org.xmlpull.v1.XmlPullParser;
 
 import com.cyrilsabbagh.noteapp.controllers.HtmlFormat;
@@ -26,14 +27,12 @@ import android.graphics.drawable.GradientDrawable.Orientation;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-
 import android.text.Editable;
-
 import android.os.StrictMode;
-
 import android.text.Html;
 import android.text.InputType;
 import android.text.Spannable;
+import android.text.SpannedString;
 import android.text.TextWatcher;
 import android.text.style.BackgroundColorSpan;
 import android.util.AttributeSet;
@@ -48,6 +47,7 @@ import android.view.MotionEvent;
 import android.view.Surface;
 import android.view.View;
 import android.view.View.OnFocusChangeListener;
+import android.view.View.OnKeyListener;
 import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
@@ -81,7 +81,8 @@ public class HotCornersActivity extends Activity {
 	private StringBuffer webViewContent=new StringBuffer("");
 
 	private String imageName;
-	
+	private boolean editable=false;
+	private int cnt=0;
 
 	
 	SemiCircularRadialMenu pieMenuFile,pieMenuEdit,pieMenuOptions,pieMenuMedia,pieMenuStyle; 
@@ -172,17 +173,16 @@ public class HotCornersActivity extends Activity {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_NULL && event.getAction() == KeyEvent.ACTION_DOWN) {                	
                 	EditText edtContent=(EditText)findViewById(R.id.allContent);
-                	webViewContent.append(formatText(v.getText().toString())+"<br>");
+                	webViewContent.append(formatText(myNote.getText().toString())+"<br>");
                 	//wv.setText(Html.fromHtml(webViewContent.toString()));
                 	//edtContent.loadData(webViewContent.toString(), "text/html", "utf-8");
                 	edtContent.setText(Html.fromHtml(webViewContent.toString()));              	
-                	v.setText("");                	
-                	Toast.makeText(getApplicationContext(),webViewContent.toString(), Toast.LENGTH_LONG).show();		
+                	v.setText("");        
+                	
                 }
                 return true;
             }
         });
-        
         final EditText edtContent = (EditText) findViewById(R.id.allContent);
         edtContent.setOnFocusChangeListener(new OnFocusChangeListener() {
 			@Override
@@ -207,22 +207,56 @@ public class HotCornersActivity extends Activity {
 				}
 			}
 		});
-        //detect when text changed inside the content
         
-        edtContent.addTextChangedListener(new TextWatcher() {
+        
+        edtContent.setOnKeyListener(new OnKeyListener() {                 
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                //You can identify which key pressed by checking keyCode value with KeyEvent.KEYCODE_
+                 if(keyCode == KeyEvent.KEYCODE_DEL){  
+                	 Log.d("TextEditor","backspace pressed "+cnt);
+                	 //if (cnt==0){
+                	 editable=true;
+                     //backspace pressed - content becomes editable
+                	 edtContent.setFilters(new InputFilter[]{ new InputFilter(){
+ 						@Override
+ 						public CharSequence filter(CharSequence source, int start,int end, Spanned dest, int dstart, int dend) {
+ 								return null;
+ 						}
+ 					}});
+                	// }
+                	 cnt++;
+                	 
+                 }
+            return false;       
+                }
+        });
+        //detect when text changed inside the content
+        final StringBuffer oldText=new StringBuffer();
+		edtContent.addTextChangedListener(new TextWatcher() {
 			
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
 				// TODO Auto-generated method stub
-				//webViewContent.insert(start, s);
-				//Log.d("TextEditor","Edit:"+s.toString());
-				//Log.d("TextEditor","Changed:"+start+" "+count+" "+s.toString().substring(start,start+count));
-				//Log.d("TextEditor","Web:"+webViewContent.toString());				
-				/*String changedText=s.toString().substring(start,start+count);
+				/*Log.d("TextEditor","Edit:"+s.toString());
+				Log.d("TextEditor","Changed:"+start+" "+count+" "+s.toString().substring(start,start+count));
+				Log.d("TextEditor","Web:"+webViewContent.toString());				
+				String changedText=s.toString().substring(start,start+count);
 				if (changedText.indexOf('\n')==-1)
 					webViewContent.replace(start, start+before, changedText);
+				
+				Log.d("TextEditor","Web after:"+webViewContent.toString());
 				*/
-				//Log.d("TextEditor","Web after:"+webViewContent.toString());
+				Log.d("TextEditor","on webview:"+webViewContent.toString());		
+				Log.d("TextEditor","s:"+s.toString());
+				Log.d("TextEditor","start:"+start+"before:"+before+"count:"+count +":"+s.toString().length());
+				if (count!=0 && editable && s.toString().length()>0){
+					//undo changes
+					s.toString().replace(s.toString().substring(start, start+count), oldText);
+					Log.d("TextEditor","undo changes:"+s.toString());		
+				}else{
+					
+				}
 				
 			}
 			
@@ -230,13 +264,55 @@ public class HotCornersActivity extends Activity {
 			public void beforeTextChanged(CharSequence s, int start, int count,
 					int after) {
 				// TODO Auto-generated method stub
+				Log.d("TextEditor","before webview:"+webViewContent.toString());		
+				Log.d("TextEditor","s:"+s.toString());
+				
+				if (after!=0 &&after<s.toString().length()&& editable){
+					oldText.append(s.toString().substring(start,start+count));
+					
+					Log.d("TextEditor","after:"+after+"replacing:"+oldText.toString());		
+					/*edtContent.setFilters(new InputFilter[]{ new InputFilter(){
+ 						@Override
+ 						public CharSequence filter(CharSequence source, int start,int end, Spanned dest, int dstart, int dend) {
+ 								return source.length() < 1 ? dest.subSequence(dstart, dend): "";
+ 						}
+ 					}});*/
+				}else{
+					if ((after==0)&&(count-start<s.toString().length())){ 
+					//backspace
+						Log.d("TextEditor","start:"+start+"count:"+count+"after:"+after);		
+						
+						Log.d("TextEditor","before:"+webViewContent.toString());		
+						//if no tag
+						//in order to see where to put the cursor on webViewContent,
+						//find a match by looking at the caracter before and after
+						int cursor;
+						if (start+1<s.toString().length())
+							cursor=FindAMatch(s.toString().charAt(start-count+1),s.toString().charAt(start+1),count);
+						else 
+							cursor=webViewContent.toString().length()-1;
+						if (cursor!=-1){
+							Log.d("TextEditor","Match found:"+cursor);
+							if ((s.toString().charAt(start-count+1))=='\n'){
+								//replace <br> tag
+								webViewContent.replace(cursor-count+1-3, cursor+1, "");
+							}else
+								webViewContent.replace(cursor-count+1, cursor+1, "");
+						}
+						Log.d("TextEditor","after:"+webViewContent.toString());		
+					}
+					if (count-start==s.toString().length())
+						Log.d("TextEditor","Exception  start:"+start+"count:"+count+"after:"+after);	
+				}
 				
 			}
 			
 			@Override
 			public void afterTextChanged(Editable s) {
 				// TODO Auto-generated method stub
-				
+				oldText.delete(0, oldText.length());
+				editable=false;
+				//cnt=0;
 			}
 		});
       
@@ -695,7 +771,7 @@ public class HotCornersActivity extends Activity {
 	    		//String path=Environment.getExternalStorageDirectory()+"/"+ name + ".jpg";
 	    		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 	    		StrictMode.setThreadPolicy(policy);
-            	//FTPClient client = new FTPClient();
+            	FTPClient client = new FTPClient();
 		        try {
 		      //  SharedPreferences myPref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 		        	
@@ -759,15 +835,37 @@ public class HotCornersActivity extends Activity {
 		if (startSelection>0 && endSelection>0 && startSelection<endSelection){
 			String selectedText = edtContent.getText().toString().substring(startSelection, endSelection);
 			String replacement=formatText(selectedText);
-			Toast.makeText(getApplicationContext(),"Selected text: "+selectedText+" replaced by " + replacement, Toast.LENGTH_SHORT).show();		
+			Log.d("TextEditor","Selected text: "+selectedText+" replaced by " + replacement);
 			//do the same for the content
 			StringBuffer newText=new StringBuffer();
-			Toast.makeText(getApplicationContext(),webViewContent.toString() + ":"+webViewContent.toString().replace(selectedText, replacement), Toast.LENGTH_SHORT).show();				
+			Log.d("TextEditor",webViewContent.toString() + ":"+webViewContent.toString().replace(selectedText, replacement));			
 			newText.append(webViewContent.toString().replace(selectedText, replacement));
-			edtContent.setText(Html.fromHtml(newText.toString()));
+			Log.d("TextEditor",newText.toString());
 			webViewContent=newText;
-			
+			edtContent.setText(Html.fromHtml(webViewContent.toString()));
+			//((EditText)findViewById(R.id.editNote)).requestFocus();
 		}
+	}
+	
+	private int FindAMatch(char a,char b,int distance){
+		if (a=='\n')	a='>';	//end of <br>
+		if (b=='\n')	b='<';  //beginning of <br>
+		
+		for (int i=0;i<webViewContent.toString().length();i++){
+			for(int m=i;m<webViewContent.toString().length();m++){
+				if (webViewContent.toString().charAt(m)==a){
+					for(int n=webViewContent.toString().length()-1; n>0 && n>m;n--){
+						if (webViewContent.toString().charAt(n)==b){
+							if (distance==n-m){	
+								//found a match
+								return m;
+							}
+						}
+					}
+				}
+			}
+		}
+		return -1;
 	}
 	
 	/*public boolean onOrientationChanges() {
@@ -785,7 +883,7 @@ public class HotCornersActivity extends Activity {
 	@Override
     public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
-		Toast.makeText(this, "Orientation: "+newConfig.orientation, Toast.LENGTH_LONG).show();
+		//Toast.makeText(this, "Orientation: "+newConfig.orientation, Toast.LENGTH_LONG).show();
         // Checks the orientation of the screen for landscape and portrait and set portrait mode always
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
         	getWindow().setSoftInputMode(
@@ -796,5 +894,7 @@ public class HotCornersActivity extends Activity {
         	
         }
     }
+	
+	
 	
 }
