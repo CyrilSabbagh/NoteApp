@@ -40,6 +40,7 @@
     <string name="course_hint">Unspecified</string>
     <string name="author_hint">Unknown</string>
     <string name="OK">OK</string>
+    <string name="Save">Save</string>
     <string name="Cancel">Cancel</string>
     <string name="share">Share with others</string>
     <string name="title_activity_dictionary">DictionaryActivity</string>

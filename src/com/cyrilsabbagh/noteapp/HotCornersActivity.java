@@ -89,7 +89,7 @@ public class HotCornersActivity extends Activity {
 	SemiCircularRadialMenuItem ItemNew,ItemOpen,ItemSave, ItemExit;
 	SemiCircularRadialMenuItem ItemMultiauthor,ItemShare,ItemDictionary;
 	SemiCircularRadialMenuItem ItemDimension,ItemColor,ItemBold, ItemItalic,ItemUnderlined;
-	SemiCircularRadialMenuItem ItemRecorder,ItemSnapshot,ItemAttach, ItemLink;
+	SemiCircularRadialMenuItem ItemRecorder,ItemSnapshot,ItemAttach, ItemLink,ItemDraw;
 	SemiCircularRadialMenuItem ItemCopy,ItemCut,ItemPaste;	
 	
 	com.radialmenu.RadialMenuWidget RD1;
@@ -150,21 +150,13 @@ public class HotCornersActivity extends Activity {
                 int heightDiff = activityRootView.getRootView().getHeight() - activityRootView.getHeight();  
                 if (heightDiff > 200) { // if more than 100 pixels, its probably a keyboard...  
                 	//Toast.makeText(getApplicationContext(), "keyboard pop up", Toast.LENGTH_SHORT).show();
-                	pieMenuMedia = (SemiCircularRadialMenu)findViewById(R.id.mediaMenu);
-                	pieMenuMedia.setTranslationY(120);
-                	pieMenuMedia.setTranslationX(-150);
-                	pieMenuEdit = (SemiCircularRadialMenu)findViewById(R.id.editMenu);
-                	pieMenuEdit.setTranslationY(-110);
-                	pieMenuEdit.setTranslationX(140);
-                	
-                	                	
-                } else{  
-                	//Toast.makeText(getApplicationContext(), "no pop up ", Toast.LENGTH_SHORT).show(); 
-                	
-                }  
+                	 final RelativeLayout.LayoutParams position = (RelativeLayout.LayoutParams) ((EditText)findViewById(R.id.editNote)).getLayoutParams(); 
+                	 position.bottomMargin=200;
+                	 ((EditText)findViewById(R.id.editNote)).setLayoutParams(position); 
+                } 
              }  
-        });  
-		*/
+        }); */ 
+		
         //detect when pressed ENTER on the soft keyboard inside the editing note
         
 		final EditText myNote = (EditText) findViewById(R.id.editNote);
@@ -401,6 +393,8 @@ public class HotCornersActivity extends Activity {
 		pieMenuMedia.addMenuItem(ItemAttach.getMenuID(), ItemAttach);
 		ItemLink = new SemiCircularRadialMenuItem("Link",getResources().getDrawable(R.drawable.link),"Link");
 		pieMenuMedia.addMenuItem(ItemLink.getMenuID(), ItemLink);
+		ItemDraw = new SemiCircularRadialMenuItem("Draw",getResources().getDrawable(R.drawable.draw),"Draw");
+		pieMenuMedia.addMenuItem(ItemDraw.getMenuID(), ItemDraw);
 		pieMenuMedia.setAngles(90, 90);
 		
 		pieMenuEdit = (SemiCircularRadialMenu)findViewById(R.id.editMenu); 
@@ -587,6 +581,14 @@ public class HotCornersActivity extends Activity {
 			public void onMenuItemPressed() {
 				// TODO Auto-generated method stub
 				Toast.makeText(getApplicationContext(),"Link", Toast.LENGTH_SHORT).show();		
+			}
+		});
+		
+		ItemDraw.setOnSemiCircularRadialMenuPressed(new OnSemiCircularRadialMenuPressed() {			
+			@Override
+			public void onMenuItemPressed() {
+				// TODO Auto-generated method stub
+				Toast.makeText(getApplicationContext(),"Draw", Toast.LENGTH_SHORT).show();		
 			}
 		});
 		
