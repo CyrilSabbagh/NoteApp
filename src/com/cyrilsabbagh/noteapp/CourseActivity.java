@@ -32,6 +32,7 @@ public class CourseActivity extends Activity {
 	com.radialmenu.RadialMenuItem it1, it2, it3,it4;
 	int[] location= new int[]{0,0};
 	String[] courselist; 
+	String[] namecourses; 
 	String nameC=null;
 	
 	@Override
@@ -66,6 +67,7 @@ public class CourseActivity extends Activity {
 					// qui puoi usare la lista di corsi: result.
 						int i=1;
 						courselist = new String[result.size()];
+						namecourses = new String[result.size()];
 						for(Course c: result){
 							String tmp = new String("title"+(i+5));
 							String tmp1 = new String("school"+(i+5));
@@ -79,6 +81,7 @@ public class CourseActivity extends Activity {
 							school.setText(c.getSchool());
 							//codcourse.setText(c.getId());
 							courselist[i-1]=""+c.getId();
+							namecourses[i-1]=c.getName();
 							title.setVisibility(View.VISIBLE);
 							school.setVisibility(View.VISIBLE);
 							mybutton.setVisibility(View.VISIBLE);
@@ -192,29 +195,37 @@ public class CourseActivity extends Activity {
 		Intent intent = new Intent(this, CourseActivity.class);
 		//TextView cc = new TextView(null);
 		String cc=null;
+		String name=null;
+		//int cc=0;
 		switch(sender.getId()) {
         case R.id.button6:
         	//cc = (TextView)findViewById(R.id.c1);
         	cc= courselist[0];
+        	name=namecourses[0];
         	break;
         case R.id.button7:
         	//cc = (TextView)findViewById(R.id.c2);
         	cc= courselist[1];
+        	name=namecourses[1];
         	break;
         case R.id.button8:
         	//cc = (TextView)findViewById(R.id.c3);
         	cc= courselist[2];
+        	name=namecourses[2];
         	break;
         case R.id.button9:
         	//cc = (TextView)findViewById(R.id.c4);
         	cc= courselist[3];
+        	name=namecourses[3];
         	break;
         case R.id.button10:
         	//cc = (TextView)findViewById(R.id.c5);
         	cc= courselist[4];
+        	name=namecourses[4];
         	break;
 		}
 		intent.putExtra("CurrCourse", cc);
+		intent.putExtra("NameCourse", name);
 		startActivity(intent);
 		}
 	

@@ -18,7 +18,7 @@ import com.cyrilsabbagh.noteapp.dataModel.Note;
 
 public class GetLatestNotes extends AsyncTask<String, String, List<Note>>{
 	
-	private static String url_course_notes = "http://cyrilsabbagh.com/NoteApp/get_course_notes.php";
+	private static String url_latest_notes = "http://cyrilsabbagh.com/NoteApp/get_latest_notes.php";
 	private String user_imei;
 	private List<Note> result;
 	JSONArray notes = null;
@@ -40,10 +40,10 @@ public class GetLatestNotes extends AsyncTask<String, String, List<Note>>{
 		// Building Parameters
 		JSONParser jParser = new JSONParser();
         List<NameValuePair> params = new ArrayList<NameValuePair>();
-        params.add(new BasicNameValuePair("course_id", Integer.toString(1)));
+        params.add(new BasicNameValuePair("user_imei", this.user_imei));
         System.err.println(user_imei);
         // getting JSON string from URL
-        JSONObject json = jParser.makeHttpRequest(url_course_notes, "GET", params);
+        JSONObject json = jParser.makeHttpRequest(url_latest_notes, "GET", params);
         result=new ArrayList<Note>();
         // Check your log cat for JSON reponse
         //Log.d("user Courses: ", json.toString());
