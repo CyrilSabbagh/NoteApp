@@ -760,6 +760,7 @@ public class HotCornersActivity extends Activity {
 	        if (resultCode == RESULT_OK) {
 	            // The user saved the note.
 	        	Toast.makeText(this, "Save successful", Toast.LENGTH_SHORT).show();
+	        	
 	        }else{
 	        	//cancel of the save
 	        	Toast.makeText(this, "Save aborted", Toast.LENGTH_SHORT).show();
