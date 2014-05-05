@@ -45,5 +45,6 @@
     <string name="share">Share with others</string>
     <string name="title_activity_dictionary">DictionaryActivity</string>
     <string name="title_activity_search">SearchActivity</string>
+    <string name="title_activity_add_dictionary">AddDictionaryActivity</string>
 
 </resources>

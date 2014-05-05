@@ -5,7 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.cyrilsabbagh.noteapp.dataModel.Course;
+import com.cyrilsabbagh.noteapp.dataModel.Note;
 import com.cyrilsabbagh.noteapp.databaseControllers.AsyncTaskCompleteListener;
+import com.cyrilsabbagh.noteapp.databaseControllers.GetCourseNotes;
 import com.cyrilsabbagh.noteapp.databaseControllers.GetUserCourses;
 
 import android.os.Bundle;
@@ -17,7 +19,7 @@ import android.view.Menu;
 import android.widget.ListAdapter;
 import android.widget.SimpleAdapter;
 
-public class CyrilActivity extends ListActivity implements AsyncTaskCompleteListener<List<Course>>{
+public class CyrilActivity extends ListActivity implements AsyncTaskCompleteListener<List<Note>>{
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -29,14 +31,14 @@ public class CyrilActivity extends ListActivity implements AsyncTaskCompleteList
 //		TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
 //		String user_imei = telephonyManager.getDeviceId();
 		
-		String user_imei = "354436053502520"; //Delete this line after testing
-		new GetUserCourses(this, this,user_imei).execute();
+		//String user_imei = "354436053502520"; //Delete this line after testing
+		new GetCourseNotes(this, this,1).execute();
 		
 	}
 	
 	
 	 @Override
-     public void onTaskComplete(List<Course> result)
+     public void onTaskComplete(List<Note> result)
      {
          // do something with the result
 		 

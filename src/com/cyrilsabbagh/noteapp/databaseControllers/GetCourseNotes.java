@@ -64,7 +64,7 @@ public class GetCourseNotes extends AsyncTask<String, String, List<Note>>{
             if (success == 1) {
                 // products found
                 // Getting Array of Products
-                notes = json.getJSONArray("courses");
+                notes = json.getJSONArray("notes");
                 
                 // looping through All Products
                 for (int i = 0; i < notes.length(); i++) {

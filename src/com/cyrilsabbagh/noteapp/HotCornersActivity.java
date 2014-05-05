@@ -495,7 +495,16 @@ public class HotCornersActivity extends Activity {
 			@Override
 			public void onMenuItemPressed() {
 				// TODO Auto-generated method stub
-				Toast.makeText(getApplicationContext(),"Dictionary", Toast.LENGTH_SHORT).show();		
+				Toast.makeText(getApplicationContext(),"Dictionary", Toast.LENGTH_SHORT).show();
+				EditText edt = (EditText) findViewById(R.id.editNote);
+				int startSelection=edt.getSelectionStart();
+				int endSelection=edt.getSelectionEnd();
+				String selectedText = edt.getText().toString().substring(startSelection, endSelection);
+				Intent intent2 = new Intent();
+				intent2.setClass(getApplicationContext(), AddDictionaryActivity.class);
+				intent2.putExtra("id", "1");
+				intent2.putExtra("def", selectedText);
+				startActivity(intent2);
 			}
 		});
 		
