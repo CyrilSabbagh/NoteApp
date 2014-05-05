@@ -74,7 +74,7 @@ public class CreateNote extends AsyncTask<String, String, String>{
        // Note that create product url accepts POST method
         JSONObject json = jsonParser.makeHttpRequest(url_create_note,
                 "GET", params);
-
+if (json!=null){
         // check for success tag
         try {
         	int success = json.getInt("success");
@@ -88,7 +88,7 @@ public class CreateNote extends AsyncTask<String, String, String>{
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
+}
         return result;
     }
 

@@ -1,8 +1,14 @@
 package com.cyrilsabbagh.noteapp;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.lang.reflect.Method;
+import java.net.SocketException;
 
+import org.apache.commons.net.ftp.FTP;
+import org.apache.commons.net.ftp.FTPClient;
 import org.xmlpull.v1.XmlPullParser;
 
 import com.cyrilsabbagh.noteapp.controllers.HtmlFormat;
@@ -12,6 +18,8 @@ import com.radialmenu.SemiCircularRadialMenuItem.OnSemiCircularRadialMenuPressed
 
 import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -19,8 +27,13 @@ import android.graphics.drawable.GradientDrawable.Orientation;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.text.Editable;
+import android.os.StrictMode;
 import android.text.Html;
+import android.text.InputType;
 import android.text.Spannable;
+import android.text.SpannedString;
+import android.text.TextWatcher;
 import android.text.style.BackgroundColorSpan;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -33,6 +46,8 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.Surface;
 import android.view.View;
+import android.view.View.OnFocusChangeListener;
+import android.view.View.OnKeyListener;
 import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
@@ -40,6 +55,7 @@ import android.view.ViewGroup;
 import android.view.KeyEvent;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -61,13 +77,19 @@ public class HotCornersActivity extends Activity {
 	private boolean bold=false, italic=false, underlined=false;
 	
 	private String mSelectedImagePath;
-	private StringBuffer webViewContent=new StringBuffer();
+
+	private StringBuffer webViewContent=new StringBuffer("");
+
+	private String imageName;
+	private boolean editable=false;
+	private int cnt=0;
+
 	
 	SemiCircularRadialMenu pieMenuFile,pieMenuEdit,pieMenuOptions,pieMenuMedia,pieMenuStyle; 
 	SemiCircularRadialMenuItem ItemNew,ItemOpen,ItemSave, ItemExit;
 	SemiCircularRadialMenuItem ItemMultiauthor,ItemShare,ItemDictionary;
 	SemiCircularRadialMenuItem ItemDimension,ItemColor,ItemBold, ItemItalic,ItemUnderlined;
-	SemiCircularRadialMenuItem ItemRecorder,ItemSnapshot,ItemAttach, ItemLink;
+	SemiCircularRadialMenuItem ItemRecorder,ItemSnapshot,ItemAttach, ItemLink,ItemDraw;
 	SemiCircularRadialMenuItem ItemCopy,ItemCut,ItemPaste;	
 	
 	com.radialmenu.RadialMenuWidget RD1;
@@ -118,7 +140,6 @@ public class HotCornersActivity extends Activity {
 			//Toast.makeText(getApplicationContext(),activity_type + " " + idNote, Toast.LENGTH_SHORT).show();		
 		}catch(Exception e){}
 		
-		
 		//check when keyboard pops up
 		/*final View activityRootView = findViewById(R.id.layout_main);  
         activityRootView.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {  
@@ -129,64 +150,188 @@ public class HotCornersActivity extends Activity {
                 int heightDiff = activityRootView.getRootView().getHeight() - activityRootView.getHeight();  
                 if (heightDiff > 200) { // if more than 100 pixels, its probably a keyboard...  
                 	//Toast.makeText(getApplicationContext(), "keyboard pop up", Toast.LENGTH_SHORT).show();
-                	pieMenuMedia = (SemiCircularRadialMenu)findViewById(R.id.mediaMenu);
-                	pieMenuMedia.setTranslationY(120);
-                	pieMenuMedia.setTranslationX(-150);
-                	pieMenuEdit = (SemiCircularRadialMenu)findViewById(R.id.editMenu);
-                	pieMenuEdit.setTranslationY(-110);
-                	pieMenuEdit.setTranslationX(140);
-                	
-                	                	
-                } else{  
-                	//Toast.makeText(getApplicationContext(), "no pop up ", Toast.LENGTH_SHORT).show(); 
-                	
-                }  
+                	 final RelativeLayout.LayoutParams position = (RelativeLayout.LayoutParams) ((EditText)findViewById(R.id.editNote)).getLayoutParams(); 
+                	 position.bottomMargin=200;
+                	 ((EditText)findViewById(R.id.editNote)).setLayoutParams(position); 
+                } 
              }  
-        });  
-		*/
-        /*String  textString = "StackOverFlow Rocks!!!"; 
-        Spannable spanText=Spannable.Factory.getInstance().newSpannable(textString);
-        spanText.setSpan(new BackgroundColorSpan(0xFFFFFF00), 14, 19, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        wv.setText(spanText);
-       */
-        
+        }); */ 
+		
         //detect when pressed ENTER on the soft keyboard inside the editing note
-        final EditText myNote = (EditText) findViewById(R.id.editNote);
+        
+		final EditText myNote = (EditText) findViewById(R.id.editNote);
         myNote.setOnEditorActionListener(new OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_NULL && event.getAction() == KeyEvent.ACTION_DOWN) {
-                	
+                if (actionId == EditorInfo.IME_NULL && event.getAction() == KeyEvent.ACTION_DOWN) {                	
                 	EditText edtContent=(EditText)findViewById(R.id.allContent);
-                	webViewContent.append(formatText(v.getText().toString())+"<br>");
+                	webViewContent.append(formatText(myNote.getText().toString())+"<br>");
                 	//wv.setText(Html.fromHtml(webViewContent.toString()));
                 	//edtContent.loadData(webViewContent.toString(), "text/html", "utf-8");
                 	edtContent.setText(Html.fromHtml(webViewContent.toString()));              	
-                	v.setText("");
+                	v.setText("");        
                 	
-                	//Toast.makeText(getApplicationContext(),webViewContent.toString(), Toast.LENGTH_LONG).show();		
                 }
                 return true;
             }
         });
+        final EditText edtContent = (EditText) findViewById(R.id.allContent);
+        edtContent.setOnFocusChangeListener(new OnFocusChangeListener() {
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
+				// TODO Auto-generated method stub
+				//when it has focus, the content edit view is not editable
+				//code source from: http://thedevelopersinfo.com/2009/11/15/making-not-editable-edittext-in-android/
+				if (hasFocus){					
+					edtContent.setFilters(new InputFilter[]{ new InputFilter(){
+						@Override
+						public CharSequence filter(CharSequence source, int start,int end, Spanned dest, int dstart, int dend) {
+								return source.length() < 1 ? dest.subSequence(dstart, dend): "";
+						}
+					}});
+				}else{
+					edtContent.setFilters(new InputFilter[]{ new InputFilter(){
+						@Override
+						public CharSequence filter(CharSequence source, int start,int end, Spanned dest, int dstart, int dend) {
+								return null;
+						}
+					}});
+				}
+			}
+		});
+        
+        
+        edtContent.setOnKeyListener(new OnKeyListener() {                 
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                //You can identify which key pressed by checking keyCode value with KeyEvent.KEYCODE_
+                 if(keyCode == KeyEvent.KEYCODE_DEL){  
+                	 Log.d("TextEditor","backspace pressed "+cnt);
+                	 //if (cnt==0){
+                	 editable=true;
+                     //backspace pressed - content becomes editable
+                	 edtContent.setFilters(new InputFilter[]{ new InputFilter(){
+ 						@Override
+ 						public CharSequence filter(CharSequence source, int start,int end, Spanned dest, int dstart, int dend) {
+ 								return null;
+ 						}
+ 					}});
+                	// }
+                	 cnt++;
+                	 
+                 }
+            return false;       
+                }
+        });
+        //detect when text changed inside the content
+        final StringBuffer oldText=new StringBuffer();
+		edtContent.addTextChangedListener(new TextWatcher() {
+			
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+				// TODO Auto-generated method stub
+				/*Log.d("TextEditor","Edit:"+s.toString());
+				Log.d("TextEditor","Changed:"+start+" "+count+" "+s.toString().substring(start,start+count));
+				Log.d("TextEditor","Web:"+webViewContent.toString());				
+				String changedText=s.toString().substring(start,start+count);
+				if (changedText.indexOf('\n')==-1)
+					webViewContent.replace(start, start+before, changedText);
+				
+				Log.d("TextEditor","Web after:"+webViewContent.toString());
+				*/
+				Log.d("TextEditor","on webview:"+webViewContent.toString());		
+				Log.d("TextEditor","s:"+s.toString());
+				Log.d("TextEditor","start:"+start+"before:"+before+"count:"+count +":"+s.toString().length());
+				if (count!=0 && editable && s.toString().length()>0){
+					//undo changes
+					s.toString().replace(s.toString().substring(start, start+count), oldText);
+					Log.d("TextEditor","undo changes:"+s.toString());		
+				}else{
+					
+				}
+				
+			}
+			
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+				// TODO Auto-generated method stub
+				Log.d("TextEditor","before webview:"+webViewContent.toString());		
+				Log.d("TextEditor","s:"+s.toString());
+				
+				if (after!=0 &&after<s.toString().length()&& editable){
+					oldText.append(s.toString().substring(start,start+count));
+					
+					Log.d("TextEditor","after:"+after+"replacing:"+oldText.toString());		
+					/*edtContent.setFilters(new InputFilter[]{ new InputFilter(){
+ 						@Override
+ 						public CharSequence filter(CharSequence source, int start,int end, Spanned dest, int dstart, int dend) {
+ 								return source.length() < 1 ? dest.subSequence(dstart, dend): "";
+ 						}
+ 					}});*/
+				}else{
+					if ((after==0)&&(count-start<s.toString().length())){ 
+					//backspace
+						Log.d("TextEditor","start:"+start+"count:"+count+"after:"+after);		
+						
+						Log.d("TextEditor","before:"+webViewContent.toString());		
+						//if no tag
+						//in order to see where to put the cursor on webViewContent,
+						//find a match by looking at the caracter before and after
+						int cursor;
+						if (start+1<s.toString().length())
+							cursor=FindAMatch(s.toString().charAt(start-count+1),s.toString().charAt(start+1),count);
+						else 
+							cursor=webViewContent.toString().length()-1;
+						if (cursor!=-1){
+							Log.d("TextEditor","Match found:"+cursor);
+							if ((s.toString().charAt(start-count+1))=='\n'){
+								//replace <br> tag
+								webViewContent.replace(cursor-count+1-3, cursor+1, "");
+							}else
+								webViewContent.replace(cursor-count+1, cursor+1, "");
+						}
+						Log.d("TextEditor","after:"+webViewContent.toString());		
+					}
+					if (count-start==s.toString().length())
+						Log.d("TextEditor","Exception  start:"+start+"count:"+count+"after:"+after);	
+				}
+				
+			}
+			
+			@Override
+			public void afterTextChanged(Editable s) {
+				// TODO Auto-generated method stub
+				oldText.delete(0, oldText.length());
+				editable=false;
+				//cnt=0;
+			}
+		});
+      
         
       //detect when pressed ENTER on the soft keyboard inside the content note
-        final EditText edtContent = (EditText) findViewById(R.id.allContent);
+       /* 
         edtContent.setOnEditorActionListener(new OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_NULL && event.getAction() == KeyEvent.ACTION_DOWN) {
+                	//Toast.makeText(getApplicationContext(),"webview "+webViewContent.toString(), Toast.LENGTH_SHORT).show();		
+                	//Toast.makeText(getApplicationContext(),"edt "+edtContent.getText().toString(), Toast.LENGTH_SHORT).show();		
+                	int cursorPosition=edtContent.getSelectionStart();
+                	String search=edtContent.getText().toString().substring(cursorPosition);
+                	Log.d("TextEditor","cursorpos:"+cursorPosition);
+                	Log.d("TextEditor","search:"+search);
+                	Log.d("TextEditor","indexof:"+webViewContent.indexOf(search) +" length "+search.length());
+    				
+                	webViewContent.replace(webViewContent.indexOf(search), webViewContent.indexOf(search), "<br>");
+                	edtContent.setText(Html.fromHtml(webViewContent.toString()));              	
                 	
-                	webViewContent.append(formatText(v.getText().toString())+"<br>");
-                	//wv.setText(Html.fromHtml(webViewContent.toString()));
-                	//edtContent.loadData(webViewContent.toString(), "text/html", "utf-8");
-                	v.setText(Html.fromHtml(webViewContent.toString()));              	
+                	Log.d("TextEditor","webview after:"+webViewContent.toString());
                 	
-                	//Toast.makeText(getApplicationContext(),webViewContent.toString(), Toast.LENGTH_LONG).show();		
-                }
+               }
                 return true;
             }
-        });
+        });*/
 			
 		/*if (savedInstanceState == null) {
 			getSupportFragmentManager().beginTransaction()
@@ -248,6 +393,8 @@ public class HotCornersActivity extends Activity {
 		pieMenuMedia.addMenuItem(ItemAttach.getMenuID(), ItemAttach);
 		ItemLink = new SemiCircularRadialMenuItem("Link",getResources().getDrawable(R.drawable.link),"Link");
 		pieMenuMedia.addMenuItem(ItemLink.getMenuID(), ItemLink);
+		ItemDraw = new SemiCircularRadialMenuItem("Draw",getResources().getDrawable(R.drawable.draw),"Draw");
+		pieMenuMedia.addMenuItem(ItemDraw.getMenuID(), ItemDraw);
 		pieMenuMedia.setAngles(90, 90);
 		
 		pieMenuEdit = (SemiCircularRadialMenu)findViewById(R.id.editMenu); 
@@ -412,8 +559,9 @@ public class HotCornersActivity extends Activity {
 				// TODO Auto-generated method stub
 				//Toast.makeText(getApplicationContext(),"Snapshot", Toast.LENGTH_SHORT).show();
 				Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+				imageName = "PIC"+System.currentTimeMillis();
 			    File mImageFile = new File(Environment.getExternalStorageDirectory()+File.separator+"DCIM"+File.separator+"Camera",  
-			            "PIC"+System.currentTimeMillis()+".jpg");
+			            imageName+".jpg");
 			    mSelectedImagePath = mImageFile.getAbsolutePath();
 			    intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(mImageFile));
 			    startActivityForResult(intent, TAKE_PICTURE);
@@ -433,6 +581,14 @@ public class HotCornersActivity extends Activity {
 			public void onMenuItemPressed() {
 				// TODO Auto-generated method stub
 				Toast.makeText(getApplicationContext(),"Link", Toast.LENGTH_SHORT).show();		
+			}
+		});
+		
+		ItemDraw.setOnSemiCircularRadialMenuPressed(new OnSemiCircularRadialMenuPressed() {			
+			@Override
+			public void onMenuItemPressed() {
+				// TODO Auto-generated method stub
+				Toast.makeText(getApplicationContext(),"Draw", Toast.LENGTH_SHORT).show();		
 			}
 		});
 		
@@ -613,9 +769,48 @@ public class HotCornersActivity extends Activity {
 	    	if (resultCode == RESULT_OK) {
 	    		//save picture mSelectedImagePath on the web server
 	    		Toast.makeText(this, "Photo " +mSelectedImagePath +" saved", Toast.LENGTH_LONG).show();
+	    		Log.d("FTP CLIENT",mSelectedImagePath);
+	    		//String path=Environment.getExternalStorageDirectory()+"/"+ name + ".jpg";
+	    		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+	    		StrictMode.setThreadPolicy(policy);
+            	FTPClient client = new FTPClient();
+		        try {
+		      //  SharedPreferences myPref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+		        	
+			           
+		            client.connect("ftp.cyrilsabbagh.com");
+		            Log.i("done","done");
+		            client.enterLocalPassiveMode();
+		            client.setFileType(FTP.BINARY_FILE_TYPE);
+		            boolean login = client.login("noteapp@cyrilsabbagh.com", "noteapp");
+		            
+		            Log.i("test",login+"");
+		            Log.i("done","done");
+		          
+				    
+				    BufferedInputStream buffIn = null;
+			        buffIn = new BufferedInputStream(new FileInputStream(mSelectedImagePath));
+			        
+			     // InputStream progressInput = new InputStream(buffIn);
+			 
+			        boolean result = client.storeFile("images/"+imageName+".jpg", buffIn);
+			       
+			        Log.i("result",result+"");
+			        buffIn.close();
+			        //client.logout();
+			        client.disconnect();
+		        	}catch (SocketException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+		        
+		        }
+	    		break;
 	    	}
 	    }
-	}
 	
 	private String formatText(String textToFormat){
 		StringBuffer htmlText=new StringBuffer(textToFormat);
@@ -642,15 +837,37 @@ public class HotCornersActivity extends Activity {
 		if (startSelection>0 && endSelection>0 && startSelection<endSelection){
 			String selectedText = edtContent.getText().toString().substring(startSelection, endSelection);
 			String replacement=formatText(selectedText);
-			//Toast.makeText(getApplicationContext(),"Selected text: "+selectedText+" replaced by " + replacement, Toast.LENGTH_SHORT).show();		
+			Log.d("TextEditor","Selected text: "+selectedText+" replaced by " + replacement);
 			//do the same for the content
 			StringBuffer newText=new StringBuffer();
-			//Toast.makeText(getApplicationContext(),webViewContent.toString() + ":"+webViewContent.toString().replace(selectedText, replacement), Toast.LENGTH_SHORT).show();				
+			Log.d("TextEditor",webViewContent.toString() + ":"+webViewContent.toString().replace(selectedText, replacement));			
 			newText.append(webViewContent.toString().replace(selectedText, replacement));
-			edtContent.setText(Html.fromHtml(newText.toString()));
+			Log.d("TextEditor",newText.toString());
 			webViewContent=newText;
-			
+			edtContent.setText(Html.fromHtml(webViewContent.toString()));
+			//((EditText)findViewById(R.id.editNote)).requestFocus();
 		}
+	}
+	
+	private int FindAMatch(char a,char b,int distance){
+		if (a=='\n')	a='>';	//end of <br>
+		if (b=='\n')	b='<';  //beginning of <br>
+		
+		for (int i=0;i<webViewContent.toString().length();i++){
+			for(int m=i;m<webViewContent.toString().length();m++){
+				if (webViewContent.toString().charAt(m)==a){
+					for(int n=webViewContent.toString().length()-1; n>0 && n>m;n--){
+						if (webViewContent.toString().charAt(n)==b){
+							if (distance==n-m){	
+								//found a match
+								return m;
+							}
+						}
+					}
+				}
+			}
+		}
+		return -1;
 	}
 	
 	/*public boolean onOrientationChanges() {
@@ -668,7 +885,7 @@ public class HotCornersActivity extends Activity {
 	@Override
     public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
-		Toast.makeText(this, "Orientation: "+newConfig.orientation, Toast.LENGTH_LONG).show();
+		//Toast.makeText(this, "Orientation: "+newConfig.orientation, Toast.LENGTH_LONG).show();
         // Checks the orientation of the screen for landscape and portrait and set portrait mode always
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
         	getWindow().setSoftInputMode(
@@ -679,5 +896,7 @@ public class HotCornersActivity extends Activity {
         	
         }
     }
+	
+	
 	
 }

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity" >
-<!-- 	 <RelativeLayout 
+ <!-- 	 <RelativeLayout 
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingTop="60dp"
@@ -14,6 +14,7 @@
 	    <EditText android:id="@+id/allContent"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
+	    android:editable="false"
 	    android:paddingTop="60dp"
     	android:paddingLeft="40dp"
     	android:paddingRight="40dp"
@@ -21,7 +22,7 @@
     	android:focusable="true"
 	    android:focusableInTouchMode="true"	>	    	
 	    </EditText>         
-</RelativeLayout> -->
+</RelativeLayout>  -->
 <RelativeLayout 
     	android:layout_width="match_parent"
     	android:layout_height="match_parent">
@@ -80,18 +81,20 @@
 <RelativeLayout 
     android:layout_width="1000dp"
     android:layout_height="600dp"
-    android:layout_marginLeft="30dp"
-    android:layout_marginTop="30dp"
-    android:layout_marginRight="30dp"
-    android:layout_marginBottom="30dp"> 
+    android:layout_marginLeft="50dp"
+    android:layout_marginTop="50dp"
+    android:layout_marginRight="50dp"
+    android:layout_marginBottom="70dp"
+    > 
 	    <EditText
 	    android:id="@+id/allContent"
 	    android:layout_width="wrap_content"
-	     android:layout_height="wrap_content"
+	    android:layout_height="wrap_content"
 	    android:layout_alignParentTop="true"
-	    
-    	android:focusable="true"
-	    android:focusableInTouchMode="true"> </EditText>
+	    android:focusableInTouchMode="true" 
+	    android:textSize="20sp"  
+	    android:background="#00000000"
+    	> </EditText>
 </RelativeLayout>
 
 <RelativeLayout 
@@ -100,15 +103,17 @@
     android:layout_alignParentBottom="true"> 
 	    <EditText
 	    android:id="@+id/editNote"
-	    android:layout_width="wrap_content"
+	    android:layout_width="match_parent"
 	     android:layout_height="50dp"
 	    android:layout_alignParentBottom="true"
 	    android:layout_marginBottom="10dp"
-	    android:layout_marginLeft="100dp"
-	    android:layout_marginRight="50dp"    
+	    android:layout_marginLeft="160dp"
+	    android:layout_marginRight="80dp"    
 	    android:ems="10" 
 	    android:focusable="true"
-	    android:focusableInTouchMode="true"> </EditText>
+	    android:focusableInTouchMode="true"
+	    android:background="@drawable/rounded_edittext"
+	    > </EditText>
 </RelativeLayout>
 	
 </RelativeLayout>

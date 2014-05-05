@@ -321,8 +321,11 @@ public class RadialMenuWidget extends View {
 			} else {
 				// This is when something outside the circle or any of the rings
 				// is selected
-				//*********modified - no dismiss********************************
-				//dismiss();
+				//*********modified - dismiss only if outside circle********************************
+				if (helper.pntInCircle(eventX, eventY, xPosition, yPosition,
+						cRadius)==false);
+					dismiss();
+					//********************************************************
 				selected = null;
 				enabled = null;
 			}
