@@ -11,6 +11,7 @@
 package com.cyrilsabbagh.noteapp.databaseControllers;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.http.NameValuePair;
@@ -50,6 +51,7 @@ public class GetCourseNotes extends AsyncTask<String, String, List<Note>>{
 		// Building Parameters
 		JSONParser jParser = new JSONParser();
         List<NameValuePair> params = new ArrayList<NameValuePair>();
+        System.err.println(course_id);
         params.add(new BasicNameValuePair("course_id", Integer.toString(course_id)));
         // getting JSON string from URL
         JSONObject json = jParser.makeHttpRequest(url_course_notes, "GET", params);
@@ -60,11 +62,15 @@ public class GetCourseNotes extends AsyncTask<String, String, List<Note>>{
         try {
             // Checking for SUCCESS TAG
             int success = json.getInt("success");
+            Iterator<String> keys = json.keys();
+            for (String u=keys.next();keys.hasNext();u=keys.next()){
+            	System.err.println(u);
+            }
 
             if (success == 1) {
                 // products found
                 // Getting Array of Products
-                notes = json.getJSONArray("courses");
+                notes = json.getJSONArray("notes");
                 
                 // looping through All Products
                 for (int i = 0; i < notes.length(); i++) {
@@ -74,6 +80,7 @@ public class GetCourseNotes extends AsyncTask<String, String, List<Note>>{
                     tmp_note.setId(c.getInt("id"));
                     tmp_note.setName(c.getString("name"));
                     tmp_note.setOwner(c.getString("user_imei"));
+                    System.err.println("imei" + c.getString("user_imei"));
                     tmp_note.setContent(c.getString("content"));
                     tmp_note.setDate(c.getString("date"));
                     if(c.getInt("share") == 1)

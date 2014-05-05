@@ -1,3 +1,4 @@
+<!--
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"  
         	  android:layout_width="match_parent"
               android:layout_height="match_parent"
@@ -5,11 +6,52 @@
               android:background="@drawable/back"
               android:layout_gravity="center">
               
-    <TextView android:layout_weight="1"
-              android:layout_width="match_parent"
-              android:layout_height="60dp"
+    <TextView android:id="@+id/quiz_title" 
+    android:layout_width="match_parent"
+              android:layout_height="320dp"
               android:text="@string/quiz_label" 
               android:textSize="28sp"
               android:gravity="center"/>
     
+    <TextView android:id="@+id/quiz_def"
+    			android:layout_width="match_parent"
+              android:layout_height="320dp"
+              android:text="@string/quiz_label" 
+              android:textSize="28sp"
+              android:gravity="center"/>
+    
+    <EditText android:id="@+id/quiz_answer"
+    	    android:inputType="textMultiLine"
+    	    android:layout_width="match_parent"
+              android:layout_height="320dp"
+    	    android:hint="@string/task_label" />
+    
+</LinearLayout>-->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"  
+        	  android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              android:background="@drawable/back"
+              android:layout_gravity="center">
+
+        <TextView android:id="@+id/quiz_title" 
+    android:layout_width="match_parent"
+              android:layout_height="320dp"
+              android:text="@string/quiz_label" 
+              android:textSize="28sp"
+              android:gravity="center"/>
+    
+    <TextView android:id="@+id/quiz_def"
+    			android:layout_width="match_parent"
+              android:layout_height="320dp"
+              android:text="@string/quiz_label" 
+              android:textSize="28sp"
+              android:gravity="center"/>
+    
+    <EditText android:id="@+id/quiz_answer"
+    	    android:inputType="textMultiLine"
+    	    android:layout_width="match_parent"
+              android:layout_height="320dp"
+    	    android:hint="@string/task_label" />
 </LinearLayout>

@@ -23,104 +23,100 @@
               android:layout_height="match_parent"
               android:orientation="vertical"
               android:gravity="center" >
-    <TextView android:id="@+id/author1"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:text="@string/author_label"
-              android:textSize="22sp" />
+   
     <TextView android:id="@+id/title1"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:text="@string/title_label"
-              android:textSize="22sp" />
+              android:textSize="22sp"
+              android:visibility="gone" />
     <TextView android:id="@+id/course1"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:text="@string/course_label"
-              android:textSize="22sp" />
+              android:textSize="22sp"
+              android:visibility="gone" />
     <Button android:id="@+id/button1"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:background="@drawable/sample_0"
-            android:onClick="circmenu" />
+            android:onClick="circmenu"
+            android:visibility="gone" />
 </LinearLayout>
 
 <LinearLayout android:layout_width="240dp"
               android:layout_height="match_parent"
               android:orientation="vertical"
               android:gravity="center" >
-    <TextView android:id="@+id/author2"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:text="@string/author_label"
-              android:textSize="22sp" />
+    
     <TextView android:id="@+id/title2"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:text="@string/title_label" 
-             android:textSize="22sp" />
+             android:textSize="22sp"
+             android:visibility="gone" />
     <TextView android:id="@+id/course2"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:text="@string/course_label"
-              android:textSize="22sp" />
+              android:textSize="22sp"
+              android:visibility="gone" />
     <Button android:id="@+id/button2"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:background="@drawable/sample_0"
-            android:onClick="circmenu"/>
+            android:onClick="circmenu"
+            android:visibility="gone"/>
 </LinearLayout>
 
 <LinearLayout android:layout_width="240dp"
               android:layout_height="match_parent"
               android:orientation="vertical"
               android:gravity="center" >
-    <TextView android:id="@+id/author3"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:text="@string/author_label"
-              android:textSize="22sp" />
+     
     <TextView android:id="@+id/title3"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:text="@string/title_label" 
-              android:textSize="22sp" />
+              android:textSize="22sp"
+              android:visibility="gone" />
     <TextView android:id="@+id/course3"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:text="@string/course_label"
-              android:textSize="22sp" />
+              android:textSize="22sp"
+              android:visibility="gone" />
     <Button android:id="@+id/button3"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:background="@drawable/sample_0"
-            android:onClick="circmenu" />
+            android:onClick="circmenu"
+            android:visibility="gone" />
 </LinearLayout>
 
 <LinearLayout android:layout_width="240dp"
               android:layout_height="match_parent"
               android:orientation="vertical"
               android:gravity="center" >
-    <TextView android:id="@+id/author4"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:text="@string/author_label"
-              android:textSize="22sp" />
+    
     <TextView android:id="@+id/title4"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:text="@string/title_label"
-              android:textSize="22sp" />
+              android:textSize="22sp"
+              android:visibility="gone" />
     <TextView android:id="@+id/course4"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:text="@string/course_label"
-              android:textSize="22sp" />
+              android:textSize="22sp"
+              android:visibility="gone" />
     <Button android:id="@+id/button4"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:background="@drawable/sample_0"
-            android:onClick="circmenu" />
+            android:onClick="circmenu"
+            android:visibility="gone" />
 </LinearLayout>
 <!--
 <LinearLayout android:layout_width="190dp" 
@@ -162,7 +158,7 @@
               android:layout_width="match_parent"
               android:layout_height="60dp"
               android:text="@string/mycourses_label" 
-              android:textSize="28sp"
+              android:textSize="22sp"
               android:gravity="center"/>
 </LinearLayout>
 
@@ -174,105 +170,125 @@
               android:layout_height="fill_parent" 
               android:orientation="vertical"
               android:gravity="center" >
-    <TextView android:id="@+id/author6"
+   
+    <TextView android:id="@+id/school6"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:text="@string/author_label"
-              android:textSize="22sp" />
+              android:text="@string/school_label"
+              android:textSize="18sp"
+              android:visibility="gone"/>
     <TextView android:id="@+id/title6"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:text="@string/title_label" 
-              android:textSize="22sp" />
+              android:textSize="20sp" 
+              android:visibility="gone" />
     <Button android:id="@+id/button6"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:background="@drawable/folder" 
-            android:onClick="opencourse" />
+            android:onClick="opencourse"
+            android:visibility="gone" />
 </LinearLayout>
 
 <LinearLayout android:layout_width="190dp" 
               android:layout_height="fill_parent" 
               android:orientation="vertical"
               android:gravity="center" >
-    <TextView android:id="@+id/author7"
+    
+    <TextView android:id="@+id/school7"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:text="@string/author_label" 
-              android:textSize="22sp" />
+              android:text="@string/school_label" 
+              android:textSize="18sp"
+              android:visibility="gone" />
     <TextView android:id="@+id/title7"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:text="@string/title_label" 
-              android:textSize="22sp" />
+              android:textSize="20sp"
+              android:visibility="gone" />
     <Button android:id="@+id/button7"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:background="@drawable/folder" 
-            android:onClick="opencourse" />
+            android:onClick="opencourse"
+            android:visibility="gone" />
 </LinearLayout>
 
 <LinearLayout android:layout_width="190dp" 
               android:layout_height="fill_parent" 
               android:orientation="vertical"
               android:gravity="center" >
-    <TextView android:id="@+id/author8"
+   
+    <TextView android:id="@+id/school8"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:text="@string/author_label" 
-              android:textSize="22sp" />
+              android:text="@string/school_label" 
+              android:textSize="18sp"
+              android:visibility="gone" />
     <TextView android:id="@+id/title8"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:text="@string/title_label" 
-              android:textSize="22sp" />
+              android:textSize="20sp"
+              android:visibility="gone" />
     <Button android:id="@+id/button8"
-            android:layout_width="100dp"
+           android:layout_width="100dp"
             android:layout_height="100dp"
             android:background="@drawable/folder"
-            android:onClick="opencourse" />
+            android:onClick="opencourse"
+            android:visibility="gone" />
 </LinearLayout>
 
 <LinearLayout android:layout_width="190dp" 
               android:layout_height="fill_parent" 
               android:orientation="vertical"
               android:gravity="center" >
-    <TextView android:id="@+id/author9"
+    
+    <TextView android:id="@+id/school9"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:text="@string/author_label" 
-              android:textSize="22sp" />
+              android:text="@string/school_label" 
+              android:textSize="18sp"
+              android:visibility="gone" />
     <TextView android:id="@+id/title9"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:text="@string/title_label" 
-              android:textSize="22sp" />
+              android:textSize="20sp"
+              android:visibility="gone" />
     <Button android:id="@+id/button9"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:background="@drawable/folder"
-            android:onClick="opencourse" />
+            android:onClick="opencourse"
+            android:visibility="gone"/>
 </LinearLayout>
 
 <LinearLayout android:layout_width="190dp" 
               android:layout_height="fill_parent" 
               android:orientation="vertical"
               android:gravity="center" >
-   <TextView android:id="@+id/author10"
+   
+   <TextView android:id="@+id/school10"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:text="@string/author_label" 
-              android:textSize="22sp" />
+              android:text="@string/school_label" 
+              android:textSize="18sp"
+              android:visibility="gone" />
     <TextView android:id="@+id/title10"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:text="@string/title_label" 
-              android:textSize="22sp" />
+              android:textSize="20sp"
+              android:visibility="gone" />
     <Button android:id="@+id/button10"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:background="@drawable/folder"
-            android:onClick="opencourse" />
+            android:onClick="opencourse"
+            android:visibility="gone" />
 </LinearLayout>
 </LinearLayout>
 
