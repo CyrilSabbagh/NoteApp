@@ -40,7 +40,8 @@ public class GetLatestNotes extends AsyncTask<String, String, List<Note>>{
 		// Building Parameters
 		JSONParser jParser = new JSONParser();
         List<NameValuePair> params = new ArrayList<NameValuePair>();
-        params.add(new BasicNameValuePair("user_imei", user_imei));
+        params.add(new BasicNameValuePair("course_id", Integer.toString(1)));
+        System.err.println(user_imei);
         // getting JSON string from URL
         JSONObject json = jParser.makeHttpRequest(url_course_notes, "GET", params);
         result=new ArrayList<Note>();
@@ -50,11 +51,12 @@ public class GetLatestNotes extends AsyncTask<String, String, List<Note>>{
         try {
             // Checking for SUCCESS TAG
             int success = json.getInt("success");
+            System.err.println("success :"+success);
 
             if (success == 1) {
                 // products found
                 // Getting Array of Products
-                notes = json.getJSONArray("courses");
+                notes = json.getJSONArray("notes");
                 
                 // looping through All Products
                 for (int i = 0; i < notes.length(); i++) {

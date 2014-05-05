@@ -17,7 +17,7 @@
     <string name="title_activity_my_notes">MyNotesActivity</string>
     <string name="mynotes_label">My Notes</string>
     <string name="mycourses_label">My Courses</string>
-    <string name="author_label">Author</string>
+    <string name="school_label">School</string>
     <string name="title_label">Title</string>
     <string name="course_label">Course</string>
     <string name="button_label">Hello, I am a Button</string>
@@ -47,5 +47,6 @@
     <string name="task_label">Type your answer...</string>
     <string name="title_activity_quiz_result">QuizResultActivity</string>
     <string name="result_label">Result</string>
+    <string name="courseId">id</string>
 
 </resources>
