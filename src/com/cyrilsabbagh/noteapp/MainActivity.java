@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
@@ -26,6 +27,9 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 		
 		 RD1 = new com.radialmenu.RadialMenuWidget(this);
+		 RD1.setInnerRingRadius(100,228);
+		 RD1.setIconSize(100, 110);
+		 //RD1.setCenterLocation(,);
 		 rdw = new com.radialmenu.RadialMenuItem("New Note","New Note");
 		 rdw.setDisplayIcon(R.drawable.newnote);
 		 rdw2 = new com.radialmenu.RadialMenuItem("Search","Search");
@@ -96,6 +100,8 @@ public class MainActivity extends Activity {
 		if (!appLaunched){
 			appLaunched=true;
 			//v.setVisibility(View.GONE);
+			LinearLayout ll=(LinearLayout)findViewById(R.id.mainlayout);
+			//ll.setBackground(R.drawable.backmain1);
 			RD1.show(v);
 		}
 	}

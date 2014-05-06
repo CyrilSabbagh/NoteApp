@@ -168,7 +168,7 @@ public class RadialMenuWidget extends View {
 		helper = new RadialMenuHelper();
 		mWindow = helper.initPopup(context);
 		// Gets screen specs and defaults to center of screen
-		this.xPosition = (getResources().getDisplayMetrics().widthPixels) / 2;//502;
+		this.xPosition = ((getResources().getDisplayMetrics().widthPixels) / 2)+5;//502;
 		this.yPosition = 420;//(getResources().getDisplayMetrics().heightPixels) / 2;//420;
 
 		determineWedges();

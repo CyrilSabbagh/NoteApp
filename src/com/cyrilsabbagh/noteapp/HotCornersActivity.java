@@ -361,7 +361,7 @@ public class HotCornersActivity extends Activity {
 		pieMenuOptions.addMenuItem(ItemMultiauthor.getMenuID(),ItemMultiauthor);
 		ItemShare = new SemiCircularRadialMenuItem("Share",getResources().getDrawable(R.drawable.share),"Share");
 		pieMenuOptions.addMenuItem(ItemShare.getMenuID(),ItemShare);
-		ItemDictionary = new SemiCircularRadialMenuItem("Dictionary",getResources().getDrawable(R.drawable.dictionary),"Add to dictionary");
+		ItemDictionary = new SemiCircularRadialMenuItem("Dictionary",getResources().getDrawable(R.drawable.dict2),"Add to dictionary");
 		pieMenuOptions.addMenuItem(ItemDictionary.getMenuID(), ItemDictionary);
 		pieMenuOptions.setAngles(180, 180);
 		
